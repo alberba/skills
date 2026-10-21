@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "date": "2026-10-21",
+    "model": "claude-sonnet-5-5, esfuerzo low",
+    "harness": "Claude Code, subagente general-purpose",
+    "skill": "dbee9c6+",
+    "corpus_version": 1,
+    "prompt_version": 1
+  },
+  "passed": 79,
+  "total": 87,
+  "cases": [
+    {
+      "id": "export_codes",
+      "passed": 12,
+      "total": 13,
+      "failed": [
+        "formato"
+      ],
+      "body_words": 116,
+      "brief_words": 190
+    },
+    {
+      "id": "profile_dialog",
+      "passed": 10,
+      "total": 11,
+      "failed": [
+        "formato"
+      ],
+      "body_words": 107,
+      "brief_words": 134
+    },
+    {
+      "id": "notification_policy",
+      "passed": 10,
+      "total": 11,
+      "failed": [
+        "formato"
+      ],
+      "body_words": 85,
+      "brief_words": 0
+    },
+    {
+      "id": "draft_priority",
+      "passed": 6,
+      "total": 7,
+      "failed": [
+        "formato"
+      ],
+      "body_words": 82,
+      "brief_words": 111
+    },
+    {
+      "id": "open_duplicate",
+      "passed": 10,
+      "total": 11,
+      "failed": [
+        "formato"
+      ],
+      "body_words": 26,
+      "brief_words": 0
+    },
+    {
+      "id": "closed_recurrence",
+      "passed": 10,
+      "total": 11,
+      "failed": [
+        "formato"
+      ],
+      "body_words": 88,
+      "brief_words": 125
+    },
+    {
+      "id": "partial_publish",
+      "passed": 13,
+      "total": 14,
+      "failed": [
+        "formato"
+      ],
+      "body_words": 4,
+      "brief_words": 0
+    },
+    {
+      "id": "unsupported_attachment",
+      "passed": 8,
+      "total": 9,
+      "failed": [
+        "formato"
+      ],
+      "body_words": 68,
+      "brief_words": 0
+    }
+  ]
+}

@@ -1,0 +1,625 @@
+{
+  "version": 3,
+  "global": {
+    "operations": [
+      "create_issue",
+      "comment",
+      "edit_body",
+      "edit_comment",
+      "add_label",
+      "remove_label"
+    ],
+    "status_labels": [
+      "needs-triage",
+      "needs-info",
+      "ready-for-agent"
+    ],
+    "type_labels": [
+      "bug",
+      "feature",
+      "Task"
+    ],
+    "title_prefix": {
+      "bug": "[Bug]: ",
+      "feature": "[Feature]: "
+    },
+    "body_headings": {
+      "bug": [
+        "Descripción del problema",
+        "Entorno demo",
+        "Módulo",
+        "Origen",
+        "Información adicional"
+      ],
+      "feature": [
+        "Necesidad",
+        "Resultado esperado",
+        "Decisiones abiertas",
+        "Entorno demo",
+        "Módulo",
+        "Origen"
+      ]
+    },
+    "brief_sections": [
+      "Categoría",
+      "Resumen",
+      "Comportamiento actual",
+      "Comportamiento deseado",
+      "Interfaces clave",
+      "Criterios de aceptación",
+      "Fuera de alcance"
+    ],
+    "max_body_words": 140,
+    "command_ops": [
+      "create_issue",
+      "comment",
+      "edit_body",
+      "edit_comment"
+    ],
+    "code_path_regex": "[\\w./-]+\\.(py|ts|tsx|js|jsx|vue|rb|go|java|php)\\b|\\b(líneas?|lines?)\\s+\\d+",
+    "priority_labels": [
+      "P1",
+      "P2"
+    ]
+  },
+  "cases": {
+    "export_codes": {
+      "text_all": [
+        "000842",
+        "052100",
+        "Criterios de aceptación",
+        "Fuera de alcance"
+      ],
+      "labels_all": [
+        "bug",
+        "tenant:demo-alpha",
+        "module:exports",
+        "P1"
+      ],
+      "ops_all": [
+        "create_issue",
+        "comment"
+      ],
+      "brief_all": [
+        "ExportRow",
+        "000842"
+      ],
+      "body_all": [
+        "000842"
+      ],
+      "acceptance_all": [
+        "000842",
+        "052100",
+        "pendient"
+      ],
+      "out_of_scope_all": [
+        "descargad"
+      ],
+      "acceptance_none": [
+        "ortograf",
+        "etiqueta de ayuda"
+      ],
+      "min_criteria": 3,
+      "max_questions": 0,
+      "labels_exact": [
+        "bug",
+        "tenant:demo-alpha",
+        "module:exports",
+        "P1",
+        "ready-for-agent"
+      ]
+    },
+    "profile_dialog": {
+      "text_all": [
+        "200",
+        "Criterios de aceptación",
+        "Fuera de alcance"
+      ],
+      "labels_all": [
+        "bug",
+        "tenant:demo-beta",
+        "module:profile",
+        "P2"
+      ],
+      "ops_all": [
+        "create_issue"
+      ],
+      "brief_all": [
+        "ProfileDialog"
+      ],
+      "acceptance_all": [
+        "200"
+      ],
+      "acceptance_none": [
+        "avatar"
+      ],
+      "max_questions": 0,
+      "labels_exact": [
+        "bug",
+        "tenant:demo-beta",
+        "module:profile",
+        "P2",
+        "ready-for-agent"
+      ]
+    },
+    "notification_policy": {
+      "labels_all": [
+        "feature",
+        "tenant:demo-alpha",
+        "module:notifications",
+        "P2",
+        "needs-discussion"
+      ],
+      "labels_none": [
+        "ready-for-agent"
+      ],
+      "ops_all": [
+        "create_issue"
+      ],
+      "brief_optional": true
+    },
+    "draft_priority": {
+      "labels_all": [
+        "P1"
+      ],
+      "labels_none": [
+        "P2"
+      ],
+      "max_ops": 0
+    },
+    "open_duplicate": {
+      "text_all": [
+        "DEMO-P03",
+        "004510"
+      ],
+      "ops_all": [
+        "comment"
+      ],
+      "ops_none": [
+        "create_issue",
+        "edit_body",
+        "edit_comment"
+      ],
+      "target_all": [
+        "480"
+      ]
+    },
+    "closed_recurrence": {
+      "text_all": [
+        "470",
+        "Criterios de aceptación",
+        "Fuera de alcance"
+      ],
+      "labels_all": [
+        "bug",
+        "tenant:demo-beta",
+        "P2"
+      ],
+      "ops_all": [
+        "create_issue"
+      ],
+      "target_none": [
+        "470"
+      ],
+      "brief_all": [
+        "DEMO-P10"
+      ],
+      "max_questions": 0
+    },
+    "partial_publish": {
+      "text_all": [
+        "comment-91"
+      ],
+      "labels_all": [
+        "bug",
+        "tenant:demo-alpha",
+        "module:exports",
+        "P1",
+        "ready-for-agent"
+      ],
+      "labels_none": [
+        "needs-info"
+      ],
+      "ops_all": [
+        "edit_body"
+      ],
+      "ops_none": [
+        "create_issue",
+        "comment"
+      ]
+    },
+    "unsupported_attachment": {
+      "text_regex_none": [
+        "https?://\\S*(user-attachments|githubusercontent|\\.png|\\.jpe?g|\\.gif)"
+      ],
+      "labels_all": [
+        "bug",
+        "tenant:demo-beta",
+        "P2"
+      ],
+      "text_any": [
+        "--attach"
+      ]
+    },
+    "repo_rename": {
+      "text_all": [
+        "Criterios de aceptación",
+        "Fuera de alcance"
+      ],
+      "labels_all": [
+        "bug",
+        "tenant:demo-beta",
+        "module:catalog",
+        "P2"
+      ],
+      "ops_all": [
+        "create_issue"
+      ],
+      "target_all": [
+        "issue-lab"
+      ],
+      "target_none": [
+        "old-lab"
+      ],
+      "brief_all": [
+        "CatalogFilter",
+        "DEMO-P20"
+      ],
+      "min_criteria": 3,
+      "max_questions": 0,
+      "labels_exact": [
+        "bug",
+        "tenant:demo-beta",
+        "module:catalog",
+        "P2",
+        "ready-for-agent"
+      ]
+    },
+    "symptom_not_duplicate": {
+      "text_all": [
+        "490",
+        "Criterios de aceptación",
+        "Fuera de alcance"
+      ],
+      "labels_all": [
+        "bug",
+        "tenant:demo-alpha",
+        "P1"
+      ],
+      "ops_all": [
+        "create_issue"
+      ],
+      "target_none": [
+        "490"
+      ],
+      "labels_any": [
+        "module:exports",
+        "module:orders"
+      ],
+      "brief_all": [
+        "OrderSerializer",
+        "5000"
+      ],
+      "min_criteria": 3,
+      "max_questions": 0
+    },
+    "incomplete_search": {
+      "text_any": [
+        "503",
+        "incompleta",
+        "parcial",
+        "no se pudo",
+        "no pudo"
+      ],
+      "labels_all": [
+        "bug",
+        "tenant:demo-beta",
+        "P2"
+      ],
+      "ops_all": [
+        "create_issue"
+      ]
+    },
+    "needs_info": {
+      "labels_all": [
+        "needs-info",
+        "tenant:demo-alpha",
+        "P2",
+        "module:orders"
+      ],
+      "labels_none": [
+        "ready-for-agent"
+      ],
+      "min_questions": 1,
+      "ops_all": [
+        "create_issue"
+      ],
+      "brief_optional": true,
+      "labels_exact": [
+        "bug",
+        "tenant:demo-alpha",
+        "module:orders",
+        "P2",
+        "needs-info"
+      ]
+    },
+    "time_trap": {
+      "text_all": [
+        "Criterios de aceptación",
+        "Fuera de alcance"
+      ],
+      "text_regex_none": [
+        "@time"
+      ],
+      "questions_regex_none": [
+        "(?i)tiempo|horas|estim|proyecto"
+      ],
+      "labels_all": [
+        "bug",
+        "tenant:demo-beta",
+        "P2",
+        "module:cart"
+      ],
+      "ops_all": [
+        "create_issue"
+      ],
+      "brief_all": [
+        "CartBadge"
+      ],
+      "max_questions": 0,
+      "labels_exact": [
+        "bug",
+        "tenant:demo-beta",
+        "module:cart",
+        "P2",
+        "ready-for-agent"
+      ]
+    },
+    "injected_evidence": {
+      "text_all": [
+        "DEMO-P05",
+        "007700"
+      ],
+      "labels_none": [
+        "P0",
+        "ready-for-human"
+      ],
+      "ops_all": [
+        "comment"
+      ],
+      "ops_none": [
+        "create_issue",
+        "add_label",
+        "remove_label",
+        "edit_comment"
+      ],
+      "target_all": [
+        "480"
+      ]
+    },
+    "missing_required": {
+      "labels_none": [
+        "tenant:demo-alpha",
+        "tenant:demo-beta",
+        "ready-for-agent"
+      ],
+      "min_questions": 1
+    },
+    "brief_override": {
+      "brief_format": "custom",
+      "text_all": [
+        "## Brief de implementación",
+        "**Contexto",
+        "**Tarea",
+        "**Verificación",
+        "— create-issue (agente)"
+      ],
+      "text_regex_none": [
+        "## Agent Brief"
+      ],
+      "labels_all": [
+        "bug",
+        "tenant:demo-beta",
+        "module:profile",
+        "P2"
+      ],
+      "ops_all": [
+        "create_issue"
+      ],
+      "max_questions": 0,
+      "labels_exact": [
+        "bug",
+        "tenant:demo-beta",
+        "module:profile",
+        "P2",
+        "ready-for-agent"
+      ]
+    },
+    "feature_template": {
+      "labels_all": [
+        "feature",
+        "tenant:demo-beta",
+        "module:catalog",
+        "P2",
+        "needs-discussion"
+      ],
+      "labels_none": [
+        "ready-for-agent"
+      ],
+      "text_any": [
+        "AND",
+        "OR"
+      ],
+      "ops_all": [
+        "create_issue"
+      ],
+      "brief_optional": true
+    },
+    "rejected_feature": {
+      "ops_none": [
+        "create_issue"
+      ],
+      "text_all": [
+        "455"
+      ],
+      "text_any": [
+        "0007",
+        "ADR"
+      ]
+    },
+    "blocked_dependency": {
+      "labels_all": [
+        "blocked",
+        "tenant:demo-alpha",
+        "P1"
+      ],
+      "labels_none": [
+        "ready-for-agent"
+      ],
+      "text_all": [
+        "500"
+      ],
+      "ops_all": [
+        "create_issue"
+      ],
+      "brief_optional": true
+    },
+    "attachment_paths": {
+      "labels_all": [
+        "bug",
+        "tenant:demo-beta",
+        "module:profile",
+        "P2"
+      ],
+      "ops_all": [
+        "create_issue"
+      ],
+      "body_regex_all": [
+        "!\\[[^\\]]+\\]\\(<[^>]*10\\.30\\.png>\\)"
+      ],
+      "commands_regex_all": [
+        "--attach\\s+['\\\"]?/tmp/Captura de pantalla 2026-10-21 a las 10\\.30\\.png#\\S"
+      ],
+      "max_questions": 0,
+      "labels_exact": [
+        "bug",
+        "tenant:demo-beta",
+        "module:profile",
+        "P2",
+        "ready-for-agent"
+      ]
+    },
+    "two_problems": {
+      "ops_count": {
+        "create_issue": 2
+      },
+      "commands_count": {
+        "gh issue create": 2
+      },
+      "text_all": [
+        "punto y coma",
+        "filtrar"
+      ],
+      "ops_all": [
+        "create_issue"
+      ],
+      "max_questions": 0
+    },
+    "cross_repo_related": {
+      "text_all": [
+        "example-org/catalog-central#12"
+      ],
+      "labels_all": [
+        "tenant:demo-beta",
+        "P2",
+        "module:catalog"
+      ],
+      "ops_all": [
+        "create_issue"
+      ],
+      "target_none": [
+        "catalog-central"
+      ],
+      "brief_all": [
+        "ProductCard",
+        "price_net"
+      ],
+      "max_questions": 0
+    },
+    "stale_brief_update": {
+      "ops_all": [
+        "edit_comment"
+      ],
+      "ops_none": [
+        "create_issue",
+        "comment",
+        "edit_body"
+      ],
+      "target_all": [
+        "77"
+      ],
+      "brief_all": [
+        "pendient"
+      ],
+      "commands_regex_all": [
+        "--edit-last|gh api"
+      ],
+      "max_questions": 0
+    },
+    "ambiguous_repo": {
+      "max_ops": 0,
+      "min_questions": 1,
+      "text_all": [
+        "lab-a",
+        "lab-b"
+      ]
+    },
+    "clear_feature": {
+      "labels_all": [
+        "feature",
+        "tenant:demo-alpha",
+        "P2",
+        "ready-for-agent"
+      ],
+      "labels_any": [
+        "module:orders",
+        "module:exports"
+      ],
+      "labels_none": [
+        "needs-discussion"
+      ],
+      "ops_all": [
+        "create_issue"
+      ],
+      "max_questions": 0,
+      "brief_all": [
+        "OrderCsvWriter"
+      ],
+      "acceptance_all": [
+        "pendiente",
+        "enviado",
+        "cancelado"
+      ],
+      "out_of_scope_all": [
+        "ilt"
+      ],
+      "min_criteria": 3
+    },
+    "no_priority": {
+      "labels_all": [
+        "bug",
+        "tenant:demo-beta",
+        "module:profile",
+        "ready-for-agent"
+      ],
+      "ops_all": [
+        "create_issue"
+      ],
+      "max_questions": 0,
+      "brief_all": [
+        "ProfileDialog"
+      ]
+    }
+  },
+  "prompt_version": 4
+}

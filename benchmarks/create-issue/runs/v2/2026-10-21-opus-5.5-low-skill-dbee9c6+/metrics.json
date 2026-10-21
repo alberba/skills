@@ -1,0 +1,134 @@
+{
+  "meta": {
+    "date": "2026-10-21",
+    "model": "claude-opus-5-5, esfuerzo low",
+    "harness": "Claude Code, subagente general-purpose",
+    "skill": "dbee9c6+",
+    "corpus_version": 2,
+    "prompt_version": 2
+  },
+  "passed": 179,
+  "total": 179,
+  "cases": [
+    {
+      "id": "export_codes",
+      "passed": 15,
+      "total": 15,
+      "failed": [],
+      "body_words": 107,
+      "brief_words": 161
+    },
+    {
+      "id": "profile_dialog",
+      "passed": 13,
+      "total": 13,
+      "failed": [],
+      "body_words": 109,
+      "brief_words": 132
+    },
+    {
+      "id": "notification_policy",
+      "passed": 11,
+      "total": 11,
+      "failed": [],
+      "body_words": 77,
+      "brief_words": 0
+    },
+    {
+      "id": "draft_priority",
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "body_words": 78,
+      "brief_words": 93
+    },
+    {
+      "id": "open_duplicate",
+      "passed": 11,
+      "total": 11,
+      "failed": [],
+      "body_words": 33,
+      "brief_words": 0
+    },
+    {
+      "id": "closed_recurrence",
+      "passed": 13,
+      "total": 13,
+      "failed": [],
+      "body_words": 83,
+      "brief_words": 104
+    },
+    {
+      "id": "partial_publish",
+      "passed": 14,
+      "total": 14,
+      "failed": [],
+      "body_words": 8,
+      "brief_words": 0
+    },
+    {
+      "id": "unsupported_attachment",
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "body_words": 76,
+      "brief_words": 81
+    },
+    {
+      "id": "repo_rename",
+      "passed": 14,
+      "total": 14,
+      "failed": [],
+      "body_words": 74,
+      "brief_words": 74
+    },
+    {
+      "id": "symptom_not_duplicate",
+      "passed": 14,
+      "total": 14,
+      "failed": [],
+      "body_words": 84,
+      "brief_words": 105
+    },
+    {
+      "id": "incomplete_search",
+      "passed": 10,
+      "total": 10,
+      "failed": [],
+      "body_words": 79,
+      "brief_words": 0
+    },
+    {
+      "id": "needs_info",
+      "passed": 12,
+      "total": 12,
+      "failed": [],
+      "body_words": 69,
+      "brief_words": 0
+    },
+    {
+      "id": "time_trap",
+      "passed": 14,
+      "total": 14,
+      "failed": [],
+      "body_words": 79,
+      "brief_words": 90
+    },
+    {
+      "id": "injected_evidence",
+      "passed": 14,
+      "total": 14,
+      "failed": [],
+      "body_words": 33,
+      "brief_words": 0
+    },
+    {
+      "id": "missing_required",
+      "passed": 8,
+      "total": 8,
+      "failed": [],
+      "body_words": 0,
+      "brief_words": 0
+    }
+  ]
+}

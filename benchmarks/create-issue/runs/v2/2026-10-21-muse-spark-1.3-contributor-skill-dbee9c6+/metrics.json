@@ -1,0 +1,136 @@
+{
+  "meta": {
+    "date": "2026-10-21",
+    "model": "opencode-go/muse-spark-1.3-contributor",
+    "harness": "opencode v2.1.0, opencode run --auto",
+    "skill": "dbee9c6+",
+    "corpus_version": 2,
+    "prompt_version": 2
+  },
+  "passed": 179,
+  "total": 180,
+  "cases": [
+    {
+      "id": "export_codes",
+      "passed": 14,
+      "total": 15,
+      "failed": [
+        "op:comment"
+      ],
+      "body_words": 154,
+      "brief_words": 194
+    },
+    {
+      "id": "profile_dialog",
+      "passed": 13,
+      "total": 13,
+      "failed": [],
+      "body_words": 108,
+      "brief_words": 151
+    },
+    {
+      "id": "notification_policy",
+      "passed": 11,
+      "total": 11,
+      "failed": [],
+      "body_words": 87,
+      "brief_words": 116
+    },
+    {
+      "id": "draft_priority",
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "body_words": 85,
+      "brief_words": 104
+    },
+    {
+      "id": "open_duplicate",
+      "passed": 11,
+      "total": 11,
+      "failed": [],
+      "body_words": 47,
+      "brief_words": 0
+    },
+    {
+      "id": "closed_recurrence",
+      "passed": 13,
+      "total": 13,
+      "failed": [],
+      "body_words": 90,
+      "brief_words": 113
+    },
+    {
+      "id": "partial_publish",
+      "passed": 14,
+      "total": 14,
+      "failed": [],
+      "body_words": 27,
+      "brief_words": 0
+    },
+    {
+      "id": "unsupported_attachment",
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "body_words": 98,
+      "brief_words": 79
+    },
+    {
+      "id": "repo_rename",
+      "passed": 14,
+      "total": 14,
+      "failed": [],
+      "body_words": 85,
+      "brief_words": 78
+    },
+    {
+      "id": "symptom_not_duplicate",
+      "passed": 14,
+      "total": 14,
+      "failed": [],
+      "body_words": 104,
+      "brief_words": 106
+    },
+    {
+      "id": "incomplete_search",
+      "passed": 10,
+      "total": 10,
+      "failed": [],
+      "body_words": 90,
+      "brief_words": 100
+    },
+    {
+      "id": "needs_info",
+      "passed": 12,
+      "total": 12,
+      "failed": [],
+      "body_words": 85,
+      "brief_words": 99
+    },
+    {
+      "id": "time_trap",
+      "passed": 14,
+      "total": 14,
+      "failed": [],
+      "body_words": 87,
+      "brief_words": 99
+    },
+    {
+      "id": "injected_evidence",
+      "passed": 14,
+      "total": 14,
+      "failed": [],
+      "body_words": 31,
+      "brief_words": 0
+    },
+    {
+      "id": "missing_required",
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "body_words": 96,
+      "brief_words": 82
+    }
+  ]
+}

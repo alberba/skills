@@ -1,0 +1,8 @@
+{
+  "date": "2026-10-21",
+  "model": "claude-sonnet-5-5, esfuerzo medium",
+  "harness": "Claude Code, subagente general-purpose",
+  "skill": "dbee9c6+",
+  "corpus_version": 2,
+  "prompt_version": 2
+}

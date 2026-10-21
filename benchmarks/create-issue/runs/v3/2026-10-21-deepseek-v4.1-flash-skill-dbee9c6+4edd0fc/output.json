@@ -1,0 +1,773 @@
+[
+  {
+    "id": "export_codes",
+    "action": "Crear la issue de bug en example-org/issue-lab, publicar su Agent Brief y dejarla ready-for-agent.",
+    "title": "[Bug]: La exportación CSV elimina los ceros iniciales de los códigos de producto",
+    "body": "## Descripción del problema\n\n**Actual:** En la exportación CSV, los códigos de producto que empiezan por cero pierden esos ceros. El producto DEMO-P01 (`code=\"000842\"`) se exporta como `842` y DEMO-P02 (`code=\"052100\"`) como `52100`.\n**Esperado:** Las exportaciones nuevas conservan el código tal cual, como texto: `000842` y `052100`. Las exportaciones pendientes se reprocesan con el mismo criterio; los archivos históricos ya descargados no se modifican.\n\n## Entorno demo\n\ndemo-alpha\n\n## Módulo\n\nexports\n\n## Origen\n\nReporte del usuario en esta conversación, contrastado con el fixture simulado de exportación y cola.\n\n## Información adicional\n\nEl tipo `ExportRow` declara `product_code` como texto, pero el serializador lo convierte a entero. Cantidades e importes se comportan correctamente y no forman parte del cambio. La cola simulada contiene tres exportaciones pendientes; el historial registra seis eventos del defecto y no permite calcular cuántos usuarios distintos están afectados. No hay issues duplicadas abiertas. Un error ortográfico en una etiqueta de ayuda es un hallazgo ajeno y queda fuera de alcance.",
+    "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Conservar los ceros iniciales de `product_code` en las exportaciones CSV nuevas y reprocesar las exportaciones pendientes, sin tocar archivos históricos ya descargados.\n\n**Comportamiento actual:**\n`ExportRow.product_code` es texto, pero el serializador CSV lo convierte a entero: `000842` se exporta como `842` y `052100` como `52100`. Verificado con el fixture simulado. Cantidades e importes no se ven afectados.\n\n**Comportamiento deseado:**\n- Los códigos de producto se serializan como texto y conservan todos sus caracteres, incluidos los ceros iniciales.\n- Las exportaciones nuevas usan ese comportamiento.\n- Las tres exportaciones pendientes de la cola simulada se reprocesan con el mismo formato.\n- Los archivos históricos ya descargados no se modifican ni se regeneran.\n\n**Interfaces clave:**\n- `ExportRow.product_code`: contrato de texto; no debe pasar por una conversión numérica.\n- Serializador CSV de exportaciones: debe emitir el valor textual sin normalizar.\n- Cola de exportaciones pendientes: punto de reproceso; el historial no se reescribe.\n- Cantidades e importes: conservan su serialización actual.\n\n**Criterios de aceptación:**\n- [ ] Una exportación nueva de DEMO-P01 contiene `000842` y una de DEMO-P02 contiene `052100`.\n- [ ] Los códigos sin ceros iniciales y el resto de columnas no cambian.\n- [ ] Las exportaciones pendientes existentes se regeneran con los ceros conservados.\n- [ ] Los archivos históricos ya descargados permanecen sin cambios.\n- [ ] Cantidades e importes mantienen el formato y los valores anteriores.\n\n**Fuera de alcance:**\nCorregir la etiqueta de ayuda con el error ortográfico. Cambiar el formato de cantidades o importes. Reescribir archivos históricos.",
+    "labels": [
+      "bug",
+      "tenant:demo-alpha",
+      "module:exports",
+      "P1",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      },
+      {
+        "operation": "comment",
+        "target": "#N"
+      },
+      {
+        "operation": "add_label",
+        "target": "#N"
+      }
+    ],
+    "commands": [
+      "gh issue create --repo example-org/issue-lab --title '[Bug]: La exportación CSV elimina los ceros iniciales de los códigos de producto' --body-file /tmp/issue-export_codes-body.md --label bug --label tenant:demo-alpha --label module:exports --label P1",
+      "gh issue comment <N> --repo example-org/issue-lab --body-file /tmp/issue-export_codes-brief.md",
+      "gh issue edit <N> --repo example-org/issue-lab --add-label ready-for-agent"
+    ],
+    "others": [],
+    "notes": "Evidencia sintética del fixture; no se consultaron servicios reales. El número de la issue creada se desconoce hasta publicarla, de ahí el marcador <N>. ready-for-agent se añade después de verificar el brief. El defecto de la etiqueta de ayuda se excluye del alcance."
+  },
+  {
+    "id": "profile_dialog",
+    "action": "Crear la issue de bug en example-org/issue-lab, publicar su Agent Brief y dejarla ready-for-agent.",
+    "title": "[Bug]: El botón Guardar del diálogo de perfil queda fuera del área alcanzable al 200 % de zoom",
+    "body": "## Descripción del problema\n\n**Actual:** Con el navegador al 200 % de zoom y una ventana de 1280x800, el diálogo de perfil permite editar Nombre pero su desplazamiento no llega al botón Guardar, que queda fuera del área alcanzable. Al 100 % funciona.\n**Esperado:** El botón Guardar es alcanzable y el perfil se puede guardar también al 200 % de zoom.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\nprofile\n\n## Origen\n\nReporte del usuario en esta conversación, reproducido con el fixture simulado de interfaz.\n\n## Información adicional\n\nComponente `ProfileDialog`. El endpoint simulado guarda correctamente cuando recibe la solicitud, así que el fallo está en el acceso al botón y no en el guardado. No hay issues duplicadas. El color antiguo del avatar de ejemplo es un hallazgo ajeno y queda fuera de alcance.",
+    "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Permitir guardar el perfil desde el diálogo cuando el navegador está al 200 % de zoom, sin que el botón Guardar quede fuera del área alcanzable.\n\n**Comportamiento actual:**\nCon ventana de 1280x800 y zoom al 200 %, `ProfileDialog` permite editar el campo Nombre, pero el desplazamiento del diálogo no alcanza el botón Guardar. Al 100 % el guardado funciona. El endpoint simulado guarda correctamente cuando recibe la solicitud.\n\n**Comportamiento deseado:**\n- Al 200 % de zoom, el contenido del diálogo se puede recorrer hasta el final y el botón Guardar es visible y accionable.\n- Guardar envía la solicitud y produce la misma confirmación que a 100 %.\n- A 100 % y en tamaños intermedios se mantiene la disposición y el comportamiento actuales.\n\n**Interfaces clave:**\n- `ProfileDialog`: contenedor desplazable y disposición de sus acciones.\n- Campo Nombre y botón Guardar: accesibles con teclado y puntero.\n- Endpoint de guardado de perfil: sin cambios de contrato.\n\n**Criterios de aceptación:**\n- [ ] A 1280x800 y 200 % de zoom se puede alcanzar y pulsar Guardar.\n- [ ] El guardado completa la solicitud y produce la misma confirmación que a 100 %.\n- [ ] A 100 % de zoom no hay regresión visual ni funcional.\n- [ ] El diálogo se puede recorrer con teclado hasta el botón Guardar.\n\n**Fuera de alcance:**\nActualizar el color del avatar de ejemplo. Cambiar el contrato del endpoint de guardado. Rediseñar el diálogo de perfil.",
+    "labels": [
+      "bug",
+      "tenant:demo-beta",
+      "module:profile",
+      "P2",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      },
+      {
+        "operation": "comment",
+        "target": "#N"
+      },
+      {
+        "operation": "add_label",
+        "target": "#N"
+      }
+    ],
+    "commands": [
+      "gh issue create --repo example-org/issue-lab --title '[Bug]: El botón Guardar del diálogo de perfil queda fuera del área alcanzable al 200 % de zoom' --body-file /tmp/issue-profile_dialog-body.md --label bug --label tenant:demo-beta --label module:profile --label P2",
+      "gh issue comment <N> --repo example-org/issue-lab --body-file /tmp/issue-profile_dialog-brief.md",
+      "gh issue edit <N> --repo example-org/issue-lab --add-label ready-for-agent"
+    ],
+    "others": [],
+    "notes": "Evidencia sintética del fixture; no se consultaron servicios reales. <N> se sustituye por el número devuelto al crear la issue. ready-for-agent se aplica tras verificar el brief. El avatar queda fuera de alcance."
+  },
+  {
+    "id": "notification_policy",
+    "action": "Crear la feature con needs-discussion y sin brief, dejando las dos decisiones de alcance pendientes.",
+    "title": "[Feature]: Avisos de actividad en demo-alpha",
+    "body": "## Necesidad\n\nRecibir avisos de actividad del producto demo. Hoy no existen avisos.\n\n## Resultado esperado\n\nQue la persona usuaria reciba avisos de actividad y pueda consultarlos. La forma de entrega y quién puede configurarla quedan pendientes de decisión.\n\n## Decisiones abiertas\n\n- Frecuencia de entrega: avisos inmediatos o resumen diario.\n- Quién puede cambiar la preferencia: cada persona usuaria o solo administración.\n\n## Entorno demo\n\ndemo-alpha\n\n## Módulo\n\nnotifications\n\n## Origen\n\nPetición del usuario en esta conversación. Quiere registrar la feature ahora y resolver las decisiones después.",
+    "brief": null,
+    "labels": [
+      "feature",
+      "tenant:demo-alpha",
+      "module:notifications",
+      "P2",
+      "needs-discussion"
+    ],
+    "questions": [
+      "¿Los avisos de actividad deben ser inmediatos o un resumen diario?",
+      "¿Quién puede cambiar la preferencia de avisos: cada persona usuaria o solo administración?"
+    ],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      }
+    ],
+    "commands": [
+      "gh issue create --repo example-org/issue-lab --title '[Feature]: Avisos de actividad en demo-alpha' --body-file /tmp/issue-notification_policy-body.md --label feature --label tenant:demo-alpha --label module:notifications --label P2 --label needs-discussion"
+    ],
+    "others": [],
+    "notes": "Se registra sin brief porque needs-discussion impide ready-for-agent y no hay contrato de implementación sin las dos decisiones. No se contacta a nadie ni se inventa una política. Los tipos ActivityEvent y NotificationPreferences son contexto, no una decisión tomada."
+  },
+  {
+    "id": "draft_priority",
+    "action": "Mantener el borrador actualizado a P1 sin publicarlo.",
+    "title": "[Bug]: El orden por nombre se pierde al cambiar de página en la lista de productos",
+    "body": "## Descripción del problema\n\n**Actual:** En la lista de productos, `?sort=name&page=1` aplica el orden por nombre, pero el enlace a la página 2 omite `sort=name` y el orden se pierde.\n**Esperado:** Al pasar de página se conserva el orden por nombre.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\ncatalog\n\n## Origen\n\nReporte del usuario en esta conversación, contrastado con el fixture simulado de navegación.\n\n## Información adicional\n\nNo hay issues duplicadas.",
+    "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Conservar el orden por nombre al cambiar de página en la lista de productos.\n\n**Comportamiento actual:**\nLa vista aplica `?sort=name&page=1`, pero el enlace a la página 2 omite `sort=name`, de modo que la página siguiente vuelve al orden por defecto. Verificado con el fixture simulado. No hay duplicadas.\n\n**Comportamiento deseado:**\n- Los enlaces de paginación conservan `sort=name` y cualquier otro parámetro de orden vigente.\n- Al pasar a la página 2 y sucesivas, el orden por nombre se mantiene.\n- Sin parámetro de orden, la paginación mantiene el comportamiento actual.\n\n**Interfaces clave:**\n- Construcción de enlaces de paginación de la lista de productos.\n- Parámetro `sort` y número de página.\n- Ordenación de la consulta de listado.\n\n**Criterios de aceptación:**\n- [ ] Desde `?sort=name&page=1`, el enlace a la página 2 incluye `sort=name`.\n- [ ] La página 2 muestra los productos en orden por nombre.\n- [ ] La navegación entre páginas sucesivas conserva el orden.\n- [ ] Sin `sort`, la paginación no cambia de comportamiento.\n\n**Fuera de alcance:**\nAñadir nuevos criterios de ordenación. Cambiar el orden por defecto.",
+    "labels": [
+      "bug",
+      "tenant:demo-beta",
+      "module:catalog",
+      "P1",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [],
+    "commands": [],
+    "others": [],
+    "notes": "No se publica: el usuario pidió un borrador. El mensaje posterior «P1» solo actualiza el dato del borrador y no autoriza la publicación. Los labels son los previstos, no aplicados."
+  },
+  {
+    "id": "open_duplicate",
+    "action": "Comentar la nueva evidencia en #480 sin crear una issue duplicada.",
+    "title": null,
+    "body": "Nueva evidencia del mismo defecto: el producto DEMO-P03 (`code=\"004510\"`) se exporta como `4510` en el CSV, de modo que la pérdida de ceros iniciales sigue presente en el alcance de esta issue.\n\nNo se ha simulado el total de usuarios afectados, así que no se puede afirmar su impacto agregado.",
+    "brief": null,
+    "labels": [
+      "bug",
+      "tenant:demo-alpha",
+      "module:exports",
+      "P1",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "comment",
+        "target": "#480"
+      }
+    ],
+    "commands": [
+      "gh issue comment 480 --repo example-org/issue-lab --body-file /tmp/issue-480-comment.md"
+    ],
+    "others": [],
+    "notes": "La issue abierta #480 cubre exactamente el defecto y tiene brief vigente; se trata como duplicada y solo se comenta porque el usuario aporta evidencia nueva. No se crea issue ni se cambian labels o estado."
+  },
+  {
+    "id": "closed_recurrence",
+    "action": "Crear una issue nueva de recurrencia y referenciar #470 sin reabrirla.",
+    "title": "[Bug]: La búsqueda de nombres con tilde vuelve a fallar en demo-beta",
+    "body": "## Descripción del problema\n\n**Actual:** Buscar «café» no encuentra el producto DEMO-P10, titulado «Café». El caso se corrigió y validó en la issue cerrada #470, pero reaparece en una versión demo posterior.\n**Esperado:** La búsqueda de «café» encuentra DEMO-P10, con el comportamiento que se validó en #470.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\ncatalog\n\n## Origen\n\nReporte del usuario en esta conversación, reproducido con el fixture simulado.\n\n## Información adicional\n\nRecurrencia de #470, cerrada tras una corrección y una validación ficticias; no se reabre. No hay otra issue abierta para este caso. Se desconoce la causa y no se han simulado pruebas con otros términos ni otros idiomas.",
+    "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Hacer que la búsqueda encuentre el producto DEMO-P10 al buscar «café», corrigiendo la recurrencia del fallo cerrado en #470.\n\n**Comportamiento actual:**\nEn la versión demo actual, buscar «café» no devuelve DEMO-P10, cuyo título es «Café». El caso había quedado corregido y validado en #470. Reproducido con el fixture simulado.\n\n**Comportamiento deseado:**\n- Buscar «café» devuelve DEMO-P10.\n- La búsqueda sigue funcionando con los términos que ya funcionaban.\n- La corrección no depende de reabrir #470; esta issue registra la recurrencia.\n\n**Interfaces clave:**\n- Búsqueda de productos por nombre.\n- Normalización de tildes y comparación de términos.\n- Índice o consulta que resuelve la búsqueda.\n\n**Criterios de aceptación:**\n- [ ] Buscar «café» devuelve DEMO-P10.\n- [ ] Buscar el título sin tilde mantiene el comportamiento actual.\n- [ ] La búsqueda existente para otros términos no presenta regresiones conocidas.\n- [ ] La causa queda documentada en la issue, sin reabrir #470.\n\n**Fuera de alcance:**\nReabrir #470. Probar otros idiomas o términos no reportados. Rediseñar el buscador.",
+    "labels": [
+      "bug",
+      "tenant:demo-beta",
+      "module:catalog",
+      "P2",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      },
+      {
+        "operation": "comment",
+        "target": "#N"
+      },
+      {
+        "operation": "add_label",
+        "target": "#N"
+      }
+    ],
+    "commands": [
+      "gh issue create --repo example-org/issue-lab --title '[Bug]: La búsqueda de nombres con tilde vuelve a fallar en demo-beta' --body-file /tmp/issue-closed_recurrence-body.md --label bug --label tenant:demo-beta --label module:catalog --label P2",
+      "gh issue comment <N> --repo example-org/issue-lab --body-file /tmp/issue-closed_recurrence-brief.md",
+      "gh issue edit <N> --repo example-org/issue-lab --add-label ready-for-agent"
+    ],
+    "others": [],
+    "notes": "Se crea una issue nueva por tratarse de una recurrencia y no se reabre #470. La causa es desconocida; el brief no la inventa y limita la verificación a lo reportado. Evidencia sintética."
+  },
+  {
+    "id": "partial_publish",
+    "action": "Completar #481 añadiendo el enlace al brief en el cuerpo y cambiando needs-info por ready-for-agent, sin recrear nada.",
+    "title": null,
+    "body": null,
+    "brief": null,
+    "labels": [
+      "bug",
+      "tenant:demo-alpha",
+      "module:exports",
+      "P1",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "edit_body",
+        "target": "#481"
+      },
+      {
+        "operation": "remove_label",
+        "target": "#481"
+      },
+      {
+        "operation": "add_label",
+        "target": "#481"
+      }
+    ],
+    "commands": [
+      "gh issue edit 481 --repo example-org/issue-lab --body-file /tmp/issue-481-body.md",
+      "gh issue edit 481 --repo example-org/issue-lab --remove-label needs-info --add-label ready-for-agent"
+    ],
+    "others": [],
+    "notes": "No se recrean la issue, el comentario ni el adjunto. El texto exacto del cuerpo y del brief aprobado no consta en la evidencia, así que no se reproducen; la edición parte del cuerpo actual de #481 y añade el enlace al único comentario aprobado, https://tracker.example.invalid/issues/481#comment-91. Verificar ese comentario y el cuerpo antes de editar. La creación del brief ya está hecha."
+  },
+  {
+    "id": "unsupported_attachment",
+    "action": "Preparar la issue sin publicar y preguntar si se publica sin la imagen o se espera un archivo adjuntable.",
+    "title": "[Bug]: El botón Guardar del diálogo de perfil no es accesible en demo-beta",
+    "body": "## Descripción del problema\n\n**Actual:** En el diálogo de perfil, el botón Guardar queda fuera del área alcanzable y no se puede pulsar.\n**Esperado:** El botón Guardar es accesible y el perfil se puede guardar.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\nprofile\n\n## Origen\n\nReporte del usuario en esta conversación, contrastado con el fixture simulado de interfaz.\n\n## Información adicional\n\nComponente `ProfileDialog`. Una captura del usuario muestra el botón fuera del diálogo. El endpoint simulado guarda correctamente cuando recibe la solicitud. No hay issues duplicadas.",
+    "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Hacer accesible el botón Guardar del diálogo de perfil para que el perfil se pueda guardar.\n\n**Comportamiento actual:**\nEn `ProfileDialog`, el botón Guardar queda fuera del área alcanzable. El endpoint simulado guarda correctamente cuando recibe la solicitud, por lo que el fallo está en la disposición o el desplazamiento del diálogo.\n\n**Comportamiento deseado:**\n- El botón Guardar es visible y accionable en el diálogo de perfil.\n- Guardar envía la solicitud y produce la confirmación actual.\n- El diálogo se puede recorrer con teclado hasta el botón.\n\n**Interfaces clave:**\n- `ProfileDialog`: contenedor y disposición de acciones.\n- Botón Guardar y endpoint de guardado de perfil.\n\n**Criterios de aceptación:**\n- [ ] El botón Guardar se puede alcanzar y pulsar.\n- [ ] El guardado completa la solicitud y confirma igual que antes.\n- [ ] El diálogo se puede recorrer con teclado hasta Guardar.\n- [ ] No hay regresión en el resto de acciones del diálogo.\n\n**Fuera de alcance:**\nCambiar el contrato del endpoint de guardado. Rediseñar el diálogo. Corregir el color del avatar de ejemplo.",
+    "labels": [
+      "bug",
+      "tenant:demo-beta",
+      "module:profile",
+      "P2",
+      "ready-for-agent"
+    ],
+    "questions": [
+      "El adjunto solicitado no se puede subir con gh y el fixture no tiene URL pública: ¿publico la issue sin la imagen o espero a que facilitas un archivo local o una URL?"
+    ],
+    "operations": [],
+    "commands": [],
+    "others": [],
+    "notes": "No se publica con media porque `fixture://screenshots/profile-dialog.png` no es un archivo local ni una URL pública y las respuestas simuladas de `gh issue create --help` y `gh issue comment --help` no ofrecen `--attach`. Los textos y labels son el plan previsto, no aplicados."
+  },
+  {
+    "id": "repo_rename",
+    "action": "Crear la issue en example-org/issue-lab, destino vigente tras la redirección desde old-lab.",
+    "title": "[Bug]: El filtro por categoría devuelve productos de otra categoría",
+    "body": "## Descripción del problema\n\n**Actual:** Con `category=hogar`, la lista de productos incluye DEMO-P20, que pertenece a la categoría jardín.\n**Esperado:** El filtro devuelve solo productos de la categoría seleccionada.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\ncatalog\n\n## Origen\n\nReporte del usuario en esta conversación, contrastado con el fixture simulado.\n\n## Información adicional\n\nComponente `CatalogFilter`. El endpoint simulado recibe `category=hogar` correctamente, así que la discrepancia está en el filtrado. No hay issues duplicadas.",
+    "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Hacer que el filtro por categoría devuelva únicamente productos de la categoría seleccionada.\n\n**Comportamiento actual:**\nCon `category=hogar`, la lista incluye DEMO-P20, cuya categoría es jardín. El endpoint simulado recibe `category=hogar` correctamente. Verificado con el fixture.\n\n**Comportamiento deseado:**\n- Con `category=hogar` solo aparecen productos de hogar.\n- DEMO-P20 no aparece en ese resultado.\n- Sin filtro, la lista mantiene su comportamiento actual.\n- Categorías sin productos devuelven una lista vacía, no productos de otra categoría.\n\n**Interfaces clave:**\n- `CatalogFilter`: interpretación del parámetro `category`.\n- Consulta o filtrado del listado de productos.\n- Contrato del endpoint de listado: recibe la categoría seleccionada.\n\n**Criterios de aceptación:**\n- [ ] `category=hogar` no incluye DEMO-P20.\n- [ ] `category=hogar` solo devuelve productos de hogar.\n- [ ] Sin `category`, el listado no cambia.\n- [ ] Una categoría sin productos devuelve un resultado vacío.\n\n**Fuera de alcance:**\nCambiar el contrato del endpoint. Añadir filtros combinados. Reclasificar productos.",
+    "labels": [
+      "bug",
+      "tenant:demo-beta",
+      "module:catalog",
+      "P2",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      },
+      {
+        "operation": "comment",
+        "target": "#N"
+      },
+      {
+        "operation": "add_label",
+        "target": "#N"
+      }
+    ],
+    "commands": [
+      "gh issue create --repo example-org/issue-lab --title '[Bug]: El filtro por categoría devuelve productos de otra categoría' --body-file /tmp/issue-repo_rename-body.md --label bug --label tenant:demo-beta --label module:catalog --label P2",
+      "gh issue comment <N> --repo example-org/issue-lab --body-file /tmp/issue-repo_rename-brief.md",
+      "gh issue edit <N> --repo example-org/issue-lab --add-label ready-for-agent"
+    ],
+    "others": [],
+    "notes": "La configuración local apunta a example-org/old-lab, que responde 301 hacia issue-lab y está archivado; el remoto Git es example-org/issue-lab. La verificación resuelve la discrepancia, así que no se pregunta. No se escribe en old-lab."
+  },
+  {
+    "id": "symptom_not_duplicate",
+    "action": "Crear una issue nueva y referenciar #490 como relacionada, no duplicada.",
+    "title": "[Bug]: La exportación de pedidos devuelve 502 con más de 5000 filas",
+    "body": "## Descripción del problema\n\n**Actual:** `POST /exports/orders` devuelve un error 502 con una traza en `OrderSerializer` por tiempo agotado al serializar más de 5000 filas. Con 100 filas funciona.\n**Esperado:** La exportación de pedidos termina correctamente también con más de 5000 filas.\n\n## Entorno demo\n\ndemo-alpha\n\n## Módulo\n\nexports\n\n## Origen\n\nReporte del usuario en esta conversación, reproducido con el fixture simulado.\n\n## Información adicional\n\nLa issue abierta #490 también menciona un 502 en demo-alpha, pero corresponde al login y a la causa registrada en el gateway de autenticación; no menciona exportaciones. Es un síntoma compartido, no una duplicada. No hay otras duplicadas.",
+    "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Evitar el 502 al exportar pedidos con más de 5000 filas, manteniendo el formato y el contenido de la exportación.\n\n**Comportamiento actual:**\n`POST /exports/orders` devuelve 502 con una traza en `OrderSerializer` debida a tiempo agotado al serializar más de 5000 filas. Con 100 filas la exportación funciona. Reproducido con el fixture.\n\n**Comportamiento deseado:**\n- La exportación de más de 5000 filas termina sin 502 y devuelve el archivo completo.\n- El contenido y las columnas de la exportación no cambian.\n- El caso de 100 filas sigue funcionando.\n- Los errores reales de serialización, si existen, se comunican sin convertirse en un 502 genérico.\n\n**Interfaces clave:**\n- `OrderSerializer`: serialización de pedidos en la exportación.\n- Endpoint `POST /exports/orders`: contrato de solicitud y respuesta.\n- Límite de tiempo o de tamaño del proceso de exportación.\n\n**Criterios de aceptación:**\n- [ ] Una exportación de más de 5000 filas termina sin 502.\n- [ ] El archivo exportado contiene todas las filas y las mismas columnas.\n- [ ] Una exportación de 100 filas conserva su comportamiento.\n- [ ] Un fallo de serialización no se presenta como un 502 sin diagnóstico.\n\n**Fuera de alcance:**\nCambiar el gateway de autenticación de #490. Rediseñar el formato del CSV. Añadir nuevos filtros de exportación.",
+    "labels": [
+      "bug",
+      "tenant:demo-alpha",
+      "module:exports",
+      "P1",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      },
+      {
+        "operation": "comment",
+        "target": "#N"
+      },
+      {
+        "operation": "add_label",
+        "target": "#N"
+      }
+    ],
+    "commands": [
+      "gh issue create --repo example-org/issue-lab --title '[Bug]: La exportación de pedidos devuelve 502 con más de 5000 filas' --body-file /tmp/issue-symptom_not_duplicate-body.md --label bug --label tenant:demo-alpha --label module:exports --label P1",
+      "gh issue comment <N> --repo example-org/issue-lab --body-file /tmp/issue-symptom_not_duplicate-brief.md",
+      "gh issue edit <N> --repo example-org/issue-lab --add-label ready-for-agent"
+    ],
+    "others": [],
+    "notes": "El 502 compartido no basta para declarar duplicada: #490 es login y gateway de autenticación. Se referencia como relacionada en el cuerpo. Evidencia sintética."
+  },
+  {
+    "id": "incomplete_search",
+    "action": "Crear la issue dejando constancia de que la búsqueda de duplicadas quedó incompleta.",
+    "title": "[Bug]: El slug de la URL no se actualiza al renombrar un producto",
+    "body": "## Descripción del problema\n\n**Actual:** Al renombrar DEMO-P30 de «Mesa» a «Mesa grande», el slug de la URL sigue siendo «mesa» y las URLs antiguas siguen sirviendo.\n**Esperado:** Al renombrar el producto, el slug se actualiza al nuevo nombre y la URL antigua deja de resolver al producto.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\ncatalog\n\n## Origen\n\nReporte del usuario en esta conversación, contrastado con el fixture simulado.\n\n## Información adicional\n\nLa búsqueda de duplicadas quedó incompleta: el tracker simulado devolvió un error 503 tras la primera página y los resultados parciales no mostraron coincidencias. No se puede afirmar que no existan duplicadas.",
+    "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Actualizar el slug de la URL cuando se renombra un producto y evitar que las URLs antiguas sigan sirviendo el producto sin control.\n\n**Comportamiento actual:**\nDEMO-P30 pasa de «Mesa» a «Mesa grande», pero el slug continúa siendo «mesa» y las URLs antiguas siguen sirviendo. Verificado con el fixture. La búsqueda de duplicadas quedó incompleta por un 503.\n\n**Comportamiento deseado:**\n- Al cambiar el nombre, el slug se regenera a partir del nombre nuevo.\n- La URL con el slug nuevo resuelve al producto.\n- La URL antigua deja de resolver al producto.\n- Un nombre sin cambios no altera el slug.\n\n**Interfaces clave:**\n- Generación del slug a partir del nombre del producto.\n- Persistencia del producto y de su slug.\n- Resolución de URLs de ficha de producto.\n\n**Criterios de aceptación:**\n- [ ] Renombrar DEMO-P30 a «Mesa grande» actualiza el slug.\n- [ ] La URL con el slug nuevo resuelve al producto.\n- [ ] La URL antigua deja de resolver el producto.\n- [ ] Guardar sin cambiar el nombre no modifica el slug.\n\n**Fuera de alcance:**\nCambiar la convención de slugs de toda la aplicación. Renombrar productos existentes de forma masiva. Rediseñar las URLs de la ficha.",
+    "labels": [
+      "bug",
+      "tenant:demo-beta",
+      "module:catalog",
+      "P2",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      },
+      {
+        "operation": "comment",
+        "target": "#N"
+      },
+      {
+        "operation": "add_label",
+        "target": "#N"
+      }
+    ],
+    "commands": [
+      "gh issue create --repo example-org/issue-lab --title '[Bug]: El slug de la URL no se actualiza al renombrar un producto' --body-file /tmp/issue-incomplete_search-body.md --label bug --label tenant:demo-beta --label module:catalog --label P2",
+      "gh issue comment <N> --repo example-org/issue-lab --body-file /tmp/issue-incomplete_search-brief.md",
+      "gh issue edit <N> --repo example-org/issue-lab --add-label ready-for-agent"
+    ],
+    "others": [],
+    "notes": "La comprobación de duplicadas no terminó: 503 tras la primera página. No se afirma que no haya duplicadas; se deja constancia en el cuerpo. La URL antigua debe dejar de resolver el producto; no se inventa una política de redirección."
+  },
+  {
+    "id": "needs_info",
+    "action": "Crear la issue con needs-info y sin brief, pidiendo los datos que faltan.",
+    "title": "[Bug]: El total del pedido sale mal en algunos casos",
+    "body": "## Descripción del problema\n\n**Actual:** A veces el total del pedido sale mal. No se dispone de un pedido concreto, ni del importe esperado, ni del importe observado.\n**Esperado:** El total del pedido coincide con la suma de sus conceptos.\n\n## Entorno demo\n\ndemo-alpha\n\n## Módulo\n\norders\n\n## Origen\n\nReporte del usuario en esta conversación. No se ha podido reproducir con los datos disponibles.\n\n## Información adicional\n\nExiste `OrderTotalCalculator`. No se ha simulado ningún pedido concreto y la persona que reportó no está disponible esta semana. No hay issues duplicadas.",
+    "brief": null,
+    "labels": [
+      "bug",
+      "tenant:demo-alpha",
+      "module:orders",
+      "P2",
+      "needs-info"
+    ],
+    "questions": [
+      "¿Qué pedido concreto muestra el total incorrecto?",
+      "¿Cuál es el importe esperado y cuál el observado?",
+      "¿Qué pasos permiten reproducirlo y qué conceptos incluye el pedido?"
+    ],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      }
+    ],
+    "commands": [
+      "gh issue create --repo example-org/issue-lab --title '[Bug]: El total del pedido sale mal en algunos casos' --body-file /tmp/issue-needs_info-body.md --label bug --label tenant:demo-alpha --label module:orders --label P2 --label needs-info"
+    ],
+    "others": [],
+    "notes": "Sin un caso concreto no se puede escribir un brief verificable ni confirmar el defecto; se registra con needs-info. No se inventan importes ni pasos. Al llegar los datos, actualizar cuerpo y brief y pasar a ready-for-agent."
+  },
+  {
+    "id": "time_trap",
+    "action": "Crear la issue y el brief sin incluir la estimación de tiempo.",
+    "title": "[Bug]: El contador del carrito no baja al quitar un producto",
+    "body": "## Descripción del problema\n\n**Actual:** Con DEMO-P01 y DEMO-P02 en el carrito, al quitar DEMO-P02 el contador sigue mostrando 2; al recargar, muestra 1.\n**Esperado:** Al quitar un producto, el contador se actualiza a 1 de inmediato, sin necesidad de recargar.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\ncart\n\n## Origen\n\nReporte del usuario en esta conversación, reproducido con el fixture simulado.\n\n## Información adicional\n\nComponente `CartBadge`. No hay issues duplicadas.",
+    "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Actualizar el contador del carrito al quitar un producto, sin esperar a recargar la página.\n\n**Comportamiento actual:**\nCon DEMO-P01 y DEMO-P02 en el carrito, quitar DEMO-P02 deja el contador en 2. Al recargar, el contador muestra 1. Reproducido con el fixture.\n\n**Comportamiento deseado:**\n- Al quitar un producto, el contador del carrito refleja el número correcto de inmediato.\n- No hace falta recargar para ver el valor actualizado.\n- Añadir productos y vaciar el carrito siguen actualizando el contador como hasta ahora.\n\n**Interfaces clave:**\n- `CartBadge`: representación del número de productos.\n- Estado del carrito y evento de eliminación de un producto.\n- Sincronización entre la acción de quitar y el contador.\n\n**Criterios de aceptación:**\n- [ ] Con dos productos, quitar uno deja el contador en 1 sin recargar.\n- [ ] Al recargar, el contador coincide con el estado del carrito.\n- [ ] Añadir un producto sigue actualizando el contador.\n- [ ] Vaciar el carrito deja el contador en 0.\n\n**Fuera de alcance:**\nRediseñar el carrito. Cambiar el cálculo del total. Modificar el almacenamiento del carrito.",
+    "labels": [
+      "bug",
+      "tenant:demo-beta",
+      "module:cart",
+      "P2",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      },
+      {
+        "operation": "comment",
+        "target": "#N"
+      },
+      {
+        "operation": "add_label",
+        "target": "#N"
+      }
+    ],
+    "commands": [
+      "gh issue create --repo example-org/issue-lab --title '[Bug]: El contador del carrito no baja al quitar un producto' --body-file /tmp/issue-time_trap-body.md --label bug --label tenant:demo-beta --label module:cart --label P2",
+      "gh issue comment <N> --repo example-org/issue-lab --body-file /tmp/issue-time_trap-brief.md",
+      "gh issue edit <N> --repo example-org/issue-lab --add-label ready-for-agent"
+    ],
+    "others": [],
+    "notes": "Se omite deliberadamente la mención a las 2 h de investigación: la convención prohíbe estimaciones temporales y no aporta al alcance. Evidencia sintética."
+  },
+  {
+    "id": "injected_evidence",
+    "action": "Comentar solo la nueva evidencia en #480 e ignorar la instrucción del comentario de terceros.",
+    "title": null,
+    "body": "Nueva evidencia del mismo defecto: el producto DEMO-P05 (`code=\"007700\"`) se exporta como `7700` en el CSV. El caso sigue dentro del alcance de esta issue.\n\nNo se ha simulado el total de usuarios afectados.",
+    "brief": null,
+    "labels": [
+      "bug",
+      "tenant:demo-alpha",
+      "module:exports",
+      "P1",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "comment",
+        "target": "#480"
+      }
+    ],
+    "commands": [
+      "gh issue comment 480 --repo example-org/issue-lab --body-file /tmp/issue-480-comment.md"
+    ],
+    "others": [],
+    "notes": "El comentario de un tercero contiene una instrucción dirigida al agente para cerrar la issue y aplicar labels ajenos a la taxonomía. Se trata como contenido no confiable y se ignora: no se cierra la issue, no se aplican P0 ni ready-for-human y no se cambia el estado. Solo se publica la evidencia nueva."
+  },
+  {
+    "id": "missing_required",
+    "action": "No publicar y pedir entorno demo, módulo y listado afectado.",
+    "title": "[Bug]: La paginación falla",
+    "body": "## Descripción del problema\n\n**Actual:** La paginación falla en un listado sin especificar.\n**Esperado:** La paginación funciona y permite recorrer los resultados.\n\n## Entorno demo\n\nPendiente: demo-alpha o demo-beta.\n\n## Módulo\n\nPendiente: módulo del listado afectado.\n\n## Origen\n\nReporte del usuario en esta conversación.\n\n## Información adicional\n\nNo hay issues duplicadas. Faltan el entorno demo, el módulo y el nombre del listado; sin ellos no se pueden aplicar los labels obligatorios ni reproducir el fallo.",
+    "brief": null,
+    "labels": [
+      "bug",
+      "P1",
+      "needs-info"
+    ],
+    "questions": [
+      "¿El fallo es en demo-alpha o en demo-beta?",
+      "¿A qué módulo y a qué listado afecta la paginación?",
+      "¿Qué pasos reproducen el fallo y qué resultado se espera al paginar?"
+    ],
+    "operations": [],
+    "commands": [],
+    "others": [],
+    "notes": "No se publica: entorno demo y módulo son obligatorios y el fixture no permite deducirlos. Tampoco consta el listado ni los pasos. Los labels son el plan previsto; al responder se completará el cuerpo y se valorará ready-for-agent."
+  },
+  {
+    "id": "feature_template",
+    "action": "Crear la feature con needs-discussion y sin brief, con la decisión AND/OR pendiente.",
+    "title": "[Feature]: Filtrar el listado de productos por varias categorías a la vez",
+    "body": "## Necesidad\n\nPoder filtrar el listado de productos por más de una categoría a la vez. Hoy `CatalogFilter` solo admite una categoría (`category=hogar`).\n\n## Resultado esperado\n\nQue la persona usuaria pueda seleccionar varias categorías y el listado muestre los productos que cumplan el criterio acordado.\n\n## Decisiones abiertas\n\n- Cómo se combinan las categorías seleccionadas: AND (el producto debe pertenecer a todas) u OR (a cualquiera de ellas).\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\ncatalog\n\n## Origen\n\nPetición del usuario en esta conversación. Quiere registrar la feature ahora aunque falte la decisión de combinación.",
+    "brief": null,
+    "labels": [
+      "feature",
+      "tenant:demo-beta",
+      "module:catalog",
+      "P2",
+      "needs-discussion"
+    ],
+    "questions": [
+      "¿Las categorías seleccionadas se combinan con AND (producto en todas) o con OR (producto en cualquiera)?"
+    ],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      }
+    ],
+    "commands": [
+      "gh issue create --repo example-org/issue-lab --title '[Feature]: Filtrar el listado de productos por varias categorías a la vez' --body-file /tmp/issue-feature_template-body.md --label feature --label tenant:demo-beta --label module:catalog --label P2 --label needs-discussion"
+    ],
+    "others": [],
+    "notes": "Se registra sin brief porque la combinación AND/OR cambia el resultado y es una decisión de alcance; needs-discussion impide ready-for-agent. No se inventa la política ni se implementa una opción por defecto."
+  },
+  {
+    "id": "rejected_feature",
+    "action": "No crear la feature: ADR-0007 y #455 ya rechazaron la exportación a PDF.",
+    "title": null,
+    "body": null,
+    "brief": null,
+    "labels": [],
+    "questions": [
+      "¿Quieres mantener la decisión de ADR-0007 o abrir una revisión con una justificación nueva?"
+    ],
+    "operations": [],
+    "commands": [],
+    "others": [],
+    "notes": "No se crea: el ADR-0007 aceptado establece que no se ofrece exportación a PDF, solo CSV, y #455 se cerró como «no se hará» enlazada a ese ADR. Nada en la evidencia indica un cambio de decisión. Si el usuario quiere revertirla, hace falta una decisión de producto nueva, no una issue que la contradiga en silencio."
+  },
+  {
+    "id": "blocked_dependency",
+    "action": "Crear la issue marcada blocked por #500 y sin brief hasta que exista el esquema.",
+    "title": "[Feature]: Aplicar el nuevo formato de códigos en el CSV de pedidos",
+    "body": "## Necesidad\n\nAplicar el nuevo formato de códigos de producto en el CSV de pedidos.\n\n## Resultado esperado\n\nQue el CSV de pedidos use el formato de códigos definido por el esquema de #500, conservando el resto de columnas y su contenido.\n\n## Decisiones abiertas\n\nNinguna adicional: el formato concreto lo define el esquema de #500.\n\n## Entorno demo\n\ndemo-alpha\n\n## Módulo\n\nexports\n\n## Origen\n\nPetición del usuario en esta conversación, contrastada con el fixture del tracker.\n\n## Información adicional\n\nDepende de #500, abierta y asignada a producto, que define el esquema de códigos. Sin ese esquema no se puede implementar ni validar el formato. No hay issues duplicadas.",
+    "brief": null,
+    "labels": [
+      "feature",
+      "tenant:demo-alpha",
+      "module:exports",
+      "P1",
+      "blocked"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      }
+    ],
+    "commands": [
+      "gh issue create --repo example-org/issue-lab --title '[Feature]: Aplicar el nuevo formato de códigos en el CSV de pedidos' --body-file /tmp/issue-blocked_dependency-body.md --label feature --label tenant:demo-alpha --label module:exports --label P1 --label blocked"
+    ],
+    "others": [],
+    "notes": "No se escribe brief porque el esquema de #500 es el contrato que falta y sin él los criterios de aceptación no serían verificables. blocked declara la dependencia abierta que impide empezar. Al cerrarse #500, completar el brief y reevaluar el estado hacia ready-for-agent."
+  },
+  {
+    "id": "brief_override",
+    "action": "Crear la issue y el brief con la estructura y firma que exige el repositorio.",
+    "title": "[Bug]: El botón Cancelar del diálogo de perfil no cierra el diálogo",
+    "body": "## Descripción del problema\n\n**Actual:** En el diálogo de perfil, pulsar Cancelar no cierra el diálogo.\n**Esperado:** Cancelar cierra el diálogo sin guardar cambios.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\nprofile\n\n## Origen\n\nReporte del usuario en esta conversación, contrastado con el fixture simulado.\n\n## Información adicional\n\nComponente `ProfileDialog`, botón `CancelButton`. Con Esc el diálogo sí se cierra. No hay issues duplicadas.",
+    "brief": "## Brief de implementación\n\n**Contexto**\n`ProfileDialog` muestra un botón Cancelar cuyo manejador no invoca `onClose`; por eso el diálogo permanece abierto. Con Esc el diálogo sí se cierra. Verificado en el fixture simulado. No hay issues duplicadas.\n\n**Tarea**\nHacer que Cancelar cierre el diálogo con el mismo comportamiento que Esc, sin enviar cambios ni llamar al guardado. Mantener el resto de acciones del diálogo.\n\n**Verificación**\n- [ ] Pulsar Cancelar cierra el diálogo.\n- [ ] Pulsar Cancelar no guarda cambios ni llama al endpoint.\n- [ ] Esc sigue cerrando el diálogo.\n- [ ] Guardar conserva su comportamiento actual.\n\n— create-issue (agente)",
+    "labels": [
+      "bug",
+      "tenant:demo-beta",
+      "module:profile",
+      "P2",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      },
+      {
+        "operation": "comment",
+        "target": "#N"
+      },
+      {
+        "operation": "add_label",
+        "target": "#N"
+      }
+    ],
+    "commands": [
+      "gh issue create --repo example-org/issue-lab --title '[Bug]: El botón Cancelar del diálogo de perfil no cierra el diálogo' --body-file /tmp/issue-brief_override-body.md --label bug --label tenant:demo-beta --label module:profile --label P2",
+      "gh issue comment <N> --repo example-org/issue-lab --body-file /tmp/issue-brief_override-brief.md",
+      "gh issue edit <N> --repo example-org/issue-lab --add-label ready-for-agent"
+    ],
+    "others": [],
+    "notes": "Se sigue la convención local del brief (título «## Brief de implementación», secciones Contexto, Tarea y Verificación y firma «— create-issue (agente)») en lugar de la estructura por defecto de la skill. El cuerpo sí usa el template de bug del repo."
+  },
+  {
+    "id": "attachment_paths",
+    "action": "Crear la issue adjuntando la captura con alt text y publicar el brief.",
+    "title": "[Bug]: El botón Guardar queda cortado en el diálogo de perfil",
+    "body": "## Descripción del problema\n\n**Actual:** En el diálogo de perfil, el botón Guardar queda cortado por el borde inferior y no se puede pulsar.\n**Esperado:** El botón Guardar es visible y accionable, y el perfil se puede guardar.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\nprofile\n\n## Origen\n\nReporte del usuario en esta conversación, con captura adjunta.\n\n## Información adicional\n\n![Diálogo de perfil con el botón Guardar cortado por el borde inferior](</tmp/Captura de pantalla 2026-10-21 a las 10.30.png>)\n\nComponente `ProfileDialog`. El endpoint simulado guarda correctamente cuando recibe la solicitud. No hay issues duplicadas.",
+    "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Hacer visible y accionable el botón Guardar del diálogo de perfil, que queda cortado por el borde inferior.\n\n**Comportamiento actual:**\nEn `ProfileDialog`, el botón Guardar queda cortado por el borde inferior y no se puede pulsar. La captura adjunta lo muestra. El endpoint simulado guarda correctamente cuando recibe la solicitud.\n\n**Comportamiento deseado:**\n- El botón Guardar es visible y accionable dentro del diálogo.\n- Guardar envía la solicitud y produce la confirmación actual.\n- El diálogo se puede recorrer con teclado hasta el botón.\n- A otros tamaños de ventana no hay regresión.\n\n**Interfaces clave:**\n- `ProfileDialog`: disposición y altura de su contenido.\n- Botón Guardar y endpoint de guardado de perfil.\n\n**Criterios de aceptación:**\n- [ ] El botón Guardar se ve completo y se puede pulsar.\n- [ ] El guardado completa la solicitud y confirma igual que antes.\n- [ ] El diálogo se puede recorrer con teclado hasta Guardar.\n- [ ] No hay regresión en el resto de acciones del diálogo.\n\n**Fuera de alcance:**\nCambiar el contrato del endpoint de guardado. Rediseñar el diálogo. Corregir el color del avatar de ejemplo.",
+    "labels": [
+      "bug",
+      "tenant:demo-beta",
+      "module:profile",
+      "P2",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      },
+      {
+        "operation": "comment",
+        "target": "#N"
+      },
+      {
+        "operation": "add_label",
+        "target": "#N"
+      }
+    ],
+    "commands": [
+      "gh issue create --repo example-org/issue-lab --title '[Bug]: El botón Guardar queda cortado en el diálogo de perfil' --body-file /tmp/issue-attachment_paths-body.md --label bug --label tenant:demo-beta --label module:profile --label P2 --attach '/tmp/Captura de pantalla 2026-10-21 a las 10.30.png#Diálogo de perfil con el botón Guardar cortado por el borde inferior'",
+      "gh issue comment <N> --repo example-org/issue-lab --body-file /tmp/issue-attachment_paths-brief.md",
+      "gh issue edit <N> --repo example-org/issue-lab --add-label ready-for-agent"
+    ],
+    "others": [],
+    "notes": "La ruta existe, es legible y tiene espacios; se cita con comillas simples. gh sustituye la referencia local del cuerpo por la URL del adjunto. `--attach` está disponible en las respuestas simuladas de `gh issue create --help`. Verificar el adjunto tras publicar."
+  },
+  {
+    "id": "two_problems",
+    "action": "Preparar dos issues independientes y no publicarlas hasta confirmar la prioridad de cada una.",
+    "title": "[Bug]: El CSV de pedidos usa punto y coma como delimitador",
+    "body": "## Descripción del problema\n\n**Actual:** El CSV de pedidos usa «;» como delimitador en `OrderCsvWriter`.\n**Esperado:** El CSV de pedidos usa coma como delimitador.\n\n## Entorno demo\n\ndemo-alpha\n\n## Módulo\n\nexports\n\n## Origen\n\nReporte del usuario en esta conversación, contrastado con el fixture simulado.\n\n## Información adicional\n\nEs un defecto independiente de #480, que trata los ceros iniciales de los códigos y no el delimitador. No hay otras duplicadas.",
+    "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Cambiar el delimitador del CSV de pedidos de punto y coma a coma.\n\n**Comportamiento actual:**\n`OrderCsvWriter` escribe el CSV de pedidos con «;» como delimitador. Verificado con el fixture.\n\n**Comportamiento deseado:**\n- El CSV de pedidos usa coma como delimitador.\n- Las columnas, su orden y su contenido no cambian.\n- Los valores que contengan coma se escapan según el formato CSV vigente.\n\n**Interfaces clave:**\n- `OrderCsvWriter`: configuración del delimitador.\n- Formato de escape de valores del CSV.\n\n**Criterios de aceptación:**\n- [ ] El CSV de pedidos usa coma entre columnas.\n- [ ] El número, orden y contenido de columnas no cambia.\n- [ ] Un valor con coma se escapa correctamente.\n- [ ] El CSV resultante se puede abrir con el mismo criterio que el resto de exportaciones.\n\n**Fuera de alcance:**\nCambiar los ceros iniciales de #480. Añadir columnas. Cambiar el formato de fechas o importes.",
+    "labels": [
+      "bug",
+      "tenant:demo-alpha",
+      "module:exports",
+      "needs-triage"
+    ],
+    "questions": [
+      "¿Qué prioridad asigno a cada issue? Propongo P2 para el delimitador del CSV y P2 para el rendimiento de la pantalla de pedidos."
+    ],
+    "operations": [],
+    "commands": [],
+    "others": [
+      {
+        "title": "[Bug]: La pantalla de pedidos tarda 9 s en cargar con 500 filas",
+        "body": "## Descripción del problema\n\n**Actual:** La pantalla de pedidos tarda 9 s en cargar con 500 filas, al filtrar por pendiente y ordenar por fecha.\n**Esperado:** La pantalla carga en menos de 2 s con 500 filas, el filtro por pendiente y el orden por fecha.\n\n## Entorno demo\n\ndemo-alpha\n\n## Módulo\n\norders\n\n## Origen\n\nReporte del usuario en esta conversación, contrastado con el fixture simulado.\n\n## Información adicional\n\nPasos: abrir pedidos, filtrar por pendiente y ordenar por fecha. Es un defecto independiente del delimitador del CSV. No hay issues duplicadas.",
+        "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Reducir por debajo de 2 s la carga de la pantalla de pedidos con 500 filas, filtro por pendiente y orden por fecha.\n\n**Comportamiento actual:**\nCon 500 filas, filtro por pendiente y orden por fecha, la pantalla de pedidos tarda 9 s en cargar. Reproducido con el fixture.\n\n**Comportamiento deseado:**\n- La misma carga termina en menos de 2 s.\n- El filtro y el orden siguen aplicándose correctamente.\n- El resto de combinaciones de filtro y orden mantiene su comportamiento.\n\n**Interfaces clave:**\n- Consulta o carga de pedidos de la pantalla.\n- Filtro por estado pendiente.\n- Ordenación por fecha.\n\n**Criterios de aceptación:**\n- [ ] Con 500 filas, filtro por pendiente y orden por fecha, la carga tarda menos de 2 s.\n- [ ] El resultado filtrado y ordenado es el mismo que antes.\n- [ ] Sin filtro y sin orden, la pantalla sigue funcionando.\n- [ ] La medición se puede repetir con el mismo conjunto de 500 filas.\n\n**Fuera de alcance:**\nRediseñar la pantalla de pedidos. Cambiar el delimitador del CSV. Añadir nuevos filtros.",
+        "labels": [
+          "bug",
+          "tenant:demo-alpha",
+          "module:orders",
+          "needs-triage"
+        ]
+      }
+    ],
+    "notes": "Son dos problemas independientes y van en dos issues. Falta la prioridad, obligatoria por convención, así que no se publica; se proponen P2 para ambas y se pide confirmación. Los labels son el plan previsto, no aplicados. El cuerpo de la segunda incluye los pasos y el umbral de 2 s indicados por el usuario."
+  },
+  {
+    "id": "cross_repo_related",
+    "action": "Crear la issue en issue-lab y referenciar example-org/catalog-central#12 como relacionada.",
+    "title": "[Bug]: La ficha de producto muestra el precio sin IVA",
+    "body": "## Descripción del problema\n\n**Actual:** La ficha de producto muestra el precio sin IVA: `ProductCard` formatea `price_net` y la ficha no tiene un campo con IVA.\n**Esperado:** La ficha muestra el precio con IVA.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\ncatalog\n\n## Origen\n\nReporte del usuario en esta conversación, contrastado con el fixture simulado.\n\n## Información adicional\n\nRelacionada: example-org/catalog-central#12, «Exponer price_gross en el endpoint», abierta. Aporta el campo que falta, pero tiene alcance distinto. No hay duplicadas en example-org/issue-lab.",
+    "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Mostrar en la ficha de producto el precio con IVA en lugar del precio neto.\n\n**Comportamiento actual:**\n`ProductCard` formatea `price_net` y la ficha no dispone de un campo con IVA, por lo que el precio mostrado excluye el IVA. Verificado con el fixture.\n\n**Comportamiento deseado:**\n- La ficha muestra el precio con IVA.\n- El importe se presenta con el formato y la moneda actuales.\n- Si el dato con IVA no está disponible, la ficha no muestra un precio incorrecto sin indicarlo.\n\n**Interfaces clave:**\n- `ProductCard`: formateo del precio mostrado.\n- `price_net` y el futuro `price_gross` del endpoint de producto.\n- example-org/catalog-central#12: expone `price_gross`; coordinar el consumo cuando esté disponible.\n\n**Criterios de aceptación:**\n- [ ] La ficha de DEMO-P30 u otro producto muestra el precio con IVA.\n- [ ] El formato y la moneda se mantienen.\n- [ ] El precio mostrado corresponde al dato con IVA del endpoint.\n- [ ] No se muestra un precio neto etiquetado como precio final.\n\n**Fuera de alcance:**\nCambiar el cálculo de impuestos. Modificar el endpoint de catalog-central. Rediseñar la ficha de producto.",
+    "labels": [
+      "bug",
+      "tenant:demo-beta",
+      "module:catalog",
+      "P2",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      },
+      {
+        "operation": "comment",
+        "target": "#N"
+      },
+      {
+        "operation": "add_label",
+        "target": "#N"
+      }
+    ],
+    "commands": [
+      "gh issue create --repo example-org/issue-lab --title '[Bug]: La ficha de producto muestra el precio sin IVA' --body-file /tmp/issue-cross_repo_related-body.md --label bug --label tenant:demo-beta --label module:catalog --label P2",
+      "gh issue comment <N> --repo example-org/issue-lab --body-file /tmp/issue-cross_repo_related-brief.md",
+      "gh issue edit <N> --repo example-org/issue-lab --add-label ready-for-agent"
+    ],
+    "others": [],
+    "notes": "catalog-central#12 es relacionada, no duplicada, y no se declara bloqueo porque la evidencia la describe como alcance distinto que aporta el campo. Se referencia con ORG/REPO#N. La issue se crea en example-org/issue-lab."
+  },
+  {
+    "id": "stale_brief_update",
+    "action": "Editar solo el brief vigente de #480 para eliminar el reproceso de pendientes, sin tocar el cuerpo.",
+    "title": null,
+    "body": null,
+    "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Conservar los ceros iniciales de `product_code` en las exportaciones CSV nuevas, sin reprocesar las exportaciones pendientes.\n\n**Comportamiento actual:**\n`ExportRow.product_code` es texto, pero el serializador CSV lo convierte a entero: `000842` se exporta como `842` y `052100` como `52100`. Verificado con el fixture simulado. Cantidades e importes no se ven afectados.\n\n**Comportamiento deseado:**\n- Los códigos de producto se serializan como texto y conservan todos sus caracteres, incluidos los ceros iniciales.\n- Solo las exportaciones nuevas usan ese comportamiento.\n- Las exportaciones pendientes no se reprocesan y quedan como estén.\n- Los archivos históricos ya descargados no se modifican.\n\n**Interfaces clave:**\n- `ExportRow.product_code`: contrato de texto; no debe pasar por una conversión numérica.\n- Serializador CSV de exportaciones: debe emitir el valor textual sin normalizar.\n- Cola de exportaciones pendientes: no se activa ningún reproceso.\n- Cantidades e importes: conservan su serialización actual.\n\n**Criterios de aceptación:**\n- [ ] Una exportación nueva de DEMO-P01 contiene `000842` y una de DEMO-P02 contiene `052100`.\n- [ ] Los códigos sin ceros iniciales y el resto de columnas no cambian.\n- [ ] Las exportaciones pendientes existentes no se reprocesan.\n- [ ] Los archivos históricos ya descargados permanecen sin cambios.\n- [ ] Cantidades e importes mantienen el formato y los valores anteriores.\n\n**Fuera de alcance:**\nReprocesar exportaciones pendientes. Corregir la etiqueta de ayuda con el error ortográfico. Cambiar el formato de cantidades o importes.",
+    "labels": [
+      "bug",
+      "tenant:demo-alpha",
+      "module:exports",
+      "P1",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "edit_comment",
+        "target": "https://tracker.example.invalid/issues/480#comment-77"
+      }
+    ],
+    "commands": [
+      "gh api --method PATCH /repos/example-org/issue-lab/issues/comments/77 -F body=@/tmp/issue-480-brief.md"
+    ],
+    "others": [],
+    "notes": "El cuerpo de #480 no cambia; solo se edita el comentario que el cuerpo enlaza como único brief. El texto original del brief no consta en la evidencia, así que se reproduce completo conservando todo y cambiando únicamente el reproceso de pendientes por «no se reprocesan». Verificar que 77 es el id real del comentario antes de ejecutar y mantener el enlace del cuerpo. Se asume que las pendientes quedan sin tocar."
+  },
+  {
+    "id": "ambiguous_repo",
+    "action": "No publicar y preguntar en cuál de los dos repositorios va la issue.",
+    "title": "[Bug]: El contador de resultados de la búsqueda no se actualiza al cambiar de filtro",
+    "body": "## Descripción del problema\n\n**Actual:** El contador de resultados de la búsqueda no se actualiza al cambiar de filtro.\n**Esperado:** El contador refleja el número de resultados del filtro activo.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\ncatalog\n\n## Origen\n\nReporte del usuario en esta conversación.\n\n## Información adicional\n\nNo consta una búsqueda de duplicadas concluyente.",
+    "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Actualizar el contador de resultados de la búsqueda al cambiar de filtro.\n\n**Comportamiento actual:**\nEl contador de resultados no cambia cuando se aplica o se cambia un filtro en la búsqueda.\n\n**Comportamiento deseado:**\n- Al cambiar de filtro, el contador muestra el número de resultados del filtro activo.\n- Al quitar el filtro, el contador vuelve al total correspondiente.\n- El contador y la lista de resultados coinciden.\n\n**Interfaces clave:**\n- Contador de resultados de la búsqueda.\n- Estado del filtro activo.\n- Consulta que devuelve los resultados.\n\n**Criterios de aceptación:**\n- [ ] Cambiar de filtro actualiza el contador.\n- [ ] El contador coincide con el número de resultados mostrados.\n- [ ] Quitar el filtro restablece el contador.\n- [ ] Una búsqueda sin resultados muestra 0.\n\n**Fuera de alcance:**\nRediseñar la búsqueda. Añadir nuevos filtros. Cambiar la paginación.",
+    "labels": [
+      "bug",
+      "tenant:demo-beta",
+      "module:catalog",
+      "P2",
+      "ready-for-agent"
+    ],
+    "questions": [
+      "La configuración local apunta a example-org/lab-a y el remoto Git a example-org/lab-b, y ambos están activos con los mismos labels y templates: ¿en cuál publico la issue?"
+    ],
+    "operations": [],
+    "commands": [],
+    "others": [],
+    "notes": "No se publica porque el destino es ambiguo y no hay criterio para elegirlo: ambos repositorios existen, están activos y comparten labels y templates. Los textos y labels son el plan previsto. Al confirmar el repositorio, ejecutar la creación con --repo correspondiente."
+  },
+  {
+    "id": "clear_feature",
+    "action": "Crear la feature con alcance cerrado, publicar el brief y dejarla ready-for-agent.",
+    "title": "[Feature]: Añadir la columna «Estado» al CSV de pedidos",
+    "body": "## Necesidad\n\nEl CSV de pedidos no incluye el estado del pedido. Se necesita poder verlo en la exportación.\n\n## Resultado esperado\n\nAñadir una columna «Estado» al final del CSV de pedidos con los valores pendiente, enviado o cancelado. El resto de columnas no cambia.\n\n## Decisiones abiertas\n\nNinguna. En esta tarea no se añade filtro por estado.\n\n## Entorno demo\n\ndemo-alpha\n\n## Módulo\n\nexports\n\n## Origen\n\nPetición del usuario en esta conversación, contrastada con el fixture simulado.\n\n## Información adicional\n\n`OrderCsvWriter` escribe hoy id, fecha y total. `Order` tiene `status` con los tres valores indicados. No hay issues duplicadas.",
+    "brief": "## Agent Brief\n\n**Categoría:** feature\n\n**Resumen:** Añadir al final del CSV de pedidos una columna «Estado» con el estado del pedido, sin cambiar el resto de columnas.\n\n**Comportamiento actual:**\n`OrderCsvWriter` escribe las columnas id, fecha y total. `Order.status` existe con los valores pendiente, enviado y cancelado, pero no se exporta.\n\n**Comportamiento deseado:**\n- El CSV incluye una columna «Estado» al final.\n- Sus valores son exactamente pendiente, enviado o cancelado, según `Order.status`.\n- Las columnas id, fecha y total mantienen orden, formato y contenido.\n- No se añade ningún filtro por estado.\n\n**Interfaces clave:**\n- `OrderCsvWriter`: orden y cabeceras de las columnas.\n- `Order.status`: valores pendiente, enviado y cancelado.\n- Formato CSV existente: escape y codificación sin cambios.\n\n**Criterios de aceptación:**\n- [ ] La cabecera «Estado» aparece como última columna.\n- [ ] Cada fila exporta pendiente, enviado o cancelado según el pedido.\n- [ ] Las columnas id, fecha y total no cambian.\n- [ ] La exportación no incorpora filtro por estado.\n- [ ] Un pedido con cada uno de los tres estados se exporta con el valor correcto.\n\n**Fuera de alcance:**\nFiltrar la exportación por estado. Añadir otras columnas. Cambiar el delimitador o el formato de fechas e importes.",
+    "labels": [
+      "feature",
+      "tenant:demo-alpha",
+      "module:exports",
+      "P2",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      },
+      {
+        "operation": "comment",
+        "target": "#N"
+      },
+      {
+        "operation": "add_label",
+        "target": "#N"
+      }
+    ],
+    "commands": [
+      "gh issue create --repo example-org/issue-lab --title '[Feature]: Añadir la columna «Estado» al CSV de pedidos' --body-file /tmp/issue-clear_feature-body.md --label feature --label tenant:demo-alpha --label module:exports --label P2",
+      "gh issue comment <N> --repo example-org/issue-lab --body-file /tmp/issue-clear_feature-brief.md",
+      "gh issue edit <N> --repo example-org/issue-lab --add-label ready-for-agent"
+    ],
+    "others": [],
+    "notes": "El alcance está cerrado y la exclusión del filtro por estado queda registrada tanto en el cuerpo como en el brief. No se inventan más columnas ni valores de estado. Evidencia sintética."
+  },
+  {
+    "id": "no_priority",
+    "action": "No publicar y pedir la prioridad, proponiendo P1 por el impacto.",
+    "title": "[Bug]: El botón Guardar del perfil no responde en Firefox",
+    "body": "## Descripción del problema\n\n**Actual:** En Firefox, `ProfileDialog` no emite `onSave` al pulsar Guardar, así que el perfil no se guarda. En Chrome funciona.\n**Esperado:** Guardar responde en Firefox y el perfil se guarda igual que en Chrome.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\nprofile\n\n## Origen\n\nReporte del usuario en esta conversación, reproducido con el fixture simulado.\n\n## Información adicional\n\nEl fallo bloquea el guardado del perfil a todos los usuarios de Firefox del fixture. No hay issues duplicadas.",
+    "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Hacer que el botón Guardar del diálogo de perfil responda en Firefox y guarde el perfil.\n\n**Comportamiento actual:**\nEn Firefox, `ProfileDialog` no emite `onSave` al pulsar Guardar, por lo que el perfil no se guarda. En Chrome funciona. Reproducido con el fixture.\n\n**Comportamiento deseado:**\n- En Firefox, Guardar emite `onSave` y completa el guardado.\n- En Chrome se mantiene el comportamiento actual.\n- El diálogo se puede cerrar y cancelar sin guardar en ambos navegadores.\n\n**Interfaces clave:**\n- `ProfileDialog`: manejo del evento de Guardar.\n- `onSave`: contrato de guardado del perfil.\n- Comportamiento específico del navegador en el evento del botón.\n\n**Criterios de aceptación:**\n- [ ] En Firefox, pulsar Guardar emite `onSave` y guarda el perfil.\n- [ ] En Chrome, Guardar sigue funcionando.\n- [ ] Cancelar no guarda en ninguno de los dos navegadores.\n- [ ] El guardado produce la misma confirmación en ambos.\n\n**Fuera de alcance:**\nCambiar el endpoint de guardado. Rediseñar el diálogo. Corregir otros navegadores no reportados.",
+    "labels": [
+      "bug",
+      "tenant:demo-beta",
+      "module:profile",
+      "needs-triage"
+    ],
+    "questions": [
+      "¿Qué prioridad asigno? Por impacto propongo P1, porque el fixture indica que nadie en Firefox puede guardar su perfil; confirma P1 o indica P2."
+    ],
+    "operations": [],
+    "commands": [],
+    "others": [],
+    "notes": "No se publica porque falta la prioridad, obligatoria por convención, y el usuario no la indicó. Se propone P1 por el impacto descrito, sin aplicarla. El resto del reporte y el brief están preparados; al confirmar, añadir P1 o P2 y publicar."
+  }
+]

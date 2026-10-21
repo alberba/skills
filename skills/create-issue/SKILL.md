@@ -1,58 +1,60 @@
 ---
 name: create-issue
-description: Crear issues de GitHub desde un repositorio local, individualmente o en lote; añadir contexto a issues existentes cuando el reporte corresponda.
+description: Crear issues de GitHub (una o en lote) y añadir contexto a las existentes desde un repositorio local.
 ---
 
 # Crear issues de GitHub
 
-## 1. Resolver destino y alcance
+## 1. Destino y alcance
 
-Recuperar la descripción del mensaje y del contexto previo. Si no hay una descripción identificable, pedirla antes de preparar acciones.
+Tomar la descripción del mensaje y del contexto previo; si no hay, pedirla.
 
-Resolver `ORG/REPO` desde el destino indicado por el usuario, la configuración local del tracker y los remotos Git. Si configuración y remoto discrepan, verificar el repositorio vigente en GitHub; preguntar solo si persiste una ambigüedad de destino. Usar `--repo ORG/REPO` en las operaciones.
+Resolver `ORG/REPO` con el destino del usuario, la configuración del tracker y los remotos Git. Si discrepan, verificar el repositorio vigente en GitHub y preguntar solo si la ambigüedad persiste. Usar `--repo ORG/REPO` en toda operación.
 
-Separar problemas con alcance independiente, aunque aparezcan en una sola descripción. Los bullets de pasos o criterios de un mismo problema pertenecen a una sola issue. Cada reporte queda asociado a una acción y un destino; incluir comentarios en issues existentes cuando el usuario los solicite.
+Una issue por problema de alcance independiente; los bullets de pasos o criterios de un mismo problema van juntos. Los comentarios en issues existentes cuentan como acción.
 
-## 2. Preparar acciones
+## 2. Preparar
 
-Leer las convenciones del tracker y los templates del repositorio. Inferir el tipo por la intención global (`bug`, `feature`, `task`, `epic`), usando `task` cuando ninguna domine; mapearlo al template y al nombre real del label local.
+Leer las convenciones del tracker y los templates. Elegir el tipo por la intención global (`bug`, `feature`, `task`, `epic`; `task` si ninguna domina) y mapearlo al template y al label local.
 
-Explorar el código en solo lectura hasta identificar el componente relevante y las referencias que sustentan el reporte. Si no se localiza, preparar la issue con la información disponible y señalar esa limitación. Separar hechos reportados, observaciones verificadas, hipótesis y propuestas de solución.
+Explorar el código en solo lectura hasta localizar el componente y las referencias del reporte; si no se localizan, preparar con lo disponible y decirlo. Separar hechos reportados, verificados, hipótesis y propuestas.
 
-Seguir el template correspondiente, incluidos sus campos y prefijo de título. Si no existe, usar `## Descripción` y `## Notas técnicas`. Conservar como pendientes los datos desconocidos; formular criterios de aceptación derivados del comportamiento solicitado.
+Seguir el template, con sus campos y prefijo de título; sin template, `## Descripción` y `## Notas técnicas`. Los datos desconocidos quedan pendientes; los criterios de aceptación salen del comportamiento pedido.
 
-Preparar las nuevas issues para `ready-for-agent` siguiendo [Preparación para agentes](references/ready-for-agent.md): reporte breve en el cuerpo y especificación autosuficiente en un comentario `Agent Brief`, con la estructura de triage, criterios verificables y decisiones de alcance resueltas. La brevedad se aplica al reporte; el brief conserva el detalle necesario para implementar. Resolver con el contexto y el código lo que sea posible; reunir las preguntas que realmente bloqueen la implementación. Si el usuario prefiere registrar la issue antes de resolverlas, conservar lo establecido y los pendientes con el estado de triage correspondiente.
+Preparar las issues nuevas para `ready-for-agent` según [Preparación para agentes](references/ready-for-agent.md): reporte en el cuerpo, brief en un comentario. Resolver con contexto y código lo posible; reunir solo las preguntas que bloqueen la implementación.
 
-Consultar los labels existentes y aplicar la taxonomía documentada del repo, respetando sus nombres exactos y los ejes obligatorios (p. ej. partner o módulo). Proponer la prioridad según las convenciones locales y el impacto conocido. Crear labels ausentes solo cuando la convención lo requiera o el usuario lo autorice; si falta un dato obligatorio o un permiso, mostrarlo como pendiente.
+Labels: aplicar la taxonomía documentada del repo con sus nombres exactos y ejes obligatorios (partner, módulo…), y proponer prioridad por convención e impacto. Crear un label ausente solo si la convención lo exige o el usuario lo autoriza. Lo obligatorio que falte o no pueda hacerse queda pendiente.
 
 En las `feature` que cambien la apariencia de la interfaz (layout, estilos, tipografía, iconos o animaciones), añadir el label `ui-change` además del tipo. Usar el equivalente documentado del repo si existe; si falta, crear `ui-change` como parte de esta convención. Un cambio de lógica sin efecto en la apariencia conserva sus labels habituales.
 
-Si el usuario pega imágenes/vídeo o menciona sus rutas, leer [Adjuntos](references/adjuntos.md) para asociarlos, inspeccionarlos y preparar su ubicación. Esta rama usa ficheros existentes; la captura de media nueva pertenece a otro flujo.
+Con imágenes o vídeo pegados o con rutas, seguir [Adjuntos](references/adjuntos.md). Solo ficheros existentes; grabar media nueva es otro flujo.
 
-La preparación termina cuando cada acción tiene destino, título/body, brief o comentario aplicable, labels, adjuntos, estado recomendado y pendientes identificados. La autorización para crear una issue incluye publicar su brief. Aplicar `ready-for-agent` tras publicar y verificar el brief; crear el label si falta y hay permiso.
+Preparada = cada acción con destino, título/body, brief o comentario, labels, adjuntos, estado recomendado y pendientes.
 
-## 3. Contrastar duplicadas y relacionadas
+## 3. Duplicadas y relacionadas
 
-Buscar issues abiertas y cerradas por términos del problema, componente y partner. Ampliar a otros repositorios cuando el usuario los señale o el contexto indique que allí puede estar la incidencia. Leer título y body de los candidatos; consultar comentarios cuando afecten al diagnóstico o estado.
+Buscar issues abiertas y cerradas por problema, componente, partner y concepto de dominio, incluidos los rechazos previos documentados. Ampliar a otros repos si el usuario los señala o el contexto lo sugiere. Leer título y body de los candidatos; comentarios cuando afecten al diagnóstico o al estado.
 
-- **Duplicada:** mismo problema y alcance ya cubiertos. Informar URL y estado; preparar un comentario solo si aporta contexto nuevo o el usuario lo solicita. Una issue cerrada requiere comprobar si el reporte es una recurrencia, sin reabrirla automáticamente.
-- **Relacionada:** problemas conectados con alcance distinto. Proponer la referencia con URL; usar `ORG/REPO#N` si pertenece a otro repo.
-- **Sin coincidencias:** continuar. Si la búsqueda falla o queda incompleta, comunicar la limitación sin afirmar que no existen duplicadas.
+- **Duplicada:** mismo problema y alcance. Informar URL y estado; comentar solo si aporta contexto nuevo o lo pide el usuario. Si está cerrada, comprobar si el reporte es una recurrencia y no reabrir.
+- **Relacionada:** alcance distinto. Referenciar con URL, o `ORG/REPO#N` en otro repo.
+- **Sin coincidencias:** continuar. Si la búsqueda falla o queda incompleta, decirlo sin afirmar que no hay duplicadas.
 
-Compartir un síntoma, como un error 502, no basta para clasificar una duplicada. Al terminar, cada reporte queda resuelto como creación, comentario o duplicada sin acción.
+Un síntoma compartido (un 502) no basta para declarar duplicada. Cada reporte acaba en creación, comentario o duplicada sin acción.
 
-## 4. Presentar decisiones pendientes
+## 4. Confirmar
 
-Mostrar el resultado concreto antes de pedir aprobación: destino, acción, título/body y brief o comentario aplicable, labels, referencias y adjuntos. Indicar si queda lista para un agente o qué decisión lo impide. En lote, presentar un resumen por acción y los textos correspondientes.
+Mostrar el resultado concreto antes de pedir aprobación: destino, acción, título/body, brief o comentario, labels, referencias y adjuntos, y si queda lista para un agente o qué lo impide. En lote, un resumen por acción con sus textos.
 
-Respetar la autorización explícita ya dada para publicar o comentar; no pedirla de nuevo para el mismo alcance. Si sigue pendiente, reunir la confirmación y las decisiones de contenido en una sola pregunta. Una respuesta que solo cambia un dato (p. ej. «P1») actualiza el borrador y por sí sola no confirma su publicación. Una aprobación parcial habilita únicamente las acciones aprobadas.
+La autorización explícita ya dada cubre su alcance y no se pide de nuevo. Si falta, una sola pregunta reúne confirmación y decisiones de contenido. Un cambio de dato suelto («P1») actualiza el borrador sin confirmar la publicación. Una aprobación parcial habilita solo lo aprobado.
 
-Publicar cuando la acción esté autorizada y sus pendientes relevantes estén resueltos. No pedir estimación temporal ni asociar issues a proyectos salvo petición expresa.
+Publicar con la acción autorizada y sus pendientes relevantes resueltos. Sin estimación temporal ni proyecto, salvo petición expresa.
 
 ## 5. Publicar y verificar
 
-Escribir el texto exacto en un fichero temporal y pasarlo mediante `--body-file` a `gh issue create` o `gh issue comment`. Pasar título, labels y rutas como argumentos correctamente escapados; gestionar el temporal separado del comando de publicación.
+Escribir el texto exacto en un fichero temporal, creado y borrado en comandos distintos del de publicación, y pasarlo con `--body-file` a `gh issue create` o `gh issue comment`. Título, labels y rutas, como argumentos con quoting seguro.
 
-Tras crear una issue preparada para agentes, publicar su brief con `gh issue comment --body-file` y enlazar ese comentario desde el cuerpo. Registrar el resultado de cada acción, incluidas las URLs de la issue y del brief. Antes de reintentar un fallo, comprobar stdout y GitHub: puede haberse creado la issue aunque el comando devuelva error, especialmente con adjuntos. Recuperar la acción existente y completar lo pendiente; repetir la creación solo tras comprobar que no se publicó.
+Autorizar la creación incluye publicar el brief: `gh issue comment --body-file`, enlazado desde el cuerpo. Aplicar `ready-for-agent` tras verificar el brief; crear el label si falta y hay permiso.
 
-Verificar en GitHub el cuerpo, brief, enlace entre ambos, labels, referencias y adjuntos aplicables. En lote, reanudar únicamente acciones pendientes. Terminar con las URLs publicadas y cualquier pendiente concreto; distinguir publicación verificada de verificación incompleta.
+Antes de reintentar un fallo, comprobar stdout y GitHub: la issue pudo crearse pese al error, sobre todo con adjuntos. Recuperar lo existente y completar lo pendiente; repetir la creación solo si no se publicó.
+
+Verificar en GitHub cuerpo, brief, enlace, labels, referencias y adjuntos. En lote, reanudar solo lo pendiente. Cerrar con las URLs y los pendientes concretos, distinguiendo publicación verificada de verificación incompleta.

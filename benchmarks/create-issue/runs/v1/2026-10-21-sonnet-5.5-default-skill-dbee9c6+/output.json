@@ -1,0 +1,217 @@
+[
+  {
+    "id": "export_codes",
+    "action": "Crear issue P1 de bug para demo-alpha/exportaciones, publicar el brief como comentario, enlazarlo desde el cuerpo y aplicar ready-for-agent tras verificarlo.",
+    "title": "[Bug]: La exportación CSV elimina los ceros iniciales de los códigos de producto",
+    "body": "## Descripción del problema\n\n**Actual:** la exportación CSV elimina los ceros iniciales de los códigos de producto. Ejemplos verificados en el fixture: el producto DEMO-P01 con código \"000842\" se exporta como \"842\", y DEMO-P02 con código \"052100\" se exporta como \"52100\". El tipo ExportRow representa product_code como texto, pero el serializador lo convierte a entero.\n\n**Esperado:** los códigos de producto se exportan como texto y conservan sus ceros iniciales en todas las exportaciones nuevas. Las exportaciones pendientes se reprocesan con ese comportamiento. Las cantidades y los importes no cambian. Los ficheros ya descargados no se modifican.\n\n## Entorno demo\n\ndemo-alpha\n\n## Módulo\n\nExportaciones\n\n## Origen\n\nSolicitud directa del usuario para registrar la issue.\n\n## Información adicional\n\n- Hay tres exportaciones pendientes que deben reprocesarse.\n- El historial contiene seis eventos del defecto; no permite determinar cuántos usuarios distintos están afectados.\n- No hay issues abiertas duplicadas.\n- Fuera de alcance: una errata en una etiqueta de ayuda, hallazgo ajeno a este defecto.\n- Agent Brief: <ENLACE_AL_COMENTARIO_DEL_BRIEF (se completa tras publicar el comentario)>",
+    "brief": "## Agent Brief\n\n**Categoría:** Bug\n**Resumen:** conservar los ceros iniciales de los códigos de producto en la exportación CSV de demo-alpha, también en las exportaciones pendientes, sin cambiar cantidades, importes ni ficheros ya descargados.\n\n**Comportamiento actual:**\nVerificado en fixture: DEMO-P01 con código \"000842\" se exporta como \"842\"; DEMO-P02 con código \"052100\" se exporta como \"52100\". El tipo ExportRow declara product_code como texto, pero el serializador lo convierte a entero. Hay tres exportaciones pendientes. El número de usuarios afectados no está determinado y no es necesario para implementar.\n\n**Comportamiento deseado:**\n- Las exportaciones nuevas escriben product_code como texto, con sus ceros iniciales.\n- Las exportaciones pendientes se reprocesan con ese comportamiento.\n- Los ficheros ya descargados no se modifican.\n- Las cantidades y los importes conservan su comportamiento actual.\n\n**Interfaces clave:**\n- ExportRow.product_code: texto.\n- Serializador CSV de exportaciones: la única transformación que cambia.\n\n**Criterios de aceptación:**\n- [ ] Una exportación nueva de DEMO-P01 contiene \"000842\" como código de producto.\n- [ ] Una exportación nueva de DEMO-P02 contiene \"052100\" como código de producto.\n- [ ] Las tres exportaciones pendientes se reprocesan y muestran sus códigos con ceros iniciales.\n- [ ] Los ficheros de exportaciones ya descargadas quedan sin cambios.\n- [ ] Las cantidades e importes de las exportaciones son iguales que antes del cambio.\n\n**Fuera de alcance:**\n- Cambiar cantidades, importes u otros campos de la exportación.\n- Modificar históricos ya descargados.\n- La errata de una etiqueta de ayuda (hallazgo ajeno).\n- Estimar el número de usuarios afectados.",
+    "labels": [
+      "bug",
+      "tenant:demo-alpha",
+      "module:exports",
+      "P1",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      },
+      {
+        "operation": "comment",
+        "target": "example-org/issue-lab (issue nueva, brief)"
+      },
+      {
+        "operation": "edit_body",
+        "target": "example-org/issue-lab (issue nueva, enlace al brief)"
+      },
+      {
+        "operation": "add_label",
+        "target": "example-org/issue-lab (issue nueva, ready-for-agent)"
+      }
+    ],
+    "notes": "Datos inventados según data_notice; evidencia simulada, sin consultas al tracker. Los labels finales incluyen ready-for-agent, que se aplica tras verificar el brief (en la creación se omite). El enlace del cuerpo es un placeholder que se sustituye tras publicar el comentario del brief. No hay decisiones de alcance pendientes: el caso está listo para un agente."
+  },
+  {
+    "id": "profile_dialog",
+    "action": "Crear issue P2 de bug para demo-beta/perfil, publicar el brief como comentario, enlazarlo desde el cuerpo y aplicar ready-for-agent tras verificarlo.",
+    "title": "[Bug]: El botón Guardar del diálogo de perfil queda fuera del área alcanzable con zoom al 200 %",
+    "body": "## Descripción del problema\n\n**Actual:** con el navegador ampliado al 200 % en una ventana de 1280x800, el campo Nombre del diálogo de perfil se puede editar, pero el desplazamiento del diálogo no llega al botón Guardar. Al 100 % el guardado funciona.\n\n**Esperado:** el botón Guardar es alcanzable dentro del diálogo al 200 % de zoom y el perfil se puede guardar.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\nPerfil\n\n## Origen\n\nSolicitud directa del usuario para registrar la issue.\n\n## Información adicional\n\n- Verificado en fixture de interfaz: ventana 1280x800 y zoom 200 %.\n- El endpoint de guardado responde correctamente a la solicitud; el problema está en la interfaz del diálogo.\n- No hay issues abiertas duplicadas.\n- Fuera de alcance: el color antiguo del avatar de ejemplo (hallazgo ajeno).\n- Agent Brief: <ENLACE_AL_COMENTARIO_DEL_BRIEF (se completa tras publicar el comentario)>",
+    "brief": "## Agent Brief\n\n**Categoría:** Bug\n**Resumen:** hacer alcanzable el botón Guardar del diálogo de perfil con zoom al 200 %, para poder guardar el perfil.\n\n**Comportamiento actual:**\nVerificado en fixture: con ventana 1280x800 y zoom 200 %, el campo Nombre es editable y el desplazamiento del diálogo no llega a Guardar. Al 100 % funciona. El endpoint de guardado responde correctamente cuando recibe la solicitud (verificado), así que el defecto está en el diálogo.\n\n**Comportamiento deseado:**\nCon ventana 1280x800 y zoom 200 %, el usuario se desplaza dentro del diálogo hasta Guardar, lo pulsa y el perfil queda guardado. Al 100 % el diálogo se comporta como antes.\n\n**Interfaces clave:**\n- Componente ProfileDialog (diálogo de perfil).\n- Endpoint de guardado de perfil: su contrato no cambia.\n\n**Criterios de aceptación:**\n- [ ] Con 1280x800 y zoom 200 %, el botón Guardar es alcanzable desplazando el diálogo.\n- [ ] Pulsar Guardar en ese zoom guarda el perfil con el nombre editado.\n- [ ] Al 100 % el diálogo y el guardado se comportan como antes.\n\n**Fuera de alcance:**\n- El color antiguo del avatar de ejemplo (hallazgo ajeno).\n- Otros niveles de zoom o resoluciones, no verificados.\n- Cambios en el endpoint de guardado.",
+    "labels": [
+      "bug",
+      "tenant:demo-beta",
+      "module:profile",
+      "P2",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      },
+      {
+        "operation": "comment",
+        "target": "example-org/issue-lab (issue nueva, brief)"
+      },
+      {
+        "operation": "edit_body",
+        "target": "example-org/issue-lab (issue nueva, enlace al brief)"
+      },
+      {
+        "operation": "add_label",
+        "target": "example-org/issue-lab (issue nueva, ready-for-agent)"
+      }
+    ],
+    "notes": "Datos inventados según data_notice; evidencia simulada, sin consultas al tracker. Labels finales incluyen ready-for-agent, aplicado tras verificar el brief. Placeholder del enlace al brief en el cuerpo, sustituido tras publicar el comentario. Ver también notification_policy y unsupported_attachment: si ambos casos se ejecutan en el mismo tracker, la segunda issue sobre este mismo defecto debería ser un comentario aquí, no una issue nueva."
+  },
+  {
+    "id": "notification_policy",
+    "action": "Crear issue P2 de feature para demo-alpha/notificaciones con las dos decisiones pendientes registradas en el cuerpo, sin brief y con needs-triage y needs-discussion.",
+    "title": "[Feature]: Avisos de actividad para usuarios (demo-alpha)",
+    "body": "## Descripción del problema\n\n**Actual:** hoy no hay avisos de actividad.\n\n**Esperado:** avisos de actividad para demo-alpha. Las decisiones de alcance siguen pendientes y no se resuelven en esta issue.\n\nPiezas existentes en el proyecto demo: ActivityEvent y NotificationPreferences.\n\n## Decisiones pendientes\n\n1. Frecuencia: avisos inmediatos o resumen diario. Sin decidir.\n2. Permisos: quién puede cambiar la frecuencia. Sin decidir.\n\nHasta cerrar ambas decisiones no se prepara brief ni se recomienda ready-for-agent.\n\n## Entorno demo\n\ndemo-alpha\n\n## Módulo\n\nNotificaciones\n\n## Origen\n\nSolicitud directa del usuario para registrar la feature ahora y decidir después.\n\n## Información adicional\n\n- No hay issues abiertas duplicadas.\n- No se ha contactado a nadie ni se ha definido una política.",
+    "brief": null,
+    "labels": [
+      "feature",
+      "tenant:demo-alpha",
+      "module:notifications",
+      "P2",
+      "needs-triage",
+      "needs-discussion"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      }
+    ],
+    "notes": "Datos inventados según data_notice; evidencia simulada. needs-triage es el único estado canónico; needs-discussion marca la decisión de alcance pendiente. Sin brief porque la issue no está lista para agente. Las dos decisiones pendientes quedan en el cuerpo como registro, no como preguntas para responder ahora. Si se decide, el paso siguiente es brief y cambio de estado a ready-for-agent."
+  },
+  {
+    "id": "draft_priority",
+    "action": "Preparar el borrador de issue P1 de bug para demo-beta/catálogo con brief, sin publicar ni escribir nada en el tracker hasta que el usuario lo autorice.",
+    "title": "[Bug]: La lista de productos pierde el orden por nombre al cambiar de página",
+    "body": "## Descripción del problema\n\n**Actual:** en la lista de productos de demo-beta, el orden por nombre se pierde al pasar a otra página. Verificado en fixture de navegación: ?sort=name&page=1 aplica el orden, pero el enlace a la página 2 omite sort=name.\n\n**Esperado:** al cambiar de página se conserva el orden por nombre.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\nCatálogo\n\n## Origen\n\nSolicitud directa del usuario para preparar un borrador, sin publicar todavía.\n\n## Información adicional\n\n- No hay issues abiertas duplicadas.\n- Agent Brief: <ENLACE_AL_COMENTARIO_DEL_BRIEF (se completa tras publicar el comentario)>",
+    "brief": "## Agent Brief\n\n**Categoría:** Bug\n**Resumen:** conservar el orden por nombre de la lista de productos de demo-beta al cambiar de página.\n\n**Comportamiento actual:**\nVerificado en fixture de navegación: ?sort=name&page=1 aplica el orden por nombre; el enlace a la página 2 no incluye sort=name, así que el orden se pierde.\n\n**Comportamiento deseado:**\nMientras el orden por nombre esté activo, el enlace a cualquier otra página conserva sort=name, y la página siguiente sigue ordenada por nombre.\n\n**Interfaces clave:**\n- Parámetros de consulta sort y page de la lista de productos.\n- Enlaces de paginación de la lista de productos.\n\n**Criterios de aceptación:**\n- [ ] Desde ?sort=name&page=1, el enlace a la página 2 incluye sort=name.\n- [ ] La página 2 abierta desde ese enlace muestra los productos ordenados por nombre.\n- [ ] Sin orden activo, la paginación funciona como antes.\n\n**Fuera de alcance:**\n- Cambiar el orden por defecto de la lista.\n- Otras listas o filtros, no verificados.",
+    "labels": [
+      "bug",
+      "tenant:demo-beta",
+      "module:catalog",
+      "P1",
+      "ready-for-agent"
+    ],
+    "questions": [
+      "¿Publico ya esta issue con este borrador (P1, demo-beta, catálogo, ready-for-agent) y su brief como comentario?"
+    ],
+    "operations": [],
+    "notes": "Sin escrituras: el usuario pidió no publicar todavía. El mensaje posterior «P1» actualiza solo el dato de prioridad del borrador y no autoriza la publicación. Las etiquetas son propuestas para un borrador no publicado. Si se autoriza, las operaciones serían create_issue, comment con el brief, edit_body con el enlace y add_label ready-for-agent tras verificar el brief. Datos inventados según data_notice; evidencia simulada."
+  },
+  {
+    "id": "open_duplicate",
+    "action": "No crear issue nueva: comentar en la issue abierta #480 la nueva evidencia (DEMO-P03) y dejar sus labels, brief y estado sin cambios.",
+    "title": null,
+    "body": "Nueva evidencia del mismo defecto: el producto DEMO-P03 con código \"004510\" se exporta en CSV como \"4510\". No se ha simulado el número total de usuarios afectados.",
+    "brief": null,
+    "labels": [
+      "bug",
+      "tenant:demo-alpha",
+      "module:exports",
+      "P1",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "comment",
+        "target": "example-org/issue-lab#480"
+      }
+    ],
+    "notes": "El campo body contiene el texto del comentario, no el cuerpo de una issue. Duplicada confirmada por la evidencia: #480 abierta, mismo defecto y alcance, brief vigente; no se ha leído en esta ejecución, solo la descripción simulada. Comentar aporta contexto nuevo, por eso se publica. El estado no cambia: se mantiene ready-for-agent porque la nueva evidencia no altera el alcance. No se registra conteo de usuarios afectados. Datos inventados según data_notice."
+  },
+  {
+    "id": "closed_recurrence",
+    "action": "Crear issue P2 de bug para demo-beta/catálogo como recurrencia de #470 (cerrada), sin reabrirla ni comentarla, con brief y ready-for-agent.",
+    "title": "[Bug]: La búsqueda de nombres con tilde vuelve a fallar en demo-beta (recurrencia de #470)",
+    "body": "## Descripción del problema\n\n**Actual:** en una versión demo posterior a la corrección de #470, buscar \"café\" no encuentra el producto DEMO-P10 titulado \"Café\".\n\n**Esperado:** buscar \"café\" encuentra DEMO-P10.\n\nRecurrencia: #470 se cerró tras una corrección y una validación, y el síntoma ha reaparecido. Esta issue no reabre #470. La causa es desconocida y no se han verificado otros términos ni idiomas.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\nCatálogo\n\n## Origen\n\nSolicitud directa del usuario: ha vuelto a fallar la búsqueda de nombres con tilde.\n\n## Información adicional\n\n- No hay issue abierta para este caso.\n- Relacionada con #470 (cerrada).\n- Agent Brief: <ENLACE_AL_COMENTARIO_DEL_BRIEF (se completa tras publicar el comentario)>",
+    "brief": "## Agent Brief\n\n**Categoría:** Bug\n**Resumen:** restablecer la búsqueda de productos por nombre con tilde en demo-beta; #470 se cerró antes y el síntoma ha reaparecido.\n\n**Comportamiento actual:**\nVerificado en una versión demo posterior: buscar \"café\" no encuentra DEMO-P10 titulado \"Café\". La causa no está determinada.\n\n**Comportamiento deseado:**\nBuscar \"café\" devuelve DEMO-P10 \"Café\".\n\n**Interfaces clave:**\n- Búsqueda de productos por nombre del catálogo demo.\n- Producto DEMO-P10.\n\n**Criterios de aceptación:**\n- [ ] Buscar \"café\" en demo-beta devuelve DEMO-P10 \"Café\".\n- [ ] Las búsquedas que funcionan hoy, incluidas las que no usan tilde, devuelven los mismos resultados.\n\n**Fuera de alcance:**\n- Reabrir #470.\n- Otros términos e idiomas, que no se han verificado.\n- Cambios en la búsqueda no relacionados con tildes.",
+    "labels": [
+      "bug",
+      "tenant:demo-beta",
+      "module:catalog",
+      "P2",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "create_issue",
+        "target": "example-org/issue-lab"
+      },
+      {
+        "operation": "comment",
+        "target": "example-org/issue-lab (issue nueva, brief)"
+      },
+      {
+        "operation": "edit_body",
+        "target": "example-org/issue-lab (issue nueva, enlace al brief)"
+      },
+      {
+        "operation": "add_label",
+        "target": "example-org/issue-lab (issue nueva, ready-for-agent)"
+      }
+    ],
+    "notes": "Datos inventados según data_notice; evidencia simulada. Se trata como recurrencia: se crea una issue nueva y no se reabre #470. El módulo catálogo es una inferencia de la búsqueda de productos. El placeholder del brief se sustituye tras publicar el comentario. El label ready-for-agent se aplica tras verificar el brief."
+  },
+  {
+    "id": "partial_publish",
+    "action": "Completar #481: añadir el enlace al brief (comentario #comment-91) al final del cuerpo, quitar needs-info y aplicar ready-for-agent, sin recrear issue, comentario ni adjunto.",
+    "title": null,
+    "body": "Agent Brief: https://tracker.example.invalid/issues/481#comment-91",
+    "brief": null,
+    "labels": [
+      "bug",
+      "tenant:demo-alpha",
+      "module:exports",
+      "P1",
+      "ready-for-agent"
+    ],
+    "questions": [],
+    "operations": [
+      {
+        "operation": "edit_body",
+        "target": "https://tracker.example.invalid/issues/481"
+      },
+      {
+        "operation": "remove_label",
+        "target": "https://tracker.example.invalid/issues/481 (needs-info)"
+      },
+      {
+        "operation": "add_label",
+        "target": "https://tracker.example.invalid/issues/481 (ready-for-agent)"
+      }
+    ],
+    "notes": "El campo body contiene solo la línea que se añade al final del cuerpo existente; el resto del cuerpo no cambia y no se ha leído en esta ejecución. El brief es el único comentario aprobado (comment-91), según la lectura simulada; no se ha releído su contenido. Labels finales: los existentes con needs-info sustituido por ready-for-agent. Datos inventados según data_notice; evidencia simulada."
+  },
+  {
+    "id": "unsupported_attachment",
+    "action": "No publicar todavía: el adjunto no es un fichero existente y gh no ofrece --attach. Preguntar al usuario si publica sin la captura o espera, y pedir zoom y resolución para reproducir.",
+    "title": "[Bug]: El botón Guardar del diálogo de perfil queda inaccesible (demo-beta)",
+    "body": "## Descripción del problema\n\n**Actual:** el botón Guardar del diálogo de perfil queda fuera del área alcanzable, así que el perfil no puede guardarse. Captura de referencia pendiente de adjuntar.\n\n**Esperado:** el botón Guardar es alcanzable dentro del diálogo y permite guardar el perfil.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\nPerfil\n\n## Origen\n\nSolicitud directa del usuario para registrar la issue con una captura.\n\n## Información adicional\n\n- Adjunto pendiente: captura del diálogo de perfil, sin medio para subirla.\n- Pendiente: zoom y resolución en los que se reproduce.\n- No hay issues abiertas duplicadas.",
+    "brief": null,
+    "labels": [
+      "bug",
+      "tenant:demo-beta",
+      "module:profile",
+      "P2",
+      "needs-info"
+    ],
+    "questions": [
+      "¿Publico la issue ya, sin la captura y con needs-info para pedir al reportador el zoom y la resolución de reproducción, o espero a tener un medio para adjuntar la captura?"
+    ],
+    "operations": [],
+    "notes": "Datos inventados según data_notice; evidencia simulada. fixture://screenshots/profile-dialog.png no es un fichero local ni una captura real, y ni issue create ni issue comment ofrecen --attach, así que no se publica nada con media. Texto alternativo preparado para la captura, sin incluir la ruta del fixture en el cuerpo: «Captura del diálogo de perfil con el botón Guardar fuera del área visible.». Sin zoom ni resolución en la evidencia, el estado recomendado es needs-info, no ready-for-agent; el brief se preparará cuando haya esos datos. Este defecto coincide con profile_dialog: si ambos casos se ejecutan en el mismo tracker, debería comentarse en la issue de profile_dialog en lugar de crear otra."
+  }
+]

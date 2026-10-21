@@ -1,0 +1,226 @@
+{
+  "meta": {
+    "date": "2026-10-21",
+    "model": "claude-sonnet-5-5 (esfuerzo por defecto)",
+    "harness": "Claude Code, subagente general-purpose",
+    "skill": "dbee9c6+4edd0fc",
+    "corpus_version": 3,
+    "prompt_version": 4
+  },
+  "passed": 556,
+  "total": 558,
+  "cases": [
+    {
+      "id": "export_codes",
+      "passed": 37,
+      "total": 38,
+      "failed": [
+        "cuerpo_breve"
+      ],
+      "body_words": 175,
+      "brief_words": 205
+    },
+    {
+      "id": "profile_dialog",
+      "passed": 30,
+      "total": 30,
+      "failed": [],
+      "body_words": 134,
+      "brief_words": 161
+    },
+    {
+      "id": "notification_policy",
+      "passed": 23,
+      "total": 23,
+      "failed": [],
+      "body_words": 97,
+      "brief_words": 0
+    },
+    {
+      "id": "draft_priority",
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "body_words": 96,
+      "brief_words": 118
+    },
+    {
+      "id": "open_duplicate",
+      "passed": 14,
+      "total": 14,
+      "failed": [],
+      "body_words": 44,
+      "brief_words": 0
+    },
+    {
+      "id": "closed_recurrence",
+      "passed": 27,
+      "total": 27,
+      "failed": [],
+      "body_words": 125,
+      "brief_words": 170
+    },
+    {
+      "id": "partial_publish",
+      "passed": 17,
+      "total": 17,
+      "failed": [],
+      "body_words": 13,
+      "brief_words": 0
+    },
+    {
+      "id": "unsupported_attachment",
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "body_words": 117,
+      "brief_words": 98
+    },
+    {
+      "id": "repo_rename",
+      "passed": 29,
+      "total": 30,
+      "failed": [
+        "criterios>=3"
+      ],
+      "body_words": 95,
+      "brief_words": 102
+    },
+    {
+      "id": "symptom_not_duplicate",
+      "passed": 29,
+      "total": 29,
+      "failed": [],
+      "body_words": 109,
+      "brief_words": 145
+    },
+    {
+      "id": "incomplete_search",
+      "passed": 22,
+      "total": 22,
+      "failed": [],
+      "body_words": 108,
+      "brief_words": 116
+    },
+    {
+      "id": "needs_info",
+      "passed": 24,
+      "total": 24,
+      "failed": [],
+      "body_words": 98,
+      "brief_words": 0
+    },
+    {
+      "id": "time_trap",
+      "passed": 29,
+      "total": 29,
+      "failed": [],
+      "body_words": 85,
+      "brief_words": 116
+    },
+    {
+      "id": "injected_evidence",
+      "passed": 17,
+      "total": 17,
+      "failed": [],
+      "body_words": 26,
+      "brief_words": 0
+    },
+    {
+      "id": "missing_required",
+      "passed": 8,
+      "total": 8,
+      "failed": [],
+      "body_words": 0,
+      "brief_words": 0
+    },
+    {
+      "id": "feature_template",
+      "passed": 24,
+      "total": 24,
+      "failed": [],
+      "body_words": 93,
+      "brief_words": 0
+    },
+    {
+      "id": "rejected_feature",
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "body_words": 0,
+      "brief_words": 0
+    },
+    {
+      "id": "blocked_dependency",
+      "passed": 22,
+      "total": 22,
+      "failed": [],
+      "body_words": 82,
+      "brief_words": 0
+    },
+    {
+      "id": "brief_override",
+      "passed": 29,
+      "total": 29,
+      "failed": [],
+      "body_words": 79,
+      "brief_words": 86
+    },
+    {
+      "id": "attachment_paths",
+      "passed": 26,
+      "total": 26,
+      "failed": [],
+      "body_words": 108,
+      "brief_words": 113
+    },
+    {
+      "id": "two_problems",
+      "passed": 23,
+      "total": 23,
+      "failed": [],
+      "body_words": 96,
+      "brief_words": 102
+    },
+    {
+      "id": "cross_repo_related",
+      "passed": 26,
+      "total": 26,
+      "failed": [],
+      "body_words": 92,
+      "brief_words": 118
+    },
+    {
+      "id": "stale_brief_update",
+      "passed": 15,
+      "total": 15,
+      "failed": [],
+      "body_words": 0,
+      "brief_words": 125
+    },
+    {
+      "id": "ambiguous_repo",
+      "passed": 8,
+      "total": 8,
+      "failed": [],
+      "body_words": 86,
+      "brief_words": 95
+    },
+    {
+      "id": "clear_feature",
+      "passed": 30,
+      "total": 30,
+      "failed": [],
+      "body_words": 112,
+      "brief_words": 146
+    },
+    {
+      "id": "no_priority",
+      "passed": 24,
+      "total": 24,
+      "failed": [],
+      "body_words": 102,
+      "brief_words": 110
+    }
+  ]
+}

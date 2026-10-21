@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "date": "2026-10-21",
+    "model": "opencode-go/deepseek-v4.1-flash",
+    "harness": "opencode v2.1.0, opencode run --auto",
+    "skill": "dbee9c6+",
+    "corpus_version": 1,
+    "prompt_version": 1
+  },
+  "passed": 87,
+  "total": 87,
+  "cases": [
+    {
+      "id": "export_codes",
+      "passed": 13,
+      "total": 13,
+      "failed": [],
+      "body_words": 157,
+      "brief_words": 265
+    },
+    {
+      "id": "profile_dialog",
+      "passed": 11,
+      "total": 11,
+      "failed": [],
+      "body_words": 138,
+      "brief_words": 260
+    },
+    {
+      "id": "notification_policy",
+      "passed": 11,
+      "total": 11,
+      "failed": [],
+      "body_words": 136,
+      "brief_words": 0
+    },
+    {
+      "id": "draft_priority",
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "body_words": 115,
+      "brief_words": 210
+    },
+    {
+      "id": "open_duplicate",
+      "passed": 11,
+      "total": 11,
+      "failed": [],
+      "body_words": 0,
+      "brief_words": 0
+    },
+    {
+      "id": "closed_recurrence",
+      "passed": 11,
+      "total": 11,
+      "failed": [],
+      "body_words": 129,
+      "brief_words": 211
+    },
+    {
+      "id": "partial_publish",
+      "passed": 14,
+      "total": 14,
+      "failed": [],
+      "body_words": 0,
+      "brief_words": 0
+    },
+    {
+      "id": "unsupported_attachment",
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "body_words": 151,
+      "brief_words": 219
+    }
+  ]
+}

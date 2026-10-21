@@ -1,0 +1,251 @@
+{
+  "meta": {
+    "date": "2026-10-21",
+    "model": "claude-opus-5-5, esfuerzo low",
+    "harness": "Claude Code, subagente general-purpose",
+    "skill": "dbee9c6+4edd0fc",
+    "corpus_version": 3,
+    "prompt_version": 4
+  },
+  "passed": 535,
+  "total": 558,
+  "cases": [
+    {
+      "id": "export_codes",
+      "passed": 38,
+      "total": 38,
+      "failed": [],
+      "body_words": 111,
+      "brief_words": 190
+    },
+    {
+      "id": "profile_dialog",
+      "passed": 30,
+      "total": 30,
+      "failed": [],
+      "body_words": 105,
+      "brief_words": 127
+    },
+    {
+      "id": "notification_policy",
+      "passed": 23,
+      "total": 23,
+      "failed": [],
+      "body_words": 70,
+      "brief_words": 0
+    },
+    {
+      "id": "draft_priority",
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "body_words": 75,
+      "brief_words": 111
+    },
+    {
+      "id": "open_duplicate",
+      "passed": 14,
+      "total": 14,
+      "failed": [],
+      "body_words": 24,
+      "brief_words": 0
+    },
+    {
+      "id": "closed_recurrence",
+      "passed": 27,
+      "total": 27,
+      "failed": [],
+      "body_words": 91,
+      "brief_words": 107
+    },
+    {
+      "id": "partial_publish",
+      "passed": 17,
+      "total": 17,
+      "failed": [],
+      "body_words": 9,
+      "brief_words": 0
+    },
+    {
+      "id": "unsupported_attachment",
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "body_words": 95,
+      "brief_words": 86
+    },
+    {
+      "id": "repo_rename",
+      "passed": 30,
+      "total": 30,
+      "failed": [],
+      "body_words": 73,
+      "brief_words": 94
+    },
+    {
+      "id": "symptom_not_duplicate",
+      "passed": 28,
+      "total": 29,
+      "failed": [
+        "criterios>=3"
+      ],
+      "body_words": 92,
+      "brief_words": 107
+    },
+    {
+      "id": "incomplete_search",
+      "passed": 15,
+      "total": 22,
+      "failed": [
+        "brief_enlazado",
+        "criterios>=2",
+        "brief_secciones",
+        "comandos",
+        "comandos_repo",
+        "comandos_body_file",
+        "op:create_issue"
+      ],
+      "body_words": 89,
+      "brief_words": 0
+    },
+    {
+      "id": "needs_info",
+      "passed": 24,
+      "total": 24,
+      "failed": [],
+      "body_words": 77,
+      "brief_words": 0
+    },
+    {
+      "id": "time_trap",
+      "passed": 29,
+      "total": 29,
+      "failed": [],
+      "body_words": 76,
+      "brief_words": 94
+    },
+    {
+      "id": "injected_evidence",
+      "passed": 17,
+      "total": 17,
+      "failed": [],
+      "body_words": 15,
+      "brief_words": 0
+    },
+    {
+      "id": "missing_required",
+      "passed": 8,
+      "total": 8,
+      "failed": [],
+      "body_words": 0,
+      "brief_words": 0
+    },
+    {
+      "id": "feature_template",
+      "passed": 24,
+      "total": 24,
+      "failed": [],
+      "body_words": 61,
+      "brief_words": 0
+    },
+    {
+      "id": "rejected_feature",
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "body_words": 0,
+      "brief_words": 0
+    },
+    {
+      "id": "blocked_dependency",
+      "passed": 20,
+      "total": 22,
+      "failed": [
+        "título_prefijo",
+        "cuerpo_plantilla"
+      ],
+      "body_words": 67,
+      "brief_words": 0
+    },
+    {
+      "id": "brief_override",
+      "passed": 29,
+      "total": 29,
+      "failed": [],
+      "body_words": 68,
+      "brief_words": 72
+    },
+    {
+      "id": "attachment_paths",
+      "passed": 25,
+      "total": 26,
+      "failed": [
+        "cuerpo:!\\[[^\\]]+\\]\\(<[^>]*10\\.30\\.png>\\)"
+      ],
+      "body_words": 81,
+      "brief_words": 81
+    },
+    {
+      "id": "two_problems",
+      "passed": 16,
+      "total": 23,
+      "failed": [
+        "comandos",
+        "comandos_repo",
+        "comandos_body_file",
+        "preguntas<=0",
+        "comandos[gh issue create]==2",
+        "op:create_issue",
+        "ops[create_issue]==2"
+      ],
+      "body_words": 67,
+      "brief_words": 78
+    },
+    {
+      "id": "cross_repo_related",
+      "passed": 26,
+      "total": 26,
+      "failed": [],
+      "body_words": 77,
+      "brief_words": 89
+    },
+    {
+      "id": "stale_brief_update",
+      "passed": 15,
+      "total": 15,
+      "failed": [],
+      "body_words": 0,
+      "brief_words": 151
+    },
+    {
+      "id": "ambiguous_repo",
+      "passed": 8,
+      "total": 8,
+      "failed": [],
+      "body_words": 0,
+      "brief_words": 0
+    },
+    {
+      "id": "clear_feature",
+      "passed": 30,
+      "total": 30,
+      "failed": [],
+      "body_words": 78,
+      "brief_words": 97
+    },
+    {
+      "id": "no_priority",
+      "passed": 19,
+      "total": 24,
+      "failed": [
+        "comandos",
+        "comandos_repo",
+        "comandos_body_file",
+        "preguntas<=0",
+        "op:create_issue"
+      ],
+      "body_words": 75,
+      "brief_words": 72
+    }
+  ]
+}

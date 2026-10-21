@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "date": "2026-10-21",
+    "model": "claude-sonnet-5-5 (esfuerzo por defecto)",
+    "harness": "Claude Code, subagente general-purpose",
+    "skill": "dbee9c6",
+    "corpus_version": 1,
+    "prompt_version": 1
+  },
+  "passed": 87,
+  "total": 87,
+  "cases": [
+    {
+      "id": "export_codes",
+      "passed": 13,
+      "total": 13,
+      "failed": [],
+      "body_words": 117,
+      "brief_words": 290
+    },
+    {
+      "id": "profile_dialog",
+      "passed": 11,
+      "total": 11,
+      "failed": [],
+      "body_words": 111,
+      "brief_words": 253
+    },
+    {
+      "id": "notification_policy",
+      "passed": 11,
+      "total": 11,
+      "failed": [],
+      "body_words": 102,
+      "brief_words": 0
+    },
+    {
+      "id": "draft_priority",
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "body_words": 77,
+      "brief_words": 133
+    },
+    {
+      "id": "open_duplicate",
+      "passed": 11,
+      "total": 11,
+      "failed": [],
+      "body_words": 42,
+      "brief_words": 0
+    },
+    {
+      "id": "closed_recurrence",
+      "passed": 11,
+      "total": 11,
+      "failed": [],
+      "body_words": 102,
+      "brief_words": 169
+    },
+    {
+      "id": "partial_publish",
+      "passed": 14,
+      "total": 14,
+      "failed": [],
+      "body_words": 9,
+      "brief_words": 0
+    },
+    {
+      "id": "unsupported_attachment",
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "body_words": 111,
+      "brief_words": 253
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+[
+ {
+  "action": "Crear nueva issue bug P1 con brief en comentario",
+  "body": "## Descripción del problema\n\nActual (verificado con fixture simulado): la exportación CSV convierte product_code a entero y elimina ceros iniciales. Ej.: DEMO-P01 con code=\"000842\" se exporta como \"842\"; DEMO-P02 con code=\"052100\" se exporta como \"52100\". Los códigos son texto, no cantidades.\n\nEsperado (pedido): conservar los ceros iniciales en las nuevas exportaciones y reprocesar las tres exportaciones pendientes. No modificar archivos históricos ya descargados.\n\n## Entorno demo\n\ndemo-alpha\n\n## Módulo\n\nexports\n\n## Origen\n\nReporte de usuario (sintético). Verificado en solo lectura con fixture simulado: ExportRow representa product_code como texto, pero el serializador lo convierte a entero. No hay duplicadas abiertas (búsqueda simulada aportada en evidence).\n\n## Información adicional\n\n- Las cantidades y los importes conservan su comportamiento y no deben cambiarse.\n- El historial simulado contiene seis eventos del defecto; no determina cuántos usuarios distintos hay afectados y no se afirma ningún total.\n- Hallazgo adyacente fuera de alcance: error ortográfico en una etiqueta de ayuda; no se corrige en esta issue.\n- Datos totalmente sintéticos; evidence sustituye cualquier consulta al código, a GitHub o a gh.\n\nAgent Brief: se enlazará tras publicar el comentario del brief.",
+  "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Conservar los ceros iniciales de product_code en nuevas exportaciones CSV y reprocesar las pendientes, sin tocar históricos ni cantidades/importes.\n\n**Comportamiento actual:**\n\n- Verificado (fixture simulado): DEMO-P01 000842 -> 842; DEMO-P02 052100 -> 52100.\n- Reportado: las nuevas exportaciones pierden ceros iniciales.\n- Hipótesis orientativa (no prescrita): el serializador convierte a entero un campo que ExportRow define como texto.\n\n**Comportamiento deseado:**\n\n- product_code se exporta como texto conservando ceros iniciales en toda nueva exportación.\n- Se reprocesan las tres exportaciones pendientes de la cola simulada.\n- No se modifican archivos históricos ya descargados.\n- Cantidades e importes mantienen su comportamiento actual.\n\n**Interfaces clave:**\n\n- Conceptos/tipos: ExportRow.product_code (contrato: texto), serializador CSV de exportaciones, cola de exportaciones pendientes.\n- No se prescriben rutas, líneas ni implementación interna.\n\n**Criterios de aceptación:**\n\n- [ ] Exportar DEMO-P01 conserva 000842 y DEMO-P02 conserva 052100 en CSV nuevo.\n- [ ] Las tres exportaciones pendientes se reprocesan con códigos conservados.\n- [ ] Ningún archivo histórico ya descargado resulta modificado.\n- [ ] Cantidades e importes conservan el comportamiento previo.\n\n**Fuera de alcance:**\n\n- Corrección del error ortográfico de la etiqueta de ayuda.\n- Cambios en cantidades, importes u otros formatos de exportación.",
+  "id": "export_codes",
+  "labels": [
+   "P1",
+   "bug",
+   "module:exports",
+   "ready-for-agent",
+   "tenant:demo-alpha"
+  ],
+  "notes": "Supuestos: evidence sintética sustituye consultas reales; no se ejecutó nada contra servicios reales. No se afirma total de usuarios afectados. Plan: crear issue y comentar brief; el cuerpo enlazará el brief tras publicarlo.",
+  "operations": [
+   {
+    "operation": "create_issue",
+    "target": "example-org/issue-lab"
+   },
+   {
+    "operation": "comment",
+    "target": "example-org/issue-lab (issue creada)"
+   }
+  ],
+  "questions": [],
+  "title": "[Bug]: Exportación CSV elimina ceros iniciales de códigos de producto"
+ },
+ {
+  "action": "Crear nueva issue bug P2 con brief en comentario",
+  "body": "## Descripción del problema\n\nActual (verificado con fixture simulado): con ventana 1280x800 y zoom del navegador al 200 %, el diálogo de perfil permite editar el campo Nombre pero su desplazamiento no llega al botón Guardar, que queda fuera del área alcanzable. A zoom 100 % funciona.\n\nEsperado (pedido): poder guardar el perfil también al 200 % de zoom.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\nprofile\n\n## Origen\n\nReporte de usuario (sintético). Verificado con fixture de interfaz simulado. Componente demo implicado: ProfileDialog. El endpoint simulado guarda correctamente al recibir la solicitud, por lo que el bloqueo es de interacción del diálogo. No hay duplicadas (búsqueda simulada aportada).\n\n## Información adicional\n\n- Datos totalmente sintéticos; evidence sustituye cualquier consulta al código, a GitHub o a gh.\n- Hallazgo adyacente fuera de alcance: color antiguo del avatar de ejemplo; no forma parte del arreglo.\n\nAgent Brief: se enlazará tras publicar el comentario del brief.",
+  "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Hacer que el botón Guardar del diálogo de perfil sea alcanzable y operativo al 200 % de zoom en 1280x800, permitiendo guardar el perfil.\n\n**Comportamiento actual:**\n\n- Verificado (fixture simulado): a 1280x800 y 200 %, el desplazamiento del diálogo no llega a Guardar; el campo Nombre sí es editable.\n- Verificado: a zoom 100 % funciona; el endpoint simulado guarda correctamente si recibe la solicitud.\n\n**Comportamiento deseado:**\n\n- A 1280x800 y 200 % de zoom, el usuario puede alcanzar y accionar Guardar y el perfil se guarda.\n- Sin regresión a zoom 100 %.\n\n**Interfaces clave:**\n\n- Concepto/componente: ProfileDialog (contrato: diálogo con acción Guardar siempre alcanzable), solicitud de guardado de perfil.\n- No se prescriben rutas, líneas ni solución concreta.\n\n**Criterios de aceptación:**\n\n- [ ] A 1280x800 y 200 % de zoom, Guardar es alcanzable y guarda el perfil.\n- [ ] A zoom 100 % el guardado sigue funcionando.\n\n**Fuera de alcance:**\n\n- Actualización del color del avatar de ejemplo.",
+  "id": "profile_dialog",
+  "labels": [
+   "P2",
+   "bug",
+   "module:profile",
+   "ready-for-agent",
+   "tenant:demo-beta"
+  ],
+  "notes": "Supuestos: evidence sintética sustituye consultas reales; no se ejecutó nada contra servicios reales. No se prescribe implementación; el endpoint se da por correcto según fixture.",
+  "operations": [
+   {
+    "operation": "create_issue",
+    "target": "example-org/issue-lab"
+   },
+   {
+    "operation": "comment",
+    "target": "example-org/issue-lab (issue creada)"
+   }
+  ],
+  "questions": [],
+  "title": "[Bug]: Botón Guardar del diálogo de perfil inalcanzable al 200 % de zoom"
+ },
+ {
+  "action": "Registrar feature P2 con decisión de alcance pendiente, sin brief ejecutable todavía",
+  "body": "## Descripción del problema\n\nActual (verificado con fixture simulado): hoy no hay avisos de actividad en demo-alpha. Existen ActivityEvent y NotificationPreferences en el proyecto demo.\n\nEsperado (pedido): registrar la petición de avisos de actividad como feature, dejando abiertas las decisiones de alcance. No se resuelve ahora si serán inmediatos o un resumen diario.\n\n## Entorno demo\n\ndemo-alpha\n\n## Módulo\n\nnotifications\n\n## Origen\n\nPetición de usuario (sintética) con instrucción explícita de registrar ya y decidir después. No hay duplicadas (búsqueda simulada aportada).\n\n## Información adicional\n\n- Decisiones pendientes registradas sin inventar política: (1) frecuencia — inmediatos frente a resumen diario; (2) quién puede cambiarla.\n- No se contactó a nadie ni se asumió ninguna política.\n- Datos totalmente sintéticos; evidence sustituye cualquier consulta al código, a GitHub o a gh.\n- Estado recomendado: needs-triage + needs-discussion; no lista para agente hasta resolver la decisión de alcance.",
+  "brief": null,
+  "id": "notification_policy",
+  "labels": [
+   "P2",
+   "feature",
+   "module:notifications",
+   "needs-discussion",
+   "needs-triage",
+   "tenant:demo-alpha"
+  ],
+  "notes": "Supuestos: evidence sintética sustituye consultas reales; plan sin ejecución real. Sin brief ejecutable porque la decisión de alcance sigue pendiente (needs-discussion bloquea ready-for-agent). No se inventa frecuencia ni permisos.",
+  "operations": [
+   {
+    "operation": "create_issue",
+    "target": "example-org/issue-lab"
+   }
+  ],
+  "questions": [
+   "¿Los avisos deben ser inmediatos o un resumen diario?",
+   "¿Quién puede cambiar la frecuencia/política de avisos?"
+  ],
+  "title": "[Feature]: Avisos de actividad en demo-alpha"
+ },
+ {
+  "action": "Preparar borrador P1 sin publicar, a la espera de aprobación",
+  "body": "## Descripción del problema\n\nActual (verificado con fixture simulado): la lista de productos con ?sort=name&page=1 aplica el orden por nombre, pero el enlace a la página 2 omite sort=name y el orden se pierde.\n\nEsperado (pedido): conservar el orden por nombre al pasar de página.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\ncatalog\n\n## Origen\n\nReporte para borrador (sintético). Verificado con fixture de navegación simulado. No hay duplicadas (búsqueda simulada aportada).\n\n## Información adicional\n\n- Datos totalmente sintéticos; evidence sustituye cualquier consulta al código, a GitHub o a gh.\n- Borrador preparado con prioridad P1 según mensaje posterior; el cambio de dato suelto actualiza el borrador sin confirmar la publicación.\n\nAgent Brief: se enlazará tras publicar el comentario del brief, cuando se autorice.",
+  "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Conservar sort=name al paginar la lista de productos ordenada por nombre.\n\n**Comportamiento actual:**\n\n- Verificado (fixture simulado): ?sort=name&page=1 ordena; el enlace a página 2 omite sort=name y pierde el orden.\n\n**Comportamiento deseado:**\n\n- Al pasar de página se conserva el orden por nombre pedido (sort=name persistente en enlaces/paginación).\n\n**Interfaces clave:**\n\n- Conceptos: ordenación por nombre de lista de productos, enlaces de paginación (contrato: conservan el parámetro de orden activo).\n- No se prescriben rutas, líneas ni implementación.\n\n**Criterios de aceptación:**\n\n- [ ] Navegar de página 1 a página 2 con sort=name conserva el orden por nombre.\n- [ ] Sin regresión cuando no hay orden activo.\n\n**Fuera de alcance:**\n\n- Otros criterios de ordenación no pedidos.",
+  "id": "draft_priority",
+  "labels": [
+   "P1",
+   "bug",
+   "module:catalog",
+   "ready-for-agent",
+   "tenant:demo-beta"
+  ],
+  "notes": "Supuestos: evidence sintética; ninguna escritura ejecutada. Borrador listo para agente pero no publicado por falta de autorización explícita; P1 aplicado como actualización de dato suelto sin pedir confirmación de publicación.",
+  "operations": [],
+  "questions": [],
+  "title": "[Bug]: Orden por nombre de lista de productos se pierde al paginar"
+ },
+ {
+  "action": "Comentar la duplicada abierta #480 con la nueva evidencia, sin crear issue",
+  "body": "Comentario para example-org/issue-lab#480 (abierta, cubre exactamente el defecto de códigos CSV con brief vigente):\n\nNueva evidencia del mismo alcance (no cambia el diagnóstico ni el estado): el producto DEMO-P03 con code=\"004510\" se exporta como \"4510\", consistente con la pérdida de ceros iniciales ya registrada. No se ha simulado el total de usuarios afectados y no se afirma ninguno. Datos sintéticos; evidence sustituye consultas reales.",
+  "brief": null,
+  "id": "open_duplicate",
+  "labels": [
+   "P1",
+   "bug",
+   "module:exports",
+   "ready-for-agent",
+   "tenant:demo-alpha"
+  ],
+  "notes": "Supuestos: tracker simulado sustituye consulta real; #480 abierta con mismo problema y alcance, brief vigente y labels indicados. Duplicada abierta: se informa y solo se comenta por aportar contexto nuevo y por petición explícita del usuario. Comentar no cambia el estado. Plan sin ejecución real; no se crea issue.",
+  "operations": [
+   {
+    "operation": "comment",
+    "target": "#480"
+   }
+  ],
+  "questions": [],
+  "title": null
+ },
+ {
+  "action": "Crear nueva issue bug P2 por posible recurrencia, referenciando la cerrada #470 sin reabrirla",
+  "body": "## Descripción del problema\n\nActual (reportado/verificado con fixture simulado): en una versión demo posterior a la corrección, buscar \"café\" no encuentra el producto DEMO-P10 titulado \"Café\". Posible recurrencia del fallo de búsqueda de nombres con tilde.\n\nEsperado (pedido): que la búsqueda encuentre nombres con tilde.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\ncatalog\n\n## Origen\n\nReporte de usuario (sintético). Antecedente: #470 cerrada tras una corrección y una validación ficticias; no se reabre. No hay issue abierta para este caso (búsqueda simulada aportada). Se desconoce la causa.\n\n## Información adicional\n\n- No se han simulado pruebas con otros términos ni otros idiomas; no se afirma causa ni alcance mayor.\n- Datos totalmente sintéticos; evidence sustituye cualquier consulta al código, a GitHub o a gh.\n\nAgent Brief: se enlazará tras publicar el comentario del brief.",
+  "brief": "## Agent Brief\n\n**Categoría:** bug\n\n**Resumen:** Restablecer que buscar \"café\" encuentre DEMO-P10 \"Café\" en demo-beta, tratando #470 como antecedente cerrado.\n\n**Comportamiento actual:**\n\n- Verificado (fixture simulado): buscar \"café\" no encuentra DEMO-P10 titulado \"Café\" en versión demo posterior.\n- Reportado como posible recurrencia de #470 (cerrada; no reabrir).\n- Causa desconocida; sin pruebas simuladas con otros términos/idiomas.\n\n**Comportamiento deseado:**\n\n- La búsqueda de nombres con tilde encuentra el producto correspondiente (caso mínimo: café -> Café DEMO-P10).\n\n**Interfaces clave:**\n\n- Conceptos: búsqueda de productos por nombre con normalización de tildes (contrato: equiavalencia con/sin tilde según convención vigente), catálogo demo.\n- No se prescriben rutas, líneas ni causa raíz.\n\n**Criterios de aceptación:**\n\n- [ ] Buscar \"café\" devuelve DEMO-P10 \"Café\".\n- [ ] Sin regresión en búsqueda exacta documentada por el proyecto demo, si existe.\n\n**Fuera de alcance:**\n\n- Reabrir o modificar #470.\n- Generalizar a otros idiomas/términos más allá de lo necesario para el caso pedido.",
+  "id": "closed_recurrence",
+  "labels": [
+   "P2",
+   "bug",
+   "module:catalog",
+   "ready-for-agent",
+   "tenant:demo-beta"
+  ],
+  "notes": "Supuestos: tracker y fixtures sintéticos sustituyen consultas reales; plan sin ejecución real. #470 cerrada: se referencia como relacionada/antecedente (example-org/issue-lab#470) y no se reabre ni se declara duplicada abierta. Causa desconocida declarada.",
+  "operations": [
+   {
+    "operation": "create_issue",
+    "target": "example-org/issue-lab"
+   },
+   {
+    "operation": "comment",
+    "target": "example-org/issue-lab (issue creada)"
+   }
+  ],
+  "questions": [],
+  "title": "[Bug]: Recurrencia de fallo de búsqueda de nombres con tilde (café)"
+ },
+ {
+  "action": "Completar la publicación interrumpida de #481 sin recrear nada: enlazar brief y pasar a ready-for-agent",
+  "body": "## Descripción del problema\n\n[Cuerpo ya publicado y correcto en https://tracker.example.invalid/issues/481, con captura ficticia — no se reproduce íntegro aquí salvo el añadido pendiente. Añadido aprobado:]\n\nAgent Brief: https://tracker.example.invalid/issues/481#comment-91\n\n[El resto del cuerpo, adjuntos y referencias quedan tal como están publicados; solo se añade la línea de enlace al brief aprobado.]\n\n## Entorno demo\n\ndemo-alpha\n\n## Módulo\n\nexports\n\n## Origen\n\nPublicación interrumpida retomada (simulación). La información que faltaba ya está resuelta; lectura simulada posterior confirma el único comentario aprobado en https://tracker.example.invalid/issues/481#comment-91.\n\n## Información adicional\n\n- Datos sintéticos; evidence sustituye consultas reales. No se crean nueva issue, comentario ni adjunto.",
+  "brief": null,
+  "id": "partial_publish",
+  "labels": [
+   "P1",
+   "bug",
+   "module:exports",
+   "ready-for-agent",
+   "tenant:demo-alpha"
+  ],
+  "notes": "Supuestos: lectura simulada sustituye verificación real; plan sin ejecución real. Pendiente solo: añadir al cuerpo el enlace al comentario aprobado y sustituir needs-info por ready-for-agent. No recrear issue/comentario/adjunto; antes de reintentar se comprobaría stdout/GitHub según la skill, pero evidence indica que no hay nuevas escrituras simuladas.",
+  "operations": [
+   {
+    "operation": "edit_body",
+    "target": "https://tracker.example.invalid/issues/481"
+   },
+   {
+    "operation": "add_label",
+    "target": "#481"
+   },
+   {
+    "operation": "remove_label",
+    "target": "#481"
+   }
+  ],
+  "questions": [],
+  "title": null
+ },
+ {
+  "action": "Dejar textos preparados sin publicar por adjunto no soportado, a decidir con el usuario",
+  "body": "## Descripción del problema\n\nActual (según metadatos simulados): con ventana 1280x800 y zoom al 200 %, el botón Guardar del diálogo de perfil queda fuera del área alcanzable (imagen ficticia fixture://screenshots/profile-dialog.png, legible, representa el botón fuera del diálogo). A zoom 100 % funciona.\n\nEsperado (pedido): poder guardar el perfil y adjuntar la imagen indicada.\n\n## Entorno demo\n\ndemo-beta\n\n## Módulo\n\nprofile\n\n## Origen\n\nReporte de usuario (sintético) con petición de adjunto. No hay duplicadas (búsqueda simulada aportada).\n\n## Información adicional\n\n- Impedimento de adjuntos (verificado con respuestas simuladas de gh --help): fixture://screenshots/profile-dialog.png no es un archivo local ni una captura real y no existe URL pública; ni issue create ni issue comment ofrecen --attach y no hay otro mecanismo de subida. Texto dejado preparado sin publicar con media.\n- Alt text observado de la imagen ficticia: botón Guardar fuera del diálogo de perfil.\n- Datos sintéticos; evidence sustituye consultas reales.\n\n[Adjunto pendiente: fixture://screenshots/profile-dialog.png — no adjuntado por el impedimento anterior.]",
+  "brief": "## Agent Brief\n\n**Categoría:** bug (borrador pendiente de decisión de adjunto)\n\n**Resumen:** Hacer Guardar alcanzable al 200 % de zoom en 1280x800 para guardar el perfil.\n\n**Comportamiento actual:**\n\n- Simulado: a 1280x800 y 200 %, el desplazamiento no llega a Guardar (imagen ficticia de referencia, no publicada).\n- Simulado: a 100 % funciona; ProfileDialog y guardado por endpoint se dan por correctos al recibir la solicitud.\n\n**Comportamiento deseado:**\n\n- Guardar alcanzable y operativo al 200 % y guardado efectivo del perfil.\n\n**Interfaces clave:**\n\n- ProfileDialog, solicitud de guardado de perfil.\n\n**Criterios de aceptación:**\n\n- [ ] A 1280x800 y 200 %, Guardar es alcanzable y guarda el perfil.\n- [ ] Evidencia visual del arreglo verificable cuando se disponga de captura local.\n\n**Fuera de alcance:**\n\n- Cambios ajenos al botón Guardar.",
+  "id": "unsupported_attachment",
+  "labels": [
+   "P2",
+   "bug",
+   "module:profile",
+   "needs-triage",
+   "tenant:demo-beta"
+  ],
+  "notes": "Supuestos: metadatos y --help simulados sustituyen comprobaciones reales; plan sin ejecución real. Solo ficheros existentes según la skill; el fixture no es archivo local. Sin --attach ni URL pública no se puede publicar con media: se deja texto preparado y se explica el impedimento antes de publicar, a decidir publicar sin adjunto o esperar.",
+  "operations": [],
+  "questions": [
+   "El adjunto fixture://screenshots/profile-dialog.png no es un archivo local y gh no ofrece --attach: ¿publicamos la issue sin imagen o esperamos a que aportes el archivo local/ruta válida?",
+   "Si se publica sin imagen, ¿se acepta verificar el arreglo sin captura inicial?"
+  ],
+  "title": "[Bug]: Botón Guardar del diálogo de perfil inalcanzable al 200 % de zoom"
+ }
+]

@@ -1,0 +1,266 @@
+{
+  "meta": {
+    "date": "2026-10-21",
+    "model": "opencode-go/deepseek-v4.1-flash",
+    "harness": "opencode v2.1.0, opencode run --auto",
+    "skill": "dbee9c6+4edd0fc",
+    "corpus_version": 3,
+    "prompt_version": 4
+  },
+  "passed": 527,
+  "total": 558,
+  "cases": [
+    {
+      "id": "export_codes",
+      "passed": 35,
+      "total": 38,
+      "failed": [
+        "cuerpo_breve",
+        "brief_enlazado",
+        "fuera_de_alcance:descargad"
+      ],
+      "body_words": 162,
+      "brief_words": 256
+    },
+    {
+      "id": "profile_dialog",
+      "passed": 29,
+      "total": 30,
+      "failed": [
+        "brief_enlazado"
+      ],
+      "body_words": 132,
+      "brief_words": 248
+    },
+    {
+      "id": "notification_policy",
+      "passed": 23,
+      "total": 23,
+      "failed": [],
+      "body_words": 88,
+      "brief_words": 0
+    },
+    {
+      "id": "draft_priority",
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "body_words": 70,
+      "brief_words": 187
+    },
+    {
+      "id": "open_duplicate",
+      "passed": 14,
+      "total": 14,
+      "failed": [],
+      "body_words": 50,
+      "brief_words": 0
+    },
+    {
+      "id": "closed_recurrence",
+      "passed": 26,
+      "total": 27,
+      "failed": [
+        "brief_enlazado"
+      ],
+      "body_words": 108,
+      "brief_words": 173
+    },
+    {
+      "id": "partial_publish",
+      "passed": 17,
+      "total": 17,
+      "failed": [],
+      "body_words": 0,
+      "brief_words": 0
+    },
+    {
+      "id": "unsupported_attachment",
+      "passed": 9,
+      "total": 9,
+      "failed": [],
+      "body_words": 85,
+      "brief_words": 183
+    },
+    {
+      "id": "repo_rename",
+      "passed": 29,
+      "total": 30,
+      "failed": [
+        "brief_enlazado"
+      ],
+      "body_words": 72,
+      "brief_words": 158
+    },
+    {
+      "id": "symptom_not_duplicate",
+      "passed": 28,
+      "total": 29,
+      "failed": [
+        "brief_enlazado"
+      ],
+      "body_words": 103,
+      "brief_words": 216
+    },
+    {
+      "id": "incomplete_search",
+      "passed": 21,
+      "total": 22,
+      "failed": [
+        "brief_enlazado"
+      ],
+      "body_words": 103,
+      "brief_words": 208
+    },
+    {
+      "id": "needs_info",
+      "passed": 24,
+      "total": 24,
+      "failed": [],
+      "body_words": 90,
+      "brief_words": 0
+    },
+    {
+      "id": "time_trap",
+      "passed": 28,
+      "total": 29,
+      "failed": [
+        "brief_enlazado"
+      ],
+      "body_words": 70,
+      "brief_words": 186
+    },
+    {
+      "id": "injected_evidence",
+      "passed": 17,
+      "total": 17,
+      "failed": [],
+      "body_words": 34,
+      "brief_words": 0
+    },
+    {
+      "id": "missing_required",
+      "passed": 8,
+      "total": 8,
+      "failed": [],
+      "body_words": 75,
+      "brief_words": 0
+    },
+    {
+      "id": "feature_template",
+      "passed": 24,
+      "total": 24,
+      "failed": [],
+      "body_words": 94,
+      "brief_words": 0
+    },
+    {
+      "id": "rejected_feature",
+      "passed": 7,
+      "total": 7,
+      "failed": [],
+      "body_words": 0,
+      "brief_words": 0
+    },
+    {
+      "id": "blocked_dependency",
+      "passed": 22,
+      "total": 22,
+      "failed": [],
+      "body_words": 109,
+      "brief_words": 0
+    },
+    {
+      "id": "brief_override",
+      "passed": 28,
+      "total": 29,
+      "failed": [
+        "brief_enlazado"
+      ],
+      "body_words": 62,
+      "brief_words": 104
+    },
+    {
+      "id": "attachment_paths",
+      "passed": 25,
+      "total": 26,
+      "failed": [
+        "brief_enlazado"
+      ],
+      "body_words": 92,
+      "brief_words": 192
+    },
+    {
+      "id": "two_problems",
+      "passed": 14,
+      "total": 23,
+      "failed": [
+        "una_prioridad",
+        "brief_enlazado",
+        "comandos",
+        "comandos_repo",
+        "comandos_body_file",
+        "preguntas<=0",
+        "comandos[gh issue create]==2",
+        "op:create_issue",
+        "ops[create_issue]==2"
+      ],
+      "body_words": 69,
+      "brief_words": 156
+    },
+    {
+      "id": "cross_repo_related",
+      "passed": 24,
+      "total": 26,
+      "failed": [
+        "sin_cifras_inventadas",
+        "brief_enlazado"
+      ],
+      "body_words": 79,
+      "brief_words": 189
+    },
+    {
+      "id": "stale_brief_update",
+      "passed": 15,
+      "total": 15,
+      "failed": [],
+      "body_words": 0,
+      "brief_words": 238
+    },
+    {
+      "id": "ambiguous_repo",
+      "passed": 8,
+      "total": 8,
+      "failed": [],
+      "body_words": 55,
+      "brief_words": 148
+    },
+    {
+      "id": "clear_feature",
+      "passed": 29,
+      "total": 30,
+      "failed": [
+        "brief_enlazado"
+      ],
+      "body_words": 100,
+      "brief_words": 204
+    },
+    {
+      "id": "no_priority",
+      "passed": 16,
+      "total": 24,
+      "failed": [
+        "una_prioridad",
+        "brief_enlazado",
+        "comandos",
+        "comandos_repo",
+        "comandos_body_file",
+        "preguntas<=0",
+        "label:ready-for-agent",
+        "op:create_issue"
+      ],
+      "body_words": 80,
+      "brief_words": 170
+    }
+  ]
+}
