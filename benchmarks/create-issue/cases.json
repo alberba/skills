@@ -1,0 +1,95 @@
+{
+  "common": {
+    "synthetic": true,
+    "repository": "example-org/issue-lab",
+    "template": "Título [Bug]: o [Feature]:. Cuerpo: Descripción del problema (actual/esperado), Entorno demo, Módulo, Origen e Información adicional.",
+    "labels": [
+      "bug",
+      "feature",
+      "Task",
+      "tenant:demo-alpha",
+      "tenant:demo-beta",
+      "module:exports",
+      "module:profile",
+      "module:notifications",
+      "module:catalog",
+      "P1",
+      "P2",
+      "needs-triage",
+      "needs-info",
+      "needs-discussion",
+      "ready-for-agent"
+    ],
+    "conventions": "Tipo, entorno demo, módulo y prioridad obligatorios. Un único estado canónico entre needs-triage, needs-info y ready-for-agent. needs-discussion expresa una decisión de alcance pendiente. No añadir proyectos ni pedir tiempo de commit.",
+    "data_notice": "Todos los nombres, identificadores, trazas, peticiones y resultados descritos son inventados. No proceden de clientes, incidencias, documentos o capturas reales. Las evidencias son respuestas simuladas, no consultas verificadas contra un servicio."
+  },
+  "cases": [
+    {
+      "id": "export_codes",
+      "request": "Crea una issue P1 para demo-alpha: la exportación CSV elimina los ceros iniciales de los códigos de producto. Debe conservarlos en las nuevas exportaciones. Reprocesar también las exportaciones pendientes, pero no modificar archivos históricos ya descargados.",
+      "evidence": [
+        "Fixture: producto DEMO-P01 con code=\"000842\". El CSV simulado contiene \"842\". Para DEMO-P02 con code=\"052100\", aparece \"52100\". Los códigos son texto, no cantidades.",
+        "El tipo ExportRow representa product_code como texto, pero el serializador lo convierte a entero. Las cantidades y los importes sí conservan su comportamiento y no deben cambiarse.",
+        "Fixture de cola: tres exportaciones pendientes. El historial simulado contiene seis eventos del defecto; no determina cuántos usuarios distintos hay afectados. No hay duplicadas abiertas.",
+        "Hallazgo ajeno del fixture: una etiqueta de ayuda tiene un error ortográfico. No es necesario corregirlo para conservar los códigos."
+      ]
+    },
+    {
+      "id": "profile_dialog",
+      "request": "Crea una issue P2 para demo-beta: al ampliar el navegador al 200 %, el botón Guardar del diálogo de perfil queda fuera del área alcanzable. Debe poder guardarse el perfil.",
+      "evidence": [
+        "Fixture de interfaz: ventana 1280x800 y zoom 200 %. El campo Nombre puede editarse, pero el desplazamiento del diálogo no llega a Guardar. A zoom 100 % funciona.",
+        "Componente demo: ProfileDialog. El endpoint simulado guarda correctamente al recibir la solicitud. No hay duplicadas.",
+        "Hallazgo ajeno: el avatar de ejemplo tiene un color antiguo. No forma parte del arreglo del botón."
+      ]
+    },
+    {
+      "id": "notification_policy",
+      "request": "Registra ya una feature P2 para demo-alpha sobre avisos de actividad. Decidiremos después si serán inmediatos o un resumen diario; no hace falta resolverlo ahora.",
+      "evidence": [
+        "Fixture: hoy no hay avisos. Existen ActivityEvent y NotificationPreferences en el proyecto demo. No hay decisión sobre frecuencia ni sobre quién puede cambiarla.",
+        "Registrar ambas decisiones pendientes, sin contactar a nadie ni inventar una política. No hay duplicadas."
+      ]
+    },
+    {
+      "id": "draft_priority",
+      "request": "Prepara un borrador para demo-beta: el orden por nombre de la lista de productos se pierde al pasar de página. No publiques todavía. Mensaje posterior: P1.",
+      "evidence": [
+        "Fixture de navegación: ?sort=name&page=1 aplica el orden; el enlace a página 2 omite sort=name. El resultado esperado es conservar ese orden. No hay duplicadas."
+      ]
+    },
+    {
+      "id": "open_duplicate",
+      "request": "Crea una issue P1 del CSV que elimina ceros en demo-alpha. Si ya está registrada, añade la nueva evidencia a la existente.",
+      "evidence": [
+        "Tracker simulado: issue abierta #480 cubre exactamente el defecto de los códigos CSV y tiene brief vigente. Labels bug, tenant:demo-alpha, module:exports, P1 y ready-for-agent.",
+        "Nuevo fixture: producto DEMO-P03 con code=\"004510\" se exporta como \"4510\". No se ha simulado el total de usuarios afectados."
+      ]
+    },
+    {
+      "id": "closed_recurrence",
+      "request": "Crea una issue P2 para demo-beta: ha vuelto a fallar la búsqueda de nombres con tilde.",
+      "evidence": [
+        "Tracker simulado: #470 cerrada tras una corrección y una validación ficticias. En una versión demo posterior, buscar \"café\" no encuentra el producto DEMO-P10 titulado \"Café\".",
+        "No hay issue abierta para este caso. Se desconoce la causa; no se han simulado pruebas con otros términos ni otros idiomas."
+      ]
+    },
+    {
+      "id": "partial_publish",
+      "request": "Continúa la publicación interrumpida de demo-alpha hasta dejarla lista para implementar. El texto ya está aprobado.",
+      "evidence": [
+        "Tracker simulado: existe https://tracker.example.invalid/issues/481 con cuerpo correcto, captura ficticia y labels bug, tenant:demo-alpha, module:exports, P1 y needs-info. La información que faltaba ya está resuelta.",
+        "La creación del brief agotó el tiempo, pero una lectura simulada posterior confirma el único comentario aprobado en https://tracker.example.invalid/issues/481#comment-91.",
+        "Quedan añadir al cuerpo el enlace a ese comentario y sustituir needs-info por ready-for-agent. No hay nuevas escrituras simuladas. No recrear la issue, comentario o adjunto."
+      ]
+    },
+    {
+      "id": "unsupported_attachment",
+      "request": "Crea una issue P2 para el botón Guardar inaccesible en demo-beta y adjunta la imagen indicada.",
+      "evidence": [
+        "Metadatos del doble de prueba: imagen ficticia fixture://screenshots/profile-dialog.png legible, representa el botón fuera del diálogo. No es un archivo local ni una captura real.",
+        "Respuestas simuladas de gh --help: ni issue create ni issue comment ofrecen --attach. No hay otro mecanismo de subida ni URL pública del fixture. No hay duplicadas."
+      ]
+    }
+  ]
+}
