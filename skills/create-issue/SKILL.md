@@ -25,6 +25,8 @@ Preparar las nuevas issues para `ready-for-agent` siguiendo [Preparación para a
 
 Consultar los labels existentes y aplicar la taxonomía documentada del repo, respetando sus nombres exactos y los ejes obligatorios (p. ej. partner o módulo). Proponer la prioridad según las convenciones locales y el impacto conocido. Crear labels ausentes solo cuando la convención lo requiera o el usuario lo autorice; si falta un dato obligatorio o un permiso, mostrarlo como pendiente.
 
+En las `feature` que cambien la apariencia de la interfaz (layout, estilos, tipografía, iconos o animaciones), añadir el label `ui-change` además del tipo. Usar el equivalente documentado del repo si existe; si falta, crear `ui-change` como parte de esta convención. Un cambio de lógica sin efecto en la apariencia conserva sus labels habituales.
+
 Si el usuario pega imágenes/vídeo o menciona sus rutas, leer [Adjuntos](references/adjuntos.md) para asociarlos, inspeccionarlos y preparar su ubicación. Esta rama usa ficheros existentes; la captura de media nueva pertenece a otro flujo.
 
 La preparación termina cuando cada acción tiene destino, título/body, brief o comentario aplicable, labels, adjuntos, estado recomendado y pendientes identificados. La autorización para crear una issue incluye publicar su brief. Aplicar `ready-for-agent` tras publicar y verificar el brief; crear el label si falta y hay permiso.
