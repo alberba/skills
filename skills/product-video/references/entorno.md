@@ -1,20 +1,18 @@
 # Preparar la aplicación
 
-1. Lee las instrucciones de desarrollo del repo y usa su entorno local. Si
-   hace falta otra rama, usa el gestor de worktrees del entorno. La copia de
-   datos y los comandos de arranque pertenecen al repo, no a esta skill.
-2. Verifica login, búsqueda, imágenes y las pantallas del guion con esa
-   variante del producto. Prepara registros sintéticos que permitan completar
-   el recorrido sin exponer datos reales.
-3. Comprueba los efectos externos del servidor: una base de datos local puede
+1. Usa el entorno local y las instrucciones del repo; para otra rama, su
+   gestor de worktrees. Verifica login, búsqueda, imágenes y las pantallas
+   del guion con esa variante. Prepara datos sintéticos; si se usan datos
+   reales, acuerda qué ocultar antes de capturar.
+2. Comprueba los efectos externos del servidor: una base de datos local puede
    seguir enviando a un ERP, correo o pasarela reales. Usa sandboxes o desactiva
    esos conectores y sus workers según el repo. El filtro del navegador no
    aísla llamadas que el servidor hace desde un GET, una tarea o un websocket.
-4. Configura `<proyecto>/escenas.py` según [grabar.md](grabar.md). Usa sesiones
+3. Configura `<proyecto>/escenas.py` según [grabar.md](grabar.md). Usa sesiones
    y credenciales de prueba autorizadas; el hook `setup` implementa el login.
    El grabador usa Chromium con service workers bloqueados y filtra las
    escrituras antes de ejecutar ese hook.
-5. Mantén el directorio de vídeo fuera de git, o ignora explícitamente sus
+4. Mantén el directorio de vídeo fuera de git, o ignora explícitamente sus
    sesiones, audios, capturas y secretos. No presupongas que `videos/` está
    ignorado en otro repo. `.env.local` contiene las claves; no se lee ni imprime
    como evidencia.

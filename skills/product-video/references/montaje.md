@@ -28,9 +28,8 @@ Cada función devuelve `(duración, html)`; consulta las firmas de
   con la voz. `window_html`, `window_still`, `web_scene` y `wrap` permiten
   escenas propias.
 
-El kit conserva un estilo de papel, foco sin borde y cursor de flecha suave;
-son un punto de partida. La marca, colores, cierre y duración se deciden para
-el producto actual. No incorpora logos ni una voz de Nougrup/Isitech.
+El kit aporta papel, foco sin borde y cursor de flecha suave. Adapta marca,
+colores y cierre al producto actual.
 
 ## Revisión visual
 
@@ -39,11 +38,10 @@ límite ×1,35 y umbral ×1,2. Una marca `zoom` activa el acercamiento; no se
 necesita en cada frase. La cámara hereda el plano anterior y vuelve al plano
 abierto antes de una escena diseñada. Revisa las uniones además de los frames.
 
-`assets/marcas.txt` indica segundos globales para `hyperframes snapshot --at`.
-Comprueba en cada marca que el foco enmarca el bloque completo y coincide con
-lo narrado. Revisa también escenas sin marcas e inicio/cierre. El informe de
-continuidad señala saltos de página/scroll y scroll que se deshace: resuélvelos
-en `escenas.py` o justifica el corte diseñado en el guion.
+`assets/marcas.txt` da los segundos para `hyperframes snapshot --at`: revisa
+foco y contenido narrado en cada marca. El informe de continuidad señala
+saltos de página/scroll y scroll que se deshace: resuélvelos en `escenas.py`
+o justifica el corte en el guion.
 
 Las escenas móviles, esquemas y rótulos se revisan ampliados en snapshot y
 preview: las hojas de contacto no muestran bien capas desplazadas, logos
@@ -51,10 +49,9 @@ pixelados, etiquetas duplicadas ni barras recortadas. Centra elementos animados
 con un contenedor flex; una transformación de centrado puede ser sobrescrita
 por la animación y verse distinta en preview.
 
-Antes de un efecto propio, busca una pieza en el catálogo HyperFrames si el
-CLI lo ofrece. Mantén una timeline pausada y determinista. El foco anima
-opacidad, no `left`/`top`. Si hay skills HyperFrames instaladas, usa las
-referencias que correspondan al efecto concreto.
+En efectos propios, el foco se anima por opacidad y conserva su geometría;
+consulta HyperFrames para catálogo y contrato de animación cuando esté
+disponible. Sin esa referencia, mantén una timeline pausada y determinista.
 
 El montaje regenera `compositions/frames/` y `assets/stills/`. Guarda capturas
 manuales en `assets/capturas/`; esos directorios generados no deben contener
@@ -68,3 +65,12 @@ visible del teléfono 368×721. Una toma 390×844 no encaja: regraba al viewport
 del kit si el encargo lo permite, o adapta conjuntamente `MOVIL`, el tamaño
 de salida del grabador y `phone`. Comprueba el encuadre sin recortar ni
 estirar barras; insertar la toma más alta con `object-fit: cover` las corta.
+
+## Exportar el corte aprobado
+
+Ejecuta el render final solo después de la aprobación del preview indicada
+en el paso 6 de [SKILL.md](../SKILL.md). Desde `<proyecto>`:
+
+```sh
+npx hyperframes render -q delivery --video-frame-format png -o <destino>.mp4
+```

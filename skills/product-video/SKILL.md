@@ -1,69 +1,61 @@
 ---
 name: product-video
-description: Crear o editar vídeos de producto web (demos, recorridos y novedades) con grabación real, voz sincronizada y subtítulos. Usar para una demo grabada o un vídeo que explique una aplicación; requiere Playwright, FFmpeg e HyperFrames para el montaje.
+description: Crear o editar demos y recorridos de aplicaciones web con grabación real, voz sincronizada y subtítulos, usando Playwright, FFmpeg e HyperFrames.
 ---
 
 # Vídeos de producto
 
-Convierte un recorrido real de una aplicación web en un vídeo narrado. El kit
-no presupone framework, login, marca ni integraciones del repositorio.
-`<SKILL_DIR>` significa la ruta absoluta de esta carpeta instalada: resuélvela
-antes de ejecutar comandos; el proyecto del vídeo puede vivir en otro repo.
+Graba la aplicación real y monta un recorrido narrado con el kit de esta
+carpeta. `<SKILL_DIR>` es su ruta absoluta; `<proyecto>`, la carpeta del vídeo.
 
-La fuente es `STORYBOARD.md`: texto, orden, pantallas y tiempos. `escenas.py`
-define la navegación y el acceso a la aplicación; `diseno.py`, las escenas
-ilustradas. Los HTML se regeneran: cambia sus fuentes, no el resultado.
+Fuentes: `STORYBOARD.md` para texto, orden y tiempos; `escenas.py` para acceso
+y navegación; `diseno.py` para escenas diseñadas. Edita estas fuentes: el HTML
+se regenera.
 
-## Preparar el encargo
+## 1. Recuperar el encargo
 
-Reutiliza las decisiones y autorizaciones de la conversación y del proyecto.
-Completa en `BRIEF.md` el público, alcance, idioma/acento, marca, destino,
-privacidad e importes visibles. Pregunta solo por decisiones pendientes que
-cambien la entrega; con datos sintéticos y sin importes no hay cuestionario de
-privacidad. Para datos reales, resuelve qué ocultar antes de grabarlos.
+Recupera el guion, medios, configuración y decisiones existentes. Completa
+solo lo que falte en `BRIEF.md`: público, alcance, idioma/acento, marca,
+destino, duración, privacidad e importes visibles. Pregunta por huecos que
+cambien la entrega; con datos sintéticos y sin importes basta documentarlo.
 
-Si está instalada, usa la skill `hyperframes` para preparar el proyecto y su
-brief, en flujo companion. Si falta, consulta el CLI instalado y crea un
-proyecto con `hyperframes.json`; conserva guion y fuentes si el render no está
-disponible. No sustituyas grabaciones reales por pantallas inventadas.
+Usa `hyperframes` en flujo companion para preparar el proyecto. Si la skill
+falta, consulta el CLI instalado y crea `hyperframes.json`; si el render no
+está disponible, entrega las fuentes e indica ese límite.
 
-Lee [entorno.md](references/entorno.md) para preparar una copia local, aislar
-integraciones y configurar el kit. Verifica allí cada pantalla antes de
-incluirla: una funcionalidad exclusiva de otra variante no entra en el guion.
+## 2. Preparar guion y muestra
 
-## Guion y recorrido, por bloques
+Lee [entorno.md](references/entorno.md) para preparar la aplicación y aislar
+integraciones. Incluye solo pantallas y funciones verificadas en esa versión.
 
-Recorre la aplicación y escribe el texto en el mismo orden que la navegación.
-Cada frase desarrolla una idea y una acción visible. Revisa el texto por
-bloques y graba cada bloque antes de desarrollar el siguiente; respeta las
-aprobaciones existentes. Para el formato, lee [grabar.md](references/grabar.md).
+Lee [grabar.md](references/grabar.md) para escribir el storyboard y el
+recorrido. En un vídeo nuevo, lleva primero un bloque representativo hasta
+el preview con voz y foco antes de desarrollar los demás. Con un guion
+aprobado, conserva su alcance y trabaja los bloques pendientes.
 
-Mantén en **el mismo storyboard y preview** todas las piezas aprobadas,
-incluidas las introducciones añadidas después. El orden es el del documento,
-no el número del frame. Todos los frames de este kit llevan locución; si se
-necesita una escena muda, adapta el montaje explícitamente antes de usarla.
+## 3. Preparar la voz
 
-## Voz y tomas
-
-Antes de generar voz con ElevenLabs, lee [voz.md](references/voz.md): resuelve
-la API key, el id de voz y el modelo desde la configuración y las decisiones
-ya aprobadas. Pide únicamente lo que falte. Reutiliza audio vigente y la voz
-aprobada; confirma acento y pronunciación con una muestra si la voz es nueva.
+Lee [voz.md](references/voz.md) para configurar ElevenLabs y generar la
+locución por escena. Comprueba acento, pronunciación y ritmo con una muestra
+si la voz es nueva; conserva las elecciones y audios vigentes.
 
 ```sh
 uv run --no-project --with elevenlabs python <SKILL_DIR>/scripts/voz.py <proyecto> --voz <id> --modelo <modelo> --idioma es --escuchar
+```
+
+## 4. Grabar el recorrido
+
+```sh
 uv run --no-project --with playwright python <SKILL_DIR>/scripts/grabador.py <proyecto> [NN ...]
 ```
 
-Las tomas siguen [grabar.md](references/grabar.md): cada gesto cae con la
-palabra que lo nombra y cada pantalla continúa el recorrido anterior.
-Hecho cuando todas las tomas existen, el comando termina con éxito, ninguna
-marca supera 0,25 s de retraso y has revisado la privacidad tras las
-navegaciones. Cambiar voz, tiempos o `lead` invalida las tomas afectadas.
+Resuelve tomas fallidas y valida sincronía, continuidad y privacidad según
+[grabar.md](references/grabar.md) antes de montar.
 
-## Montaje y entrega
+## 5. Montar y comprobar
 
-Lee [montaje.md](references/montaje.md) para las piezas, logos y revisión visual.
+Lee [montaje.md](references/montaje.md) para las piezas y comprobaciones del kit;
+usa HyperFrames para los efectos y la revisión general.
 
 ```sh
 python3 <SKILL_DIR>/scripts/montaje.py <proyecto>
@@ -71,17 +63,25 @@ cd <proyecto>
 npx hyperframes check
 ```
 
-El montaje exige una locución vigente por frame y rechaza tomas de otra
-locución. Comprueba que el inicio, los bloques y el cierre aprobados aparecen
-en el preview completo. Revisa fotogramas por marca, las uniones entre escenas
-y, ampliadas, las escenas diseñadas y móviles. `check` no verifica estética,
-privacidad ni que el guion cubra lo solicitado.
+Incluye todas las piezas aprobadas en el mismo storyboard y preview, también
+las intros añadidas después. Revisa las uniones y compara la duración con el
+brief: si una acción excede su locución, ajusta la frase o el tiempo de lectura.
 
-Muestra el preview entero con sonido y aplica las notas en sus fuentes.
-Renderiza cuando esté autorizado; una autorización existente sigue siendo
-válida para su alcance. Entrega el MP4, su ubicación y las limitaciones reales.
-Elimina las sesiones temporales (`.sesion.json`) al acabar.
+## 6. Mostrar el preview y esperar aprobación
+
+Reproduce el preview entero con sonido y aplica las notas en las fuentes.
+Si no puedes revisar el audio o el corte completo, facilita el preview y deja
+explícita la revisión pendiente; `check` no acredita esa revisión.
 
 ```sh
-npx hyperframes render -q delivery --video-frame-format png -o <destino>.mp4
+npx hyperframes preview
 ```
+
+Presenta el preview completo al usuario y detente hasta que apruebe
+explícitamente ese corte para exportarlo. Aprobar el guion, la voz o el encargo
+no sustituye esta aprobación. Si ya aprobó ese mismo preview y sigue intacto,
+continúa sin volver a preguntarlo; si cambia el corte, muestra el nuevo preview.
+
+Tras la aprobación, sigue [la exportación](references/montaje.md#exportar-el-corte-aprobado)
+y entrega el MP4, su ubicación y el estado real de revisión. Elimina las
+sesiones temporales (`.sesion.json`) al acabar.

@@ -17,6 +17,7 @@
 
 `section` y `lead` son opcionales. Los ids y `src` son únicos; el orden del
 documento manda. `src` está dentro de `compositions/frames/`, salida generada.
+Cada frame exige locución; adapta el montaje antes de introducir escenas mudas.
 
 ## Contrato de escenas.py
 
@@ -84,6 +85,8 @@ transitoria. `--sin-difuminar` solo se usa si el brief autoriza datos visibles.
 - `h.point(nombre, elemento, palabra, within=...)` lleva el cursor y marca el
   bloque al decir la palabra. `h.show` marca sin cursor; `h.at(palabra,
   ahead=s)` anticipa una acción que necesita carga.
+- Vincula las marcas narrativas a su palabra con estos métodos. Una marca
+  sin `cue` queda fuera del informe de desfase: no acredita sincronía.
 - Las palabras se buscan hacia delante, ignorando tildes y mayúsculas;
   repetir la última palabra reutiliza su tiempo. `h.text(..., exact=True)`
   evita coincidencias en etiquetas parecidas.
@@ -103,5 +106,8 @@ transitoria. `--sin-difuminar` solo se usa si el brief autoriza datos visibles.
 
 Cada toma genera vídeo, JSON con marcas y huella de voz, URL/scroll iniciales
 y finales. Una toma fallida deja `NN-error.png`; el comando continúa con las
-demás y termina con error. No montes hasta resolverlas. Cambiar CSS o cursor
-exige repetir todas las tomas que lo contienen; cambiar voz/lead, las afectadas.
+demás y termina con error. Monta cuando todas las tomas existan, el comando
+termine con éxito, ninguna marca narrativa supere 0,25 s de retraso y la
+privacidad esté revisada tras las navegaciones. El desfase solo genera avisos:
+compruébalos aunque el comando termine con éxito. Cambiar CSS o cursor exige
+repetir las tomas que lo contienen; cambiar voz, tiempos o `lead`, las afectadas.
