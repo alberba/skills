@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-22",
+  "kind": "deterministic integration suite",
+  "command": "uv run --no-project --with playwright==1.64.0 python -m unittest discover -s benchmarks/product-video -p 'test_*.py' -v",
+  "tests": 12,
+  "passed": 12,
+  "status": "passed",
+  "observed_duration_seconds": 7.709,
+  "skill_digest": "a57f0130293b8ce4d13cc6624bbbd2111babdad7c5c92cc19405080edb157f7a",
+  "python": "3.14.6",
+  "playwright": "1.64.0",
+  "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+  "paid_api_calls": 0,
+  "hyperframes_render": "not executed"
+}

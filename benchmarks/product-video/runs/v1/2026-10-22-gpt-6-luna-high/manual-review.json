@@ -1,0 +1,97 @@
+{
+  "reviewer": "main agent; rubric visible; not an independent blind review",
+  "score": 27,
+  "max": 30,
+  "cases": [
+    {
+      "id": "portable_non_django",
+      "score": 2,
+      "max": 2,
+      "reason": "Cumple el criterio de la rúbrica en el plan; no demuestra ejecución."
+    },
+    {
+      "id": "approved_intro_missing",
+      "score": 2,
+      "max": 2,
+      "reason": "Cumple el criterio de la rúbrica en el plan; no demuestra ejecución."
+    },
+    {
+      "id": "voice_cache_identity",
+      "score": 2,
+      "max": 2,
+      "reason": "Cumple el criterio de la rúbrica en el plan; no demuestra ejecución."
+    },
+    {
+      "id": "voice_timing_stale_takes",
+      "score": 1,
+      "max": 2,
+      "reason": "Propone aplicar 0.95 a un audio que la evidencia ya entrega a 0.95: riesgo de ralentizarlo dos veces. Sí invalida tiempos y tomas."
+    },
+    {
+      "id": "camera_continuity",
+      "score": 2,
+      "max": 2,
+      "reason": "Cumple el criterio de la rúbrica en el plan; no demuestra ejecución."
+    },
+    {
+      "id": "transient_privacy",
+      "score": 2,
+      "max": 2,
+      "reason": "Cumple el criterio de la rúbrica en el plan; no demuestra ejecución."
+    },
+    {
+      "id": "real_mobile_chrome",
+      "score": 1,
+      "max": 2,
+      "reason": "Propone grabar 390x844 y usar phone sin adaptar su área fija de 390x764: riesgo de recorte. Sí exige navegación real y revisión ampliada."
+    },
+    {
+      "id": "feature_unavailable",
+      "score": 2,
+      "max": 2,
+      "reason": "Cumple el criterio de la rúbrica en el plan; no demuestra ejecución."
+    },
+    {
+      "id": "before_after_pairing",
+      "score": 2,
+      "max": 2,
+      "reason": "Cumple el criterio de la rúbrica en el plan; no demuestra ejecución."
+    },
+    {
+      "id": "renderer_missing",
+      "score": 2,
+      "max": 2,
+      "reason": "Cumple el criterio de la rúbrica en el plan; no demuestra ejecución."
+    },
+    {
+      "id": "authorization_already_given",
+      "score": 2,
+      "max": 2,
+      "reason": "Cumple el criterio de la rúbrica en el plan; no demuestra ejecución."
+    },
+    {
+      "id": "same_origin_write_allowlist",
+      "score": 2,
+      "max": 2,
+      "reason": "Cumple el criterio de la rúbrica en el plan; no demuestra ejecución."
+    },
+    {
+      "id": "voice_no_global_default",
+      "score": 2,
+      "max": 2,
+      "reason": "Cumple el criterio de la rúbrica en el plan; no demuestra ejecución."
+    },
+    {
+      "id": "approved_scope_and_no_repeat_questions",
+      "score": 2,
+      "max": 2,
+      "reason": "Cumple el criterio de la rúbrica en el plan; no demuestra ejecución."
+    },
+    {
+      "id": "privacy_after_navigation",
+      "score": 1,
+      "max": 2,
+      "reason": "Corrige selectores y revisa toda la transición, pero no contempla datos sintéticos como exige la rúbrica cuando falta garantía previa de anonimización."
+    }
+  ]
+}

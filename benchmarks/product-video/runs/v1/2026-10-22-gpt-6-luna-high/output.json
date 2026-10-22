@@ -1,0 +1,256 @@
+[
+  {
+    "id": "portable_non_django",
+    "decision": "Prepararía un recorrido reproducible con Playwright y la interfaz documentada de escenas.py; queda listo cuando las pantallas y el hook se verifiquen en el servicio Node sin asumir un framework ni una ruta de login.",
+    "plan": [
+      {"step": "Crear videos/catalogo/escenas.py con BASE_URL apuntando al sitio indicado y el contrato setup(page, base, who).", "purpose": "Mantener la navegación desacoplada del backend y de cualquier supuesto sobre Django."},
+      {"step": "Verificar con Chromium las pantallas del recorrido y determinar si requieren sesión o preparación local; añadir solo navegación observada al hook y a las escenas.", "purpose": "Hacer que el proyecto se pueda repetir en el sitio Node real."},
+      {"step": "Documentar en el storyboard el orden, la narración y las pantallas confirmadas, y validar las tomas y el preview.", "purpose": "Asegurar que el video cubre el recorrido observable y que sus fuentes son reproducibles."}
+    ],
+    "project_config": {"base_url": "https://shop.example.test", "setup": null, "allowed_writes": null, "privacy_selectors": null, "project_css": null, "modes": null, "voice": {"id": null, "model": null, "language": null}},
+    "voice_cache": {"reuse": true, "cache_key_inputs": ["texto", "ID de voz", "modelo", "idioma"], "invalidate_when": ["cambie el texto, el ID de voz, el modelo o el idioma", "cambie velocidad o lead para las tomas afectadas"]},
+    "capture_checks": ["Confirmar que cada ruta y acción existe en el sitio antes de incluirla.", "Comprobar marcas de gesto y palabra: ninguna debe retrasarse más de 0,25 s.", "Revisar privacidad a 10 fps después de cada navegación y verificar continuidad de página y scroll.", "Revisar el preview completo, las uniones, el inicio y el cierre."],
+    "authorization": {"already_granted": ["Preparar el recorrido y el proyecto reproducible bajo videos/catalogo."], "next_action": "Inspeccionar las pantallas y definir el hook únicamente con lo observado.", "approval_needed": false},
+    "questions": ["¿Qué beneficio y qué pantallas concretas debe cubrir el recorrido corto?"] ,
+    "artifacts": ["videos/catalogo/escenas.py", "videos/catalogo/STORYBOARD.md", "videos/catalogo/BRIEF.md"],
+    "blockers": [],
+    "notes": ["La evidencia confirma un sitio Node aparte, pero no especifica el recorrido, el login ni una voz; esos valores no se presuponen."]
+  },
+  {
+    "id": "approved_intro_missing",
+    "decision": "Incorporaría la introducción aprobada existente al principio del mismo storyboard y preview; queda lista cuando Frames 33–35 aparecen primero en el orden documental y el montaje conserva su audio y diseño aprobados.",
+    "plan": [
+      {"step": "Integrar las fuentes del intro aprobado, su audio y sus tiempos en el proyecto actual sin recrear el contenido.", "purpose": "Reutilizar exactamente la pieza ya aprobada."},
+      {"step": "Colocar los Frames 33–35 antes del bloque que comienza en Frame 4 en el storyboard; respetar el orden de documento, no el número de frame.", "purpose": "Hacer que la introducción abra el corte."},
+      {"step": "Regenerar el montaje y comprobar que intro y recorrido están juntos en el preview completo.", "purpose": "Verificar continuidad y conservar el alcance de la aprobación existente."}
+    ],
+    "project_config": {"base_url": null, "setup": null, "allowed_writes": null, "privacy_selectors": null, "project_css": null, "modes": null, "voice": {"id": null, "model": null, "language": null}},
+    "voice_cache": {"reuse": true, "cache_key_inputs": ["texto", "ID de voz", "modelo", "idioma"], "invalidate_when": ["cambie la identidad de voz, el texto, la velocidad o los tiempos que afectan a las tomas"]},
+    "capture_checks": ["Comprobar que los frames introductorios aparecen al comienzo del storyboard y del preview.", "Verificar audio y tiempos aprobados y revisar la unión entre intro y Frame 4.", "Revisar el preview completo con sonido, incluida la transición al recorrido."],
+    "authorization": {"already_granted": ["Incluir en este corte el intro existente, aprobado y sincronizado."], "next_action": "Integrar las fuentes aprobadas y validar el preview completo.", "approval_needed": false},
+    "questions": [],
+    "artifacts": ["videos/catalogo/STORYBOARD.md", "videos/catalogo/compositions/frames/", "videos/catalogo/preview"],
+    "blockers": [],
+    "notes": ["La aprobación y los activos necesarios constan en la evidencia; el orden del storyboard determina la posición, aunque los IDs de frame sean 33–35."]
+  },
+  {
+    "id": "voice_cache_identity",
+    "decision": "Generaría la locución con voice-fixture-17, multilingual-v2 y es-ES porque la caché existente tiene otra identidad; queda lista cuando el nuevo audio y sus tiempos registren los parámetros solicitados y las tomas coincidan con su huella.",
+    "plan": [
+      {"step": "Mantener la caché antigua sin adoptarla y generar la locución con los parámetros CLI explícitos.", "purpose": "La identidad de proveedor no coincide y la caché no es válida para esta voz, modelo e idioma."},
+      {"step": "Guardar el audio y los tiempos con sus metadatos y huella nuevos.", "purpose": "Permitir que montaje.py compruebe la procedencia de cada toma."},
+      {"step": "Revisar pronunciación, acento y ritmo; grabar o repetir las tomas afectadas y comprobar que todas coinciden con el audio vigente.", "purpose": "Evitar montar capturas sincronizadas con la locución anterior."}
+    ],
+    "project_config": {"base_url": null, "setup": null, "allowed_writes": null, "privacy_selectors": null, "project_css": null, "modes": null, "voice": {"id": "voice-fixture-17", "model": "multilingual-v2", "language": "es-ES"}},
+    "voice_cache": {"reuse": false, "cache_key_inputs": ["texto", "ID de voz", "modelo", "idioma"], "invalidate_when": ["cambie el texto, el ID de voz, el modelo o el idioma"]},
+    "capture_checks": ["Revisar la locución completa por pronunciación, acento y ritmo antes de grabar.", "Confirmar que las marcas caen con la palabra correspondiente y ninguna supera 0,25 s de retraso.", "Confirmar huella de voz vigente en cada toma y en el montaje."],
+    "authorization": {"already_granted": ["Generar la narración del proyecto con los parámetros solicitados."], "next_action": "Generar la caché con la identidad solicitada; la caché miss consume créditos según la evidencia.", "approval_needed": false},
+    "questions": [],
+    "artifacts": ["videos/catalogo/assets/vo/", "videos/catalogo/vo.json", "videos/catalogo/locucion-completa.mp3"],
+    "blockers": [],
+    "notes": ["La autorización de generación está presente. La identidad distinta invalida el audio y los tiempos de la caché existente; no se presupone una tarifa de créditos."]
+  },
+  {
+    "id": "voice_timing_stale_takes",
+    "decision": "Adoptaría el audio aprobado a velocidad 0.95 y regeneraría sus tiempos y todas las tomas afectadas; el paquete de preview queda listo cuando no haya huellas ni marcas de la velocidad 1.0 y el usuario apruebe el render final si lo solicita.",
+    "plan": [
+      {"step": "Aplicar velocidad 0.95 al audio aprobado y regenerar los tiempos por palabra asociados a esa huella.", "purpose": "Los tiempos actuales pertenecen a otro audio y otra velocidad."},
+      {"step": "Volver a grabar las tomas registradas contra la huella antigua, manteniendo la misma velocidad.", "purpose": "Sincronizar gestos y pantallas con la locución vigente."},
+      {"step": "Montar y revisar el preview; renderizar la entrega final cuando conste autorización para ese render.", "purpose": "Completar el paquete con evidencia de sincronía y respetar el alcance de la autorización."}
+    ],
+    "project_config": {"base_url": null, "setup": null, "allowed_writes": null, "privacy_selectors": null, "project_css": null, "modes": null, "voice": {"id": null, "model": null, "language": null}},
+    "voice_cache": {"reuse": true, "cache_key_inputs": ["texto", "ID de voz", "modelo", "idioma", "velocidad"], "invalidate_when": ["cambie la velocidad de 1.0 a 0.95 para los tiempos y tomas afectados", "cambie la huella del audio"]},
+    "capture_checks": ["Validar marcas contra los tiempos recalculados y el límite de retraso de 0,25 s.", "Comprobar que cada toma tiene la huella del audio a 0.95.", "Revisar continuidad de escenas, uniones y preview completo con sonido."],
+    "authorization": {"already_granted": ["Usar la nueva narración aprobada a velocidad 0.95 y terminar el paquete de video."], "next_action": "Actualizar tiempos y tomas, montar el preview y solicitar aprobación antes de un render final si no está cubierta por el alcance vigente.", "approval_needed": true},
+    "questions": ["¿Apruebas el render final después de revisar el preview actualizado?"] ,
+    "artifacts": ["videos/catalogo/assets/vo/", "videos/catalogo/vo.json", "videos/catalogo/NN.mp4", "videos/catalogo/NN.json", "videos/catalogo/preview"],
+    "blockers": [],
+    "notes": ["La evidencia no identifica voz, modelo, idioma, destino ni aprobación del render final."]
+  },
+  {
+    "id": "camera_continuity",
+    "decision": "Ajustaría la escena B para continuar desde la ruta y el scroll final de A, conservando un encuadre legible y calmado; queda lista cuando el primer plano de B muestra las opciones debajo del pliegue sin salto de scroll o escala.",
+    "plan": [
+      {"step": "Configurar la continuidad entre las tomas para que B herede la página y scroll de A en vez de volver a scrollY 0.", "purpose": "La narración de B se refiere a opciones debajo del pliegue y el reinicio actual rompe la continuidad."},
+      {"step": "Mantener la cámara estable alrededor del encuadre legible de A y solo acercar si el bloque completo de opciones mejora; no superar ×1,35.", "purpose": "Evitar un movimiento brusco y conservar el contexto de la página."},
+      {"step": "Revisar frames de unión y las marcas narradas para confirmar que el panel completo de opciones está visible.", "purpose": "Asegurar que la acción coincide con lo que se dice."}
+    ],
+    "project_config": {"base_url": null, "setup": null, "allowed_writes": null, "privacy_selectors": null, "project_css": null, "modes": null, "voice": {"id": null, "model": null, "language": null}},
+    "voice_cache": {"reuse": true, "cache_key_inputs": ["texto", "ID de voz", "modelo", "idioma"], "invalidate_when": ["cambie voz, tiempos o lead de las tomas afectadas"]},
+    "capture_checks": ["Comparar el último frame de A con el primero de B en ruta, scroll y escala.", "Comprobar legibilidad del bloque completo de opciones en el encuadre.", "Revisar estabilidad de cámara y unión de escenas en el preview."],
+    "authorization": {"already_granted": ["Mostrar detalle y opciones con movimiento calmado y corte continuo."], "next_action": "Ajustar continuidad en escenas.py y revisar el montaje.", "approval_needed": false},
+    "questions": [],
+    "artifacts": ["videos/catalogo/escenas.py", "videos/catalogo/STORYBOARD.md", "videos/catalogo/preview"],
+    "blockers": [],
+    "notes": ["Las opciones ya son legibles con el encuadre de escala 1.25 según la comparación; no hace falta inventar una transición ni ampliar más."]
+  },
+  {
+    "id": "transient_privacy",
+    "decision": "Prepararía un selector que difumine también el toast y comprobaría toda la navegación antes de enviar; el flujo queda desbloqueado cuando nombre, email y dirección permanecen ocultos en cada frame, incluido el toast de 1,2 s.",
+    "plan": [
+      {"step": "Ampliar DIFUMINAR con selectores observados que cubran el toast de confirmación además del formulario.", "purpose": "Los selectores actuales dejan expuestos datos personales durante 1,2 s."},
+      {"step": "Verificar la cobertura de privacidad a 10 fps durante navegación y confirmación antes de grabar el recorrido completo.", "purpose": "Detectar exposiciones transitorias que una captura final no mostraría."},
+      {"step": "Completar el flujo solo con la ruta permitida ^/checkout/fixture-submit$ y revisar el reset del fixture al terminar.", "purpose": "Limitar la escritura al envío de prueba expresamente permitido y dejar el entorno repetible."}
+    ],
+    "project_config": {"base_url": "https://shop.example.test", "setup": null, "allowed_writes": ["^/checkout/fixture-submit$"], "privacy_selectors": null, "project_css": null, "modes": null, "voice": {"id": null, "model": null, "language": null}},
+    "voice_cache": {"reuse": true, "cache_key_inputs": ["texto", "ID de voz", "modelo", "idioma"], "invalidate_when": ["cambie voz, tiempos, lead o CSS/cursor de las tomas afectadas"]},
+    "capture_checks": ["Revisar nombre, email y dirección a 10 fps desde que aparece checkout hasta después del toast.", "Probar que los selectores dinámicos difuminan el toast antes de grabar el envío.", "Confirmar que solo se permite la ruta same-origin autorizada y que cualquier otra escritura queda bloqueada.", "Revisar la toma completa y su privacidad después de cada navegación."],
+    "authorization": {"already_granted": ["Usar la cuenta fixture y completar el flujo hasta la pantalla de confirmación."], "next_action": "Corregir y verificar primero el difuminado del toast; después completar el flujo con la única escritura permitida.", "approval_needed": false},
+    "questions": [],
+    "artifacts": ["videos/catalogo/escenas.py", "videos/catalogo/STORYBOARD.md", "videos/catalogo/NN.mp4", "videos/catalogo/NN.json"],
+    "blockers": ["El toast expone nombre, email y dirección porque DIFUMINAR no lo cubre; no se debe grabar el envío hasta cubrirlo y verificarlo."],
+    "notes": ["La cuenta y los datos son sintéticos, y el endpoint autorizado se reinicia. La autorización no amplía la lista de escrituras permitidas."]
+  },
+  {
+    "id": "real_mobile_chrome",
+    "decision": "Grabaría la app en el contexto móvil real de Playwright y la compondría dentro del marco de teléfono; queda lista cuando se vean interacción y scroll reales, y la página se lea sin fingir barras del sistema dentro del DOM.",
+    "plan": [
+      {"step": "Configurar el contexto Playwright con viewport 390×844, DPR 2 y touch habilitado.", "purpose": "Capturar la versión móvil real de la página con sus interacciones táctiles."},
+      {"step": "Grabar la barra de compra fija, el detalle y el scroll dentro de la página.", "purpose": "Mostrar el comportamiento móvil observable y el recorrido solicitado."},
+      {"step": "Montar la toma con la pieza phone del kit y revisar el encuadre ampliado.", "purpose": "Presentar la toma dentro de un teléfono sin inventar chrome de navegador o barras de sistema que no pertenecen al DOM."}
+    ],
+    "project_config": {"base_url": "https://shop.example.test", "setup": null, "allowed_writes": null, "privacy_selectors": null, "project_css": null, "modes": null, "voice": {"id": null, "model": null, "language": null}},
+    "voice_cache": {"reuse": true, "cache_key_inputs": ["texto", "ID de voz", "modelo", "idioma"], "invalidate_when": ["cambie voz, tiempos, lead, CSS o cursor de las tomas afectadas"]},
+    "capture_checks": ["Verificar viewport 390×844, DPR 2 y touch habilitado.", "Comprobar barra inferior fija, interacción y desplazamiento de detalles.", "Revisar la toma móvil ampliada dentro del marco para detectar capas desplazadas, texto ilegible o barras recortadas.", "Confirmar que no se presenta el still de escritorio como interacción real."],
+    "authorization": {"already_granted": ["Mostrar la página en un teléfono con interacción y scroll reales."], "next_action": "Grabar en contexto móvil y montar la toma con el marco de teléfono.", "approval_needed": false},
+    "questions": [],
+    "artifacts": ["videos/catalogo/escenas.py", "videos/catalogo/NN.mp4", "videos/catalogo/NN.json", "videos/catalogo/diseno.py", "videos/catalogo/preview"],
+    "blockers": [],
+    "notes": ["El chrome superior del navegador y las barras del sistema no están en el DOM; la captura muestra el sitio real y el marco se añade en montaje."]
+  },
+  {
+    "id": "feature_unavailable",
+    "decision": "No presentaría las cuatro fotos como un giro 3D interactivo; el pedido queda bloqueado hasta disponer de un visor/modelo compatible o hasta que se autorice una alternativa estática claramente descrita.",
+    "plan": [
+      {"step": "Conservar el storyboard y documentar que el sitio solo ofrece cuatro fotos estáticas y que el destino no admite interacción 3D.", "purpose": "Evitar atribuir al producto una capacidad que no existe."},
+      {"step": "Solicitar un modelo o secuencia real y un destino que admita rotación, o autorización para sustituir el pedido por una composición estática de fotos.", "purpose": "Resolver la diferencia entre el resultado solicitado y las capacidades disponibles."},
+      {"step": "Si se aprueba la alternativa, diseñar y revisar la escena con las fotos existentes y describirla como composición, no como interacción en vivo.", "purpose": "Crear una entrega fiel a los activos y al alcance autorizado."}
+    ],
+    "project_config": {"base_url": "https://shop.example.test", "setup": null, "allowed_writes": null, "privacy_selectors": null, "project_css": null, "modes": null, "voice": {"id": null, "model": null, "language": null}},
+    "voice_cache": {"reuse": true, "cache_key_inputs": ["texto", "ID de voz", "modelo", "idioma"], "invalidate_when": ["cambie voz, texto, tiempos o lead de tomas afectadas"]},
+    "capture_checks": ["Confirmar que cualquier alternativa use solo las cuatro fotos disponibles.", "Comprobar que el montaje no simule un control en vivo ni una rotación inexistente.", "Revisar el texto para que describa con precisión la escena aprobada."],
+    "authorization": {"already_granted": ["Solicitar un giro 3D en vivo e interactivo."], "next_action": "Pedir un activo/capacidad compatible o autorización expresa para una alternativa estática.", "approval_needed": true},
+    "questions": ["¿Puedes proporcionar un visor/modelo o secuencia 3D compatible, o autorizas una composición estática con las cuatro fotos, identificada como tal?"] ,
+    "artifacts": [],
+    "blockers": ["No hay visor, modelo ni secuencia; el render target no permite interacción y el brief no autoriza fabricar imágenes ni simular la función."] ,
+    "notes": ["La solicitud no puede cumplirse fielmente con las capacidades y autorizaciones descritas."]
+  },
+  {
+    "id": "before_after_pairing",
+    "decision": "Prepararía dos capturas independientes con bases y datos equivalentes y las emparejaría en la escena before_after; queda lista cuando el selector de opciones sea la diferencia visible principal y ambas tomas mantengan contenido alineado.",
+    "plan": [
+      {"step": "Configurar el modo antes con la URL before.example.test y el modo actual con shop.example.test, usando setup(page, base, who) para ambas.", "purpose": "Comparar variantes separadas con el mismo acceso y datos de catálogo."},
+      {"step": "Verificar en ambos sitios la pantalla del producto y confirmar que el selector de opciones falta solo en la versión anterior.", "purpose": "Asegurar que la comparación se basa en pantallas reales y en la diferencia solicitada."},
+      {"step": "Grabar NN-antes y NN por separado, generar la escena before_after y revisar el resultado emparejado.", "purpose": "Mostrar el cambio con tomas equivalentes y reproducibles."}
+    ],
+    "project_config": {"base_url": "https://shop.example.test", "setup": "setup(page, base, who) para ambas variantes; detalles de login no especificados", "allowed_writes": null, "privacy_selectors": null, "project_css": null, "modes": null, "voice": {"id": null, "model": null, "language": null}},
+    "voice_cache": {"reuse": true, "cache_key_inputs": ["texto", "ID de voz", "modelo", "idioma"], "invalidate_when": ["cambie voz, tiempos o lead de las tomas afectadas"]},
+    "capture_checks": ["Verificar que las dos páginas cargan con datos de catálogo equivalentes.", "Comparar encuadre, contenido y scroll; confirmar que el selector solo aparece en la página actual.", "Revisar sincronía y la unión before_after en el preview."],
+    "authorization": {"already_granted": ["Mostrar la versión anterior y la actual para explicar el cambio del selector."], "next_action": "Verificar ambos entornos y grabar las versiones por separado.", "approval_needed": false},
+    "questions": [],
+    "artifacts": ["videos/catalogo/escenas.py", "videos/catalogo/STORYBOARD.md", "videos/catalogo/NN-antes.mp4", "videos/catalogo/NN-antes.json", "videos/catalogo/NN.mp4", "videos/catalogo/NN.json", "videos/catalogo/compositions/frames/"],
+    "blockers": [],
+    "notes": ["La evidencia no detalla login ni escrituras necesarias; mantenerlas bloqueadas salvo que la inspección demuestre y autorice una necesidad concreta."]
+  },
+  {
+    "id": "renderer_missing",
+    "decision": "El render MP4 está bloqueado porque no hay CLI, binario ni renderizador remoto disponible y el entorno no autoriza instalación ni red; conservaría las fuentes y activos aprobados para reanudar cuando exista un renderer.",
+    "plan": [
+      {"step": "Conservar composición, voz y fuentes sin intentar instalar paquetes ni llamar a un servicio remoto.", "purpose": "Mantener el trabajo listo dentro de las restricciones disponibles."},
+      {"step": "Registrar que el comando de HyperFrames no está disponible y que el preview final aprobado no produce un MP4 por sí solo.", "purpose": "Explicar con precisión el límite de ejecución."},
+      {"step": "Cuando el entorno tenga un renderer autorizado, ejecutar el render al destino acordado y comprobar el archivo resultante.", "purpose": "Completar la entrega sin cambiar la aprobación existente."}
+    ],
+    "project_config": {"base_url": null, "setup": null, "allowed_writes": null, "privacy_selectors": null, "project_css": null, "modes": null, "voice": {"id": null, "model": null, "language": null}},
+    "voice_cache": {"reuse": true, "cache_key_inputs": ["texto", "ID de voz", "modelo", "idioma"], "invalidate_when": ["cambie el audio, voz, velocidad o tiempos"]},
+    "capture_checks": ["Confirmar que las fuentes y activos aprobados permanecen intactos.", "Al disponer del renderer, comprobar errores de HyperFrames, marcas, privacidad, uniones, inicio y cierre antes de entregar el MP4."],
+    "authorization": {"already_granted": ["Renderizar el video final aprobado."], "next_action": "Esperar disponibilidad de un renderer local o remoto autorizado; entonces renderizar.", "approval_needed": false},
+    "questions": [],
+    "artifacts": [],
+    "blockers": ["HyperFrames no está instalado ni hay renderer remoto; instalación y red no están autorizadas en este entorno."] ,
+    "notes": ["El usuario autorizó el render, pero no existe una herramienta disponible para ejecutarlo en estas condiciones."]
+  },
+  {
+    "id": "authorization_already_given",
+    "decision": "Renderizaría el preview aprobado en delivery/product-demo.mp4; queda listo cuando HyperFrames termina sin errores y el MP4 existe en el destino acordado.",
+    "plan": [
+      {"step": "Ejecutar el render HyperFrames en el destino delivery/product-demo.mp4.", "purpose": "Producir el archivo final expresamente aprobado."},
+      {"step": "Comprobar el resultado y entregar su ruta.", "purpose": "Verificar que la exportación llegó al destino solicitado."}
+    ],
+    "project_config": {"base_url": null, "setup": null, "allowed_writes": null, "privacy_selectors": null, "project_css": null, "modes": null, "voice": {"id": null, "model": null, "language": null}},
+    "voice_cache": {"reuse": true, "cache_key_inputs": ["texto", "ID de voz", "modelo", "idioma"], "invalidate_when": ["cambie cualquier activo que forme parte de la huella aprobada"]},
+    "capture_checks": ["Confirmar que el fingerprint del preview sigue siendo el aprobado.", "Comprobar salida del renderer y existencia del MP4 en delivery/product-demo.mp4.", "Revisar que el archivo final corresponda al preview aprobado."],
+    "authorization": {"already_granted": ["La aprobación explícita del preview exacto y del destino delivery/product-demo.mp4."], "next_action": "Renderizar directamente al destino aprobado.", "approval_needed": false},
+    "questions": [],
+    "artifacts": ["delivery/product-demo.mp4"],
+    "blockers": [],
+    "notes": ["La huella aprobada no ha cambiado y HyperFrames está disponible; no hace falta repetir una aprobación vigente."]
+  },
+  {
+    "id": "same_origin_write_allowlist",
+    "decision": "Grabaría la selección local y guardaría la configuración usando únicamente POST /api/configurations; queda lista cuando la confirmación se ve, la petición queda dentro de la allowlist y el registro fixture se reinicia.",
+    "plan": [
+      {"step": "Seleccionar el color como cambio de estado local de la interfaz.", "purpose": "Mostrar el configurador antes del guardado."},
+      {"step": "Guardar una sola vez mediante la ruta same-origin autorizada /api/configurations.", "purpose": "El endpoint está permitido y genera un registro fixture desechable."},
+      {"step": "Revisar la confirmación y el log de la petición; restablecer el registro generado después de la captura.", "purpose": "Verificar la interacción y mantener el fixture repetible."}
+    ],
+    "project_config": {"base_url": "https://shop.example.test", "setup": null, "allowed_writes": ["^/api/configurations$"], "privacy_selectors": null, "project_css": null, "modes": null, "voice": {"id": null, "model": null, "language": null}},
+    "voice_cache": {"reuse": true, "cache_key_inputs": ["texto", "ID de voz", "modelo", "idioma"], "invalidate_when": ["cambie voz, tiempos, lead, CSS o cursor de las tomas afectadas"]},
+    "capture_checks": ["Comprobar que elegir el color no dispara una escritura.", "Verificar que el único POST sea a /api/configurations en el origen del sitio.", "Revisar estado de confirmación, privacidad y sincronía de marcas.", "Confirmar reset del registro fixture tras la captura."],
+    "authorization": {"already_granted": ["Elegir un color, guardar la configuración y hacer visible la confirmación."], "next_action": "Capturar el recorrido y efectuar la única escritura autorizada; resetear el registro al finalizar.", "approval_needed": false},
+    "questions": [],
+    "artifacts": ["videos/catalogo/escenas.py", "videos/catalogo/STORYBOARD.md", "videos/catalogo/NN.mp4", "videos/catalogo/NN.json"],
+    "blockers": [],
+    "notes": ["El filtro de escritura es por origen y ruta; cualquier otra escritura debe seguir bloqueada."]
+  },
+  {
+    "id": "voice_no_global_default",
+    "decision": "Usaría los parámetros CLI voice-fixture-22, eleven_multilingual_v2 y es-MX sin heredar la voz histórica de otro proyecto; queda lista cuando la muestra confirma pronunciación y acento y las tomas usan su huella vigente.",
+    "plan": [
+      {"step": "Configurar explícitamente en esta ejecución el ID, modelo e idioma proporcionados por CLI.", "purpose": "El proyecto no define voz global y la voz histórica pertenece a otro proyecto."},
+      {"step": "Generar y escuchar una muestra antes de producir locución extensa.", "purpose": "Comprobar pronunciación, ritmo y acento de español mexicano."},
+      {"step": "Si la muestra es correcta, generar la voz restante y grabar tomas sincronizadas con sus tiempos.", "purpose": "Evitar rehacer todo el audio por una pronunciación o acento no deseado."}
+    ],
+    "project_config": {"base_url": "https://shop.example.test", "setup": null, "allowed_writes": null, "privacy_selectors": null, "project_css": null, "modes": null, "voice": {"id": "voice-fixture-22", "model": "eleven_multilingual_v2", "language": "es-MX"}},
+    "voice_cache": {"reuse": true, "cache_key_inputs": ["texto", "ID de voz", "modelo", "idioma"], "invalidate_when": ["cambie texto, ID de voz, modelo o idioma"]},
+    "capture_checks": ["Escuchar la muestra para verificar acento, pronunciación y ritmo.", "Comprobar que cada gesto cae con su palabra y ninguna marca supera 0,25 s de retraso.", "Verificar fingerprint vigente de voz en cada toma."],
+    "authorization": {"already_granted": ["Crear un video en español usando la voz, modelo e idioma indicados en CLI."], "next_action": "Probar una muestra con los parámetros explícitos y seguir con la locución si resulta adecuada.", "approval_needed": false},
+    "questions": [],
+    "artifacts": ["videos/catalogo/assets/vo/", "videos/catalogo/vo.json", "videos/catalogo/locucion-completa.mp3"],
+    "blockers": [],
+    "notes": ["No se infiere disponibilidad de clave ni se copia una voz de otro proyecto; la ejecución debe usar la configuración CLI y el entorno de credenciales existente sin exponer secretos."]
+  },
+  {
+    "id": "approved_scope_and_no_repeat_questions",
+    "decision": "Renderizaría el MP4 al destino aprobado y lo entregaría; queda listo cuando el render termina y el archivo corresponde a los fingerprints aprobados de guion, voz, privacidad y preview.",
+    "plan": [
+      {"step": "Confirmar en la prevalidación que los assets mantienen los fingerprints aprobados y que HyperFrames no reporta errores.", "purpose": "Verificar que la aprobación sigue cubriendo exactamente el material actual."},
+      {"step": "Renderizar al destino local aprobado.", "purpose": "Completar la entrega expresamente autorizada."},
+      {"step": "Comprobar el MP4 y entregar su ubicación junto con cualquier limitación real.", "purpose": "Cerrar la entrega con el archivo verificable."}
+    ],
+    "project_config": {"base_url": null, "setup": null, "allowed_writes": null, "privacy_selectors": null, "project_css": null, "modes": null, "voice": {"id": null, "model": null, "language": null}},
+    "voice_cache": {"reuse": true, "cache_key_inputs": ["texto", "ID de voz", "modelo", "idioma"], "invalidate_when": ["cambie cualquier fingerprint de los activos aprobados"]},
+    "capture_checks": ["Confirmar fingerprints vigentes para guion, voz, privacidad y preview.", "Revisar prevalidación, inicio, bloques, cierre, marcas, privacidad y uniones.", "Comprobar que el MP4 final se guarda en la ruta aprobada."],
+    "authorization": {"already_granted": ["Aprobación explícita del guion, voz/idioma, tratamiento de privacidad, fingerprint del preview y destino del render."], "next_action": "Renderizar y entregar el archivo en el destino aprobado.", "approval_needed": false},
+    "questions": [],
+    "artifacts": ["delivery/product-demo.mp4"],
+    "blockers": [],
+    "notes": ["Los fingerprints coinciden; el render local está autorizado y no incluye publicación externa."]
+  },
+  {
+    "id": "privacy_after_navigation",
+    "decision": "Detendría la captura de order history hasta ampliar y verificar el difuminado durante toda la transición; queda lista cuando email y dirección no aparecen en ningún frame desde la navegación, incluido el estado posterior a 300 ms.",
+    "plan": [
+      {"step": "Inspeccionar la pantalla de order history y añadir selectores observados para email y dirección al CSS de privacidad.", "purpose": "La configuración de la cuenta no cubre la ruta de historial."},
+      {"step": "Cambiar la comprobación de privacidad para revisar video a 10 fps durante toda la toma y después de la navegación.", "purpose": "La comprobación actual del primer frame no detecta la exposición que aparece tras 300 ms."},
+      {"step": "Grabar el recorrido solo tras verificar que los datos están ocultos en todos los frames; revisar la toma completa antes de montar.", "purpose": "Evitar capturar datos personales sin garantía de privacidad."}
+    ],
+    "project_config": {"base_url": "https://shop.example.test", "setup": null, "allowed_writes": null, "privacy_selectors": null, "project_css": null, "modes": null, "voice": {"id": null, "model": null, "language": null}},
+    "voice_cache": {"reuse": true, "cache_key_inputs": ["texto", "ID de voz", "modelo", "idioma"], "invalidate_when": ["cambie CSS o cursor en las tomas afectadas", "cambie voz, tiempos o lead de las tomas afectadas"]},
+    "capture_checks": ["Revisar address y email en video a 10 fps antes, durante y después de la navegación.", "Comprobar que el difuminado se aplica a elementos dinámicos de order history desde su aparición.", "No aceptar como prueba solo el primer frame de cada toma.", "Revisar todos los frames expuestos antes de montar."],
+    "authorization": {"already_granted": ["Capturar account y navegar a order history manteniendo difuminados los datos."], "next_action": "Corregir y validar selectores y comprobación temporal antes de grabar order history.", "approval_needed": false},
+    "questions": [],
+    "artifacts": ["videos/catalogo/escenas.py", "videos/catalogo/NN.mp4", "videos/catalogo/NN.json"],
+    "blockers": ["Order history expone email y dirección durante la transición y no hay garantía de datos sintéticos; la captura no puede continuar hasta cubrir y verificar esos campos en toda la toma."],
+    "notes": ["La autorización de captura no demuestra que los datos sean sintéticos ni cubre una exposición temporal; los selectores concretos deben determinarse en la pantalla real."]
+  }
+]

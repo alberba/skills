@@ -1,0 +1,4 @@
+interface:
+  display_name: "Product Video"
+  short_description: "Demos web con voz, tomas reales y subtítulos"
+  default_prompt: "Usa $product-video para crear un vídeo narrado de este producto."

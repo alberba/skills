@@ -1,0 +1,79 @@
+--- a/skills/product-video/SKILL.md
++++ b/skills/product-video/SKILL.md
+@@ -48,4 +48,3 @@
+-Antes de generar voz con ElevenLabs, lee [voz.md](references/voz.md): resuelve
+-la API key, el id de voz y el modelo desde la configuración y las decisiones
+-ya aprobadas. Pide únicamente lo que falte. Reutiliza audio vigente y la voz
+-aprobada; confirma acento y pronunciación con una muestra si la voz es nueva.
++Lee [voz.md](references/voz.md) antes de usar ElevenLabs. El id de voz y el
++modelo pertenecen al proyecto; confirma la pronunciación y el acento con una
++muestra antes de generar una locución extensa. Reutiliza audio vigente.
+--- a/skills/product-video/references/montaje.md
++++ b/skills/product-video/references/montaje.md
+@@ -65,6 +64,0 @@
+-
+-La geometría móvil del kit es fija: viewport 390×764, toma 780×1528 y área
+-visible del teléfono 368×721. Una toma 390×844 no encaja: regraba al viewport
+-del kit si el encargo lo permite, o adapta conjuntamente `MOVIL`, el tamaño
+-de salida del grabador y `phone`. Comprueba el encuadre sin recortar ni
+-estirar barras; insertar la toma más alta con `object-fit: cover` las corta.
+--- a/skills/product-video/references/voz.md
++++ b/skills/product-video/references/voz.md
+@@ -3 +3,5 @@
+-## API key e identidad de voz
++Elige una voz accesible en la cuenta del usuario y un modelo que soporte
++alineación en `convert_with_timestamps`. No se heredan ni la voz privada ni
++el plan de otro proyecto. El acento depende de la voz; `--idioma es` por sí
++solo no convierte una voz latinoamericana en peninsular. Si un plan rechaza
++una voz o modelo, conserva el guion y resuelve el acceso con el usuario.
+@@ -5,35 +9,4 @@
+-Son valores distintos: `ELEVENLABS_API_KEY` autentica la cuenta y es secreta;
+-`ELEVENLABS_VOICE_ID` selecciona la voz y no sustituye a la clave. El modelo
+-se configura aparte con `ELEVENLABS_MODEL_ID`.
+-
+-Antes de pedirlos, reutiliza los valores autorizados para este vídeo en la
+-conversación y su configuración. Comprueba que la clave está definida sin
+-mostrar su contenido. El script carga el entorno y `<proyecto>/.env.local`;
+-para voz/modelo, los argumentos `--voz`/`--modelo` prevalecen sobre el entorno,
+-y el entorno sobre el archivo. Un `.env.local` en la raíz del repo no se
+-carga automáticamente: usa el entorno o señala la configuración del vídeo.
+-
+-Si falta la clave, pide al usuario que la configure en el entorno o en el
+-archivo local ignorado por Git; comunica solo si está disponible, nunca su
+-valor. Si falta el id, pide el id de una voz de su cuenta. Guarda la elección
+-de voz/modelo/idioma en el brief para futuras sesiones. La clave permanece en
+-su fuente de secretos, fuera de guiones, comandos, logs, benchmarks y
+-entregables; no copies archivos de secretos de otro proyecto para trasladar
+-la skill.
+-
+-Usa una voz accesible en esa cuenta y un modelo con alineación en
+-`convert_with_timestamps`. El acento depende de la voz: `--idioma es` no
+-convierte una voz latinoamericana en peninsular. Ante un rechazo de acceso,
+-conserva el guion y pide resolver el permiso; cambiar la voz requiere una
+-decisión del usuario.
+-
+-### Continuar los vídeos de origen
+-
+-La voz aprobada de `demo-video` era `Q7B7hOf48aY6RculD5H7`, con modelo
+-`eleven_v4_turbo`, idioma `es` y velocidad `1`. Si el usuario pide continuar
+-esos vídeos o usar la misma voz, conserva esa elección y comprueba el acceso
+-con la API key configurada. Es una referencia de continuidad, no una voz
+-predeterminada para cualquier cuenta o producto. La API key no forma parte
+-de la skill.
+-
+-## Generación y reutilización
++Configura `ELEVENLABS_API_KEY` en el entorno o `<proyecto>/.env.local`.
++Voz/modelo se pasan como `--voz` y `--modelo`, o mediante
++`ELEVENLABS_VOICE_ID` y `ELEVENLABS_MODEL_ID`. El entorno prevalece sobre el
++archivo. No imprimas claves ni copies sesiones o `.env.local` a entregables.
+@@ -56,5 +28,0 @@
+-
+-Si el usuario aporta una locución ya ajustada a la velocidad solicitada,
+-conserva ese audio y sus tiempos vigentes. `--velocidad` se aplica al audio
+-crudo del proveedor, no otra vez a un archivo ya ralentizado. Recupera los
+-tiempos de ese audio antes de regrabar; no estires dos veces la misma entrega.
+--- a/skills/product-video/scripts/grabador.py
++++ b/skills/product-video/scripts/grabador.py
+@@ -522 +522 @@
+-            except Exception as e:  # una escena rota no para las demás
++            except Exception:  # una escena rota no para las demás

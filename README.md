@@ -3,9 +3,11 @@
 Repositorio privado de skills y sus evaluaciones.
 
 - [create-issue](skills/create-issue/SKILL.md): creación de issues con un reporte centrado en el impacto para el usuario y un Agent Brief completo en un comentario separado.
+- [product-video](skills/product-video/SKILL.md): demos, recorridos y novedades de aplicaciones web, con voz, grabación real y subtítulos; configuración propia por proyecto.
+- [Benchmark de product-video](benchmarks/product-video/README.md): regresiones del kit y escenarios de comportamiento derivados de sesiones reales.
 - [Benchmark de create-issue](benchmarks/create-issue/README.md): veintiséis casos sintéticos, comprobaciones automáticas y ejecuciones guardadas por modelo.
 
-La skill vigente está en `skills/`; el benchmark la evalúa por el SHA de commit registrado en cada ejecución.
+La skill vigente está en `skills/`; los benchmarks registran la revisión o el digest de la skill evaluada en cada ejecución.
 
 ## Instalar con skills.sh
 

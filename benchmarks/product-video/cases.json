@@ -1,0 +1,162 @@
+{
+  "version": 1,
+  "common": {
+    "synthetic": true,
+    "product": "Product Demo",
+    "site": "https://shop.example.test",
+    "project_video_config": "videos/catalogo/escenas.py",
+    "available_project_config": [
+      "BASE_URL",
+      "setup(page, base, who)",
+      "ALLOW_WRITES: list of same-origin path regexes",
+      "DIFUMINAR: CSS rules for privacy selectors",
+      "CSS",
+      "MODES"
+    ],
+    "brand_assets": [
+      "assets/marca/product.svg",
+      "assets/marca/product.png",
+      "assets/marca/creator.svg",
+      "assets/marca/creator.png"
+    ],
+    "voice_configuration": "Voice ID, model, and language are provided explicitly by CLI or environment; no project or brand has a global default voice.",
+    "data_notice": "All people, products, routes, timings, approvals, and tool results in these fixtures are invented. Evidence below is simulated and must be treated as the complete observation for that case."
+  },
+  "cases": [
+    {
+      "id": "portable_non_django",
+      "request": "Prepare a short product walkthrough for this site and leave a reproducible project under videos/catalogo. Do not assume Django or a particular backend.",
+      "evidence": [
+        "The repository has no Django app, manage.py, or Python package metadata. The product site is a separate Node service at the supplied BASE_URL.",
+        "Playwright can open the site in Chromium. The project can create videos/catalogo/escenas.py with the documented setup(page, base, who) interface.",
+        "HyperFrames and Playwright are available. The existing video skill files are the only workflow documentation in scope."
+      ]
+    },
+    {
+      "id": "approved_intro_missing",
+      "request": "Build the product video. The intro script and voice were approved yesterday; put the approved intro at the beginning of this cut.",
+      "evidence": [
+        "The approved intro storyboard and its approval note exist in the project brief.",
+        "The approved intro audio, word timings and design source are present in a separate local project. The current main storyboard starts at Frame 4; the intro uses Frames 33–35.",
+        "The request authorizes including the existing approved intro. Its voice speed and timing match the requested cut."
+      ]
+    },
+    {
+      "id": "voice_cache_identity",
+      "request": "Generate the approved narration using voice ID voice-fixture-17, model multilingual-v2, and language es-ES. Reuse the existing cache where it is valid.",
+      "evidence": [
+        "The project cache has audio and word timings for the same text, but was generated with voice ID voice-fixture-04, model eleven-v4, and language en-US.",
+        "CLI values for this run are voice-fixture-17, multilingual-v2, and es-ES. The text is unchanged.",
+        "A fixture API reports that generating a cache miss consumes credits. The user authorized narration generation for this project."
+      ]
+    },
+    {
+      "id": "voice_timing_stale_takes",
+      "request": "Use the newly approved narration at speed 0.95 and finish the video package.",
+      "evidence": [
+        "The current word timing files and browser takes were recorded against speed 1.0. Their metadata records the old audio fingerprint.",
+        "The new approved audio is available at speed 0.95; its per-word timings differ from the cached timing files.",
+        "The montage tool can compare audio fingerprints and emits a warning when a take does not match."
+      ]
+    },
+    {
+      "id": "camera_continuity",
+      "request": "Show the product detail and then its options. Keep the movement calm and make the cut feel continuous.",
+      "evidence": [
+        "Scene A ends on the product detail page at scrollY 620 and camera scale 1.25.",
+        "Scene B begins on the same route at scrollY 0 and scale 1.0. Its first spoken phrase refers to the options below the fold.",
+        "A comparison frame shows the options occupy a small area already readable at the scene's existing scale."
+      ]
+    },
+    {
+      "id": "transient_privacy",
+      "request": "Record the checkout flow with customer details blurred. You may use the fixture account and complete the flow to the confirmation screen.",
+      "evidence": [
+        "The account uses synthetic customer data. The name, email, and address appear after navigation to checkout and briefly inside a confirmation toast.",
+        "DIFUMINAR selectors in escenas.py match the checkout form but do not match the toast. The toast appears for 1.2 seconds after submit.",
+        "ALLOW_WRITES contains the same-origin regex ^/checkout/fixture-submit$; no other write route is allowed. The fixture site's submit endpoint is isolated and resets after each run."
+      ]
+    },
+    {
+      "id": "real_mobile_chrome",
+      "request": "Show the product page on a phone, including the real page interaction and scrolling.",
+      "evidence": [
+        "A still image of the desktop page inside a phone frame is available.",
+        "The fixture supports a Playwright mobile context with viewport 390x844, device scale factor 2, and touch enabled.",
+        "The page has a sticky bottom purchase bar and scrollable product details. The top browser chrome and iPhone system bars are not part of the webpage DOM."
+      ]
+    },
+    {
+      "id": "feature_unavailable",
+      "request": "Include a live 3D spin of the product and let the viewer rotate it.",
+      "evidence": [
+        "The site has no 3D viewer, product model, or image sequence. It provides four static product photos.",
+        "The installed HyperFrames blocks support video and still-image composition; no interactive viewer capability is installed in the render target.",
+        "The brief does not authorize fabricating product imagery or presenting a simulated interaction as live site behavior."
+      ]
+    },
+    {
+      "id": "before_after_pairing",
+      "request": "Show the old and new product page so viewers can see what changed.",
+      "evidence": [
+        "The before version is available at https://before.example.test/item/42 and the current version at https://shop.example.test/item/42.",
+        "Both pages can be opened with setup(page, base, who). The fixture account has the same catalog data in both environments.",
+        "The comparison should show the updated option selector. The before page lacks that selector; all other visible content is expected to align."
+      ]
+    },
+    {
+      "id": "renderer_missing",
+      "request": "Render the finished video to MP4 now.",
+      "evidence": [
+        "The composition source and voice assets are present, and the user approved the final preview in this request.",
+        "Running npx hyperframes --version returns command not found. No local renderer binary or configured remote renderer is available.",
+        "No network or package installation is authorized by the project environment."
+      ]
+    },
+    {
+      "id": "authorization_already_given",
+      "request": "Continue from the approved preview and render the final MP4 to delivery/product-demo.mp4.",
+      "evidence": [
+        "The project brief contains the user's explicit approval of this exact preview and final render destination.",
+        "The current preview fingerprint matches the approved preview. No script, audio, or scene has changed since approval.",
+        "HyperFrames is installed and reports no composition errors. The delivery directory is writable."
+      ]
+    },
+    {
+      "id": "same_origin_write_allowlist",
+      "request": "Record the product configurator. Pick a color and save the configuration so the confirmation state is visible.",
+      "evidence": [
+        "Picking a color is a local UI state change. Saving sends POST /api/configurations on the same origin and creates a disposable fixture record.",
+        "ALLOW_WRITES contains ^/api/configurations$ for the site origin. No other write path is listed.",
+        "The request is intercepted and logged by the fixture, which can reset the generated record after the capture."
+      ]
+    },
+    {
+      "id": "voice_no_global_default",
+      "request": "Make a Spanish product video. Use the voice, model, and language I supplied in the CLI for this run.",
+      "evidence": [
+        "CLI provides voice ID voice-fixture-22, model eleven_multilingual_v2, and language es-MX.",
+        "The product project has no voice settings file. The skill's historical source project used a Spain Spanish voice, but this project is unrelated.",
+        "The installed ElevenLabs client accepts the supplied voice ID, model, and language parameters."
+      ]
+    },
+    {
+      "id": "approved_scope_and_no_repeat_questions",
+      "request": "The script, voice, privacy treatment, preview, and render were approved in the attached brief. Finish the approved render and hand over the file.",
+      "evidence": [
+        "The brief contains explicit approvals for the current script, selected voice and language, blurred customer fields, preview fingerprint, and output path.",
+        "All fingerprints match the current assets. The render tool and destination are available.",
+        "No new customer data or external publishing step is involved in writing the approved local MP4."
+      ]
+    },
+    {
+      "id": "privacy_after_navigation",
+      "request": "Capture the account page and then open order history. Keep customer data blurred throughout navigation.",
+      "evidence": [
+        "The account page is blurred by the configured selectors. Order history is a client-side route and displays address and email after a 300 ms transition.",
+        "The recorder captures continuously through navigation. The privacy check currently samples only the first frame of each take.",
+        "No synthetic-data guarantee exists for the order-history fixture."
+      ]
+    }
+  ]
+}
