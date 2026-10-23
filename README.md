@@ -22,6 +22,7 @@ Issues con contexto, vídeos de producto y pruebas para seguir mejorándolos.
 | --- | --- | --- |
 | [**create-issue**](skills/create-issue/SKILL.md) | Crear issues de GitHub con el impacto para el usuario en el cuerpo y el Agent Brief en un comentario separado. | «Crea una issue para este error, con contexto suficiente para implementarlo.» |
 | [**product-video**](skills/product-video/SKILL.md) | Grabar demos, recorridos y novedades de una aplicación web, con voz, subtítulos y montaje en HyperFrames. | «Prepara un vídeo que explique este recorrido del producto.» |
+| [**review-pr**](skills/review-pr/SKILL.md) | Revisar una PR buscando defectos de producción y publicar una review breve, con el detalle en comentarios inline. | «Revisa la PR 123.» |
 
 Cada skill incluye sus instrucciones y, cuando hacen falta, referencias y scripts. `product-video` configura el acceso, la privacidad, la voz y la marca por proyecto.
 
@@ -85,6 +86,15 @@ Los resultados distinguen las regresiones del código de la evaluación de plane
 
 </details>
 
+<details>
+<summary><strong>review-pr · 8 ejecuciones sobre 2 PRs reales</strong></summary>
+
+Compara versiones de la skill con una revisión sin skill: precisión de los hallazgos, cobertura, coste, tiempo y diez reglas de publicación. El corpus es privado; se publican el método, las métricas y las conclusiones.
+
+[Método](benchmarks/review-pr/README.md) · [Resultados](benchmarks/review-pr/results.md) · [Rúbrica](benchmarks/review-pr/rubric.md) · [Retrospectiva](benchmarks/review-pr/retro.md)
+
+</details>
+
 Una sola ejecución sirve para detectar fallos; comparar modelos o versiones requiere repetir con el mismo corpus y revisar sus salidas.
 
 ## Desarrollo local
@@ -93,9 +103,11 @@ Una sola ejecución sirve para detectar fallos; comparar modelos o versiones req
 skills/
   create-issue/       Instrucciones y referencias para crear issues
   product-video/      Instrucciones, referencias y scripts de vídeo
+  review-pr/          Instrucciones de revisión y publicación
 benchmarks/
   create-issue/       Casos, comprobaciones y resultados
   product-video/      Casos, pruebas del kit y resultados
+  review-pr/          Método, rúbrica y resultados
 ```
 
 Para probar cambios locales, sustituye `alberba/skills` en el comando de instalación por la ruta absoluta de este clon. Cada skill se descubre desde `skills/<nombre>/SKILL.md`; sus recursos viven en la misma carpeta.
