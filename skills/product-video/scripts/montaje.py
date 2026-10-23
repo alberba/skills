@@ -168,7 +168,7 @@ def phone(p: str, sid: str, left: int = 560, top: int = 70) -> str:
     (9:41, isla, señal, wifi, batería) arriba y barra de inicio abajo. El
     último fotograma queda debajo por si la toma acaba antes que la escena."""
     c = clip(sid)
-    end = still(sid, c["duration"] - 0.1, "movil-fin")
+    end = still(sid, c["duration"] - 0.1, f"{sid}-movil-fin")
     fill = "position:absolute;left:0;top:0;width:368px;height:721px;object-fit:cover"
     return f"""
 <div id="{p}-phone" style="position:absolute;left:{left}px;top:{top}px;width:400px;height:820px;border-radius:56px;background:{PHONE_INK};padding:16px;box-shadow:0 30px 70px rgba(26,21,21,.25)">

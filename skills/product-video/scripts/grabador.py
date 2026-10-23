@@ -351,12 +351,12 @@ def modos_por_defecto(who: str) -> list[str]:
     return modes + (["no-pointer"] if who == "mobile" else [])
 
 
-def continuacion(root: Path, mod: ModuleType, sid: str) -> dict | None:
+def continuacion(root: Path, mod: ModuleType, sid: str, suffix: str = "") -> dict | None:
     """Dónde acabó la toma de la que `CONTINUA` dice que sigue ésta."""
     prev = getattr(mod, "CONTINUA", {}).get(sid)
     if not prev:
         return None
-    c = json.loads((root / "assets/clips" / f"{prev}.json").read_text())
+    c = json.loads((root / "assets/clips" / f"{prev}{suffix}.json").read_text())
     return {"url": c["url_fin"], "scroll": c["scroll_fin"]}
 
 
@@ -406,7 +406,7 @@ def record(
     cdp.on("Page.screencastFrame", on_frame)
     # La primera página carga antes de grabar: la escena arranca con la web quieta.
     h = H(page, 0, vo.get("words", ()), lead)
-    start = continuacion(root, mod, sid)
+    start = continuacion(root, mod, sid, suffix)
     page.goto(BASE + (start["url"] if start else primera_ruta(sid, fn)))
     h.loaded()
     h.continued = bool(start)

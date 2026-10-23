@@ -50,6 +50,36 @@ class ProjectTests(unittest.TestCase):
     def test_storyboard_order_preserves_late_added_intro(self):
         self.assertEqual(list(self.plan(frame(33) + frame(4) + frame(35))), ["33", "04", "35"])
 
+    def test_continuation_uses_matching_take_variant(self):
+        clips = self.root / "assets/clips"
+        clips.mkdir()
+        mod = SimpleNamespace(CONTINUA={"02": "01"})
+        for suffix, url, scroll in (("", "/after/", 100), ("-antes", "/before/", 500)):
+            (clips / f"01{suffix}.json").write_text(json.dumps(
+                {"url_fin": url, "scroll_fin": scroll}))
+        self.assertEqual(grabador.continuacion(self.root, mod, "02"),
+                         {"url": "/after/", "scroll": 100})
+        self.assertEqual(grabador.continuacion(self.root, mod, "02", "-antes"),
+                         {"url": "/before/", "scroll": 500})
+        (clips / "01.json").unlink()
+        self.assertEqual(grabador.continuacion(self.root, mod, "02", "-antes"),
+                         {"url": "/before/", "scroll": 500})
+
+    def test_phone_keeps_a_separate_final_still_per_take(self):
+        def extract(args, **kwargs):
+            Path(args[-1]).write_bytes(args[args.index("-i") + 1].encode())
+
+        with patch.object(montaje, "ROOT", self.root), \
+             patch.object(montaje, "clip", return_value={"duration": 1}), \
+             patch.object(montaje.subprocess, "run", side_effect=extract):
+            first = montaje.phone("s01", "01")
+            second = montaje.phone("s02", "02")
+        self.assertIn("assets/stills/01-movil-fin.jpg", first)
+        self.assertIn("assets/stills/02-movil-fin.jpg", second)
+        for sid in ("01", "02"):
+            self.assertEqual((self.root / f"assets/stills/{sid}-movil-fin.jpg").read_text(),
+                             str(self.root / f"assets/clips/{sid}.mp4"))
+
     def test_rejects_ambiguous_and_unsafe_storyboards(self):
         for text in ("", frame(1) + frame(1), frame(1).replace("compositions/frames/1.html", "../outside.html"),
                      frame(1).replace('- voiceover: "Organiza proyectos."', ""),
