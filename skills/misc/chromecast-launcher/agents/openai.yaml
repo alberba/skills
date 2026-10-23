@@ -1,0 +1,4 @@
+interface:
+  display_name: "Launcher para Chromecast"
+  short_description: "Limpia un Chromecast con Google TV y le pone un launcher propio"
+  default_prompt: "Usa $chromecast-launcher para limpiar mi Chromecast con Google TV y poner un launcher propio."
