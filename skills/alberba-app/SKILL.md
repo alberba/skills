@@ -1,6 +1,6 @@
 ---
 name: alberba-app
-description: Empezar una app nueva con las reglas de alberba (pnpm o uv, Dependabot, Effect, Astro o Next, DESIGN.md), o adoptar esas reglas en un proyecto existente.
+description: Empezar una app nueva con las reglas de alberba (pnpm o uv, Dependabot, Effect, Astro o TanStack, DESIGN.md), o adoptar esas reglas en un proyecto existente.
 ---
 
 # Empezar una app
@@ -24,12 +24,14 @@ Estas reglas deciden cada elección de arranque.
 | Proyecto | Stack |
 | --- | --- |
 | Página estática o de contenido | Astro. Con interacción, una isla de React |
-| App con interacción, login o base de datos | Next, React, Better Auth, Drizzle y Postgres. `nas-dashboard` (github.com/alberba/nas-dashboard) es la referencia de estructura |
+| App con servidor propio, SSR o lógica de backend | TanStack Start con React; Better Auth si necesita login, Drizzle y Postgres si necesita base de datos |
+| App solo cliente o con una API externa que cubre el backend | React con Vite y TanStack Router |
 | Servicio o script en Python | `uv`, `ruff` y `pytest` |
 | App Android nativa, junto a la PWA | Flutter en `mobile/`; iOS se cubre con la PWA |
 | Cualquier otro | Las reglas comunes; el resto, preguntarlo |
 
 - Node usa `pnpm`. Python usa `uv`.
+- Elegir las piezas de TanStack según las necesidades: Query para datos remotos con caché y sincronización, Table para tablas complejas y Form para formularios complejos. Añadir solo las que el proyecto necesite.
 - Todo va en la última versión estable: librerías, Node, Python, Postgres, imágenes Docker y acciones de CI. Para resolverlas, seguir [Versiones](references/versiones.md). Si una herramienta no soporta la última de otra, fijar solo esa pieza con un comentario que diga por qué y cuándo quitarla.
 - Si lleva TypeScript, usar Effect.
 - Dependabot cubre pnpm (ecosistema `npm`) o `uv`, `docker` y `github-actions`. Un bot de dependencias ya configurado, como Renovate, cuenta como cumplido.
