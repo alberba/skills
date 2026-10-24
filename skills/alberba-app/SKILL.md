@@ -13,8 +13,9 @@ Hacer una sola ronda con estas preguntas, cada una con su default para aceptar c
 2. Piezas opcionales: auth (Better Auth), Postgres (Drizzle), push o worker. Default: las que pida el tipo de proyecto de la tabla.
 3. Ambiente visual en una frase y color de acento, solo si lleva interfaz.
 4. ¿Proyecto nuevo o existente? Default: existente si el directorio tiene `package.json`, `pyproject.toml` o `.git` con commits.
+5. ¿Móvil? «Solo web», «PWA» o «PWA + app Android». Default: PWA si lleva interfaz. La app Android se propone solo si necesita algo nativo de Android: Bluetooth en segundo plano, widgets o notificaciones propias. Si pide PWA, preguntar también si necesita funcionar sin conexión o enviar push.
 
-Hecho = las cuatro respuestas anotadas y el tipo de proyecto fijado con la tabla de la sección 2.
+Hecho = las cinco respuestas anotadas y el tipo de proyecto fijado con la tabla de la sección 2.
 
 ## 2. Reglas
 
@@ -25,6 +26,7 @@ Estas reglas deciden cada elección de arranque.
 | Página estática o de contenido | Astro. Con interacción, una isla de React |
 | App con interacción, login o base de datos | Next, React, Better Auth, Drizzle y Postgres. `nas-dashboard` (github.com/alberba/nas-dashboard) es la referencia de estructura |
 | Servicio o script en Python | `uv`, `ruff` y `pytest` |
+| App Android nativa, junto a la PWA | Flutter en `mobile/`; iOS se cubre con la PWA |
 | Cualquier otro | Las reglas comunes; el resto, preguntarlo |
 
 - Node usa `pnpm`. Python usa `uv`.
@@ -39,6 +41,7 @@ Estas reglas deciden cada elección de arranque.
 - Lo que se autohospeda lleva `Dockerfile` multi-etapa y `compose.yaml`.
 - Documentación y commits en español; identificadores de código en inglés.
 - Un proyecto con interfaz tiene `DESIGN.md` antes de la primera pantalla.
+- Un proyecto con interfaz es una PWA instalable.
 
 ## 3. Modo
 
@@ -56,14 +59,20 @@ Añadir lo que falte, con los ficheros de `assets/` y el detalle de [Node](refer
 
 Hecho = cada fichero existe, sin marcadores `{{nombre}}` sin resolver (las expresiones `${{ … }}` de GitHub Actions se quedan), y las versiones de acciones, Node, Python y Postgres son las resueltas hoy.
 
-## 5. Verificar
+## 5. Móvil
 
-Ejecutar typecheck, lint, test y build en Node, o `ruff` y `pytest` en Python. Contar lo que falla y decirlo con el número.
+Con interfaz, seguir [PWA](references/pwa.md). Con «PWA + app Android», seguir además [Flutter](references/flutter.md).
+
+Hecho = la PWA cumple su sección «Base», y la app Android compila y tiene su CI.
+
+## 6. Verificar
+
+Ejecutar typecheck, lint, test y build en Node, `ruff` y `pytest` en Python, o `flutter analyze`, `flutter test` y `flutter build apk --debug` en Flutter. Contar lo que falla y decirlo con el número.
 
 Hecho = cada comando ejecutado, con su resultado en el informe final.
 
-## 6. Remoto
+## 7. Remoto
 
-Crear el repo en GitHub, hacer push, crear etiquetas y activar Dependabot son acciones fuera de la máquina. Proponerlas en una lista y ejecutar solo las que el usuario confirme.
+Crear el repo en GitHub, hacer push, crear etiquetas, crear secretos y activar Dependabot son acciones fuera de la máquina. Proponerlas en una lista y ejecutar solo las que el usuario confirme.
 
 Hecho = lista propuesta; nada ejecutado sin confirmación.

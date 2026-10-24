@@ -1,0 +1,15 @@
+  - package-ecosystem: pub
+    directory: /mobile
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Europe/Madrid
+    open-pull-requests-limit: 10
+    groups:
+      development:
+        dependency-type: development
+        update-types: [minor, patch]
+      other-maintenance:
+        patterns: ["*"]
+        update-types: [patch, minor]

@@ -4,7 +4,7 @@ Las herramientas del proyecto se mantienen. Dos migraciones se aplican siempre: 
 
 ## 1. Informe de diferencias
 
-Leer el proyecto (gestor, lockfile, bot de dependencias, CI, tests, `Dockerfile`, `DESIGN.md`) y comparar con las reglas de la sección 2 de `SKILL.md`. Emitir una tabla con una fila por regla: cumple, falta, o difiere con la decisión del proyecto como motivo.
+Leer el proyecto (gestor, `pubspec.yaml`, lockfile, bot de dependencias, CI, tests, `Dockerfile`, `DESIGN.md`) y comparar con las reglas de la sección 2 de `SKILL.md`. Emitir una tabla con una fila por regla: cumple, falta, o difiere con la decisión del proyecto como motivo.
 
 Hecho = una fila por regla, sin reglas omitidas.
 
