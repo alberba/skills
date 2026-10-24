@@ -1,0 +1,5 @@
+# Las dependencias nuevas esperan un día antes de instalarse.
+minimumReleaseAge: 1440
+# Una versión exacta que el control de edad rechaza se añade aquí con un comentario
+# que diga por qué.
+minimumReleaseAgeExclude: []
