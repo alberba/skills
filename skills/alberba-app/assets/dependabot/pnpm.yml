@@ -1,0 +1,27 @@
+  # pnpm usa el ecosistema npm de Dependabot y lee pnpm-lock.yaml.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Europe/Madrid
+    open-pull-requests-limit: 10
+    groups:
+      # Correcciones de vulnerabilidades, aparte del mantenimiento. Un arreglo que
+      # exige un mayor llega como PR individual.
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
+        update-types: [patch, minor]
+      # Una familia que se rompe junta por grupo. Ajustar los patrones a las
+      # dependencias reales; una dependencia entra en el primer grupo que coincide.
+      framework:
+        patterns: ["{{framework}}", "{{framework-extras}}"]
+        update-types: [patch, minor]
+      development:
+        dependency-type: development
+        update-types: [minor, patch]
+      other-maintenance:
+        patterns: ["*"]
+        update-types: [patch, minor]
