@@ -19,7 +19,9 @@ Leer las convenciones del tracker y los templates. Elegir el tipo por la intenci
 
 Explorar el código en solo lectura hasta localizar el componente y las referencias del reporte; si no se localizan, preparar con lo disponible y decirlo. Separar hechos reportados, verificados, hipótesis y propuestas.
 
-Seguir el template, con sus campos y prefijo de título; sin template, `## Descripción` y `## Notas técnicas`. Los datos desconocidos quedan pendientes; los criterios de aceptación salen del comportamiento pedido.
+Seguir el template, con sus campos y su prefijo de título si lo define; sin template, `## Descripción` y `## Notas técnicas`. Los datos desconocidos quedan pendientes; los criterios de aceptación salen del comportamiento pedido.
+
+El título empieza por el verbo de lo que se hace (en los bugs, por el síntoma), se entiende sin abrir la issue y usa el vocabulario del glosario. Tipo, partner y módulo viven en sus campos, no en el título; las issues hermanas de un epic comparten forma.
 
 Preparar las issues nuevas para `ready-for-agent` según [Preparación para agentes](references/ready-for-agent.md): reporte en el cuerpo, brief en un comentario. Resolver con contexto y código lo posible; escribir las decisiones que bloqueen la implementación como preguntas concretas en `## Decisiones pendientes` del cuerpo.
 
