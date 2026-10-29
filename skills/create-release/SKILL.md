@@ -1,6 +1,6 @@
 ---
 name: create-release
-description: Preparar y publicar releases de GitHub, estables o prereleases, con versión semántica y notas basadas en los cambios reales.
+description: Preparar y publicar releases de GitHub estables o betas, con versión semántica y notas basadas en los cambios reales. Usar también para prereleases o al pedir subir a pruebas.
 ---
 
 # Crear una release
