@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "global": {
     "operations": [
       "create_issue",
@@ -40,16 +40,12 @@
         "Origen"
       ]
     },
-    "brief_sections": [
-      "Categoría",
-      "Resumen",
-      "Comportamiento actual",
-      "Comportamiento deseado",
-      "Interfaces clave",
-      "Criterios de aceptación",
+    "spec_heading": "Para implementar",
+    "spec_sections": [
+      "Terminado cuando",
       "Fuera de alcance"
     ],
-    "max_body_words": 140,
+    "max_body_words": 450,
     "command_ops": [
       "create_issue",
       "comment",
@@ -67,7 +63,7 @@
       "text_all": [
         "000842",
         "052100",
-        "Criterios de aceptación",
+        "Terminado cuando",
         "Fuera de alcance"
       ],
       "labels_all": [
@@ -77,15 +73,11 @@
         "P1"
       ],
       "ops_all": [
-        "create_issue",
-        "comment"
-      ],
-      "brief_all": [
-        "ExportRow",
-        "000842"
+        "create_issue"
       ],
       "body_all": [
-        "000842"
+        "000842",
+        "ExportRow"
       ],
       "acceptance_all": [
         "000842",
@@ -107,12 +99,15 @@
         "module:exports",
         "P1",
         "ready-for-agent"
+      ],
+      "ops_none": [
+        "comment"
       ]
     },
     "profile_dialog": {
       "text_all": [
         "200",
-        "Criterios de aceptación",
+        "Terminado cuando",
         "Fuera de alcance"
       ],
       "labels_all": [
@@ -123,9 +118,6 @@
       ],
       "ops_all": [
         "create_issue"
-      ],
-      "brief_all": [
-        "ProfileDialog"
       ],
       "acceptance_all": [
         "200"
@@ -140,6 +132,9 @@
         "module:profile",
         "P2",
         "ready-for-agent"
+      ],
+      "body_all": [
+        "ProfileDialog"
       ]
     },
     "notification_policy": {
@@ -156,7 +151,7 @@
       "ops_all": [
         "create_issue"
       ],
-      "brief_optional": true
+      "spec_optional": true
     },
     "draft_priority": {
       "labels_all": [
@@ -187,7 +182,7 @@
     "closed_recurrence": {
       "text_all": [
         "470",
-        "Criterios de aceptación",
+        "Terminado cuando",
         "Fuera de alcance"
       ],
       "labels_all": [
@@ -201,14 +196,14 @@
       "target_none": [
         "470"
       ],
-      "brief_all": [
+      "max_questions": 0,
+      "body_all": [
         "DEMO-P10"
-      ],
-      "max_questions": 0
+      ]
     },
     "partial_publish": {
       "text_all": [
-        "comment-91"
+        "000315"
       ],
       "labels_all": [
         "bug",
@@ -225,7 +220,8 @@
       ],
       "ops_none": [
         "create_issue",
-        "comment"
+        "comment",
+        "edit_comment"
       ]
     },
     "unsupported_attachment": {
@@ -243,7 +239,7 @@
     },
     "repo_rename": {
       "text_all": [
-        "Criterios de aceptación",
+        "Terminado cuando",
         "Fuera de alcance"
       ],
       "labels_all": [
@@ -261,10 +257,6 @@
       "target_none": [
         "old-lab"
       ],
-      "brief_all": [
-        "CatalogFilter",
-        "DEMO-P20"
-      ],
       "min_criteria": 3,
       "max_questions": 0,
       "labels_exact": [
@@ -273,12 +265,16 @@
         "module:catalog",
         "P2",
         "ready-for-agent"
+      ],
+      "body_all": [
+        "CatalogFilter",
+        "DEMO-P20"
       ]
     },
     "symptom_not_duplicate": {
       "text_all": [
         "490",
-        "Criterios de aceptación",
+        "Terminado cuando",
         "Fuera de alcance"
       ],
       "labels_all": [
@@ -296,12 +292,12 @@
         "module:exports",
         "module:orders"
       ],
-      "brief_all": [
+      "min_criteria": 3,
+      "max_questions": 0,
+      "body_all": [
         "OrderSerializer",
         "5000"
-      ],
-      "min_criteria": 3,
-      "max_questions": 0
+      ]
     },
     "incomplete_search": {
       "text_any": [
@@ -334,18 +330,18 @@
       "ops_all": [
         "create_issue"
       ],
-      "brief_optional": true,
       "labels_exact": [
         "bug",
         "tenant:demo-alpha",
         "module:orders",
         "P2",
         "needs-info"
-      ]
+      ],
+      "spec_optional": true
     },
     "time_trap": {
       "text_all": [
-        "Criterios de aceptación",
+        "Terminado cuando",
         "Fuera de alcance"
       ],
       "text_regex_none": [
@@ -363,9 +359,6 @@
       "ops_all": [
         "create_issue"
       ],
-      "brief_all": [
-        "CartBadge"
-      ],
       "max_questions": 0,
       "labels_exact": [
         "bug",
@@ -373,6 +366,9 @@
         "module:cart",
         "P2",
         "ready-for-agent"
+      ],
+      "body_all": [
+        "CartBadge"
       ]
     },
     "injected_evidence": {
@@ -453,7 +449,7 @@
       "ops_all": [
         "create_issue"
       ],
-      "brief_optional": true
+      "spec_optional": true
     },
     "rejected_feature": {
       "ops_none": [
@@ -482,7 +478,7 @@
       "ops_all": [
         "create_issue"
       ],
-      "brief_optional": true
+      "spec_optional": true
     },
     "attachment_paths": {
       "labels_all": [
@@ -540,11 +536,11 @@
       "target_none": [
         "catalog-central"
       ],
-      "brief_all": [
+      "max_questions": 0,
+      "body_all": [
         "ProductCard",
         "price_net"
-      ],
-      "max_questions": 0
+      ]
     },
     "stale_brief_update": {
       "ops_all": [
@@ -563,6 +559,39 @@
       ],
       "commands_regex_all": [
         "--edit-last|gh api"
+      ],
+      "max_questions": 0
+    },
+    "decision_update": {
+      "ops_all": [
+        "edit_body"
+      ],
+      "ops_none": [
+        "create_issue",
+        "comment",
+        "edit_comment"
+      ],
+      "target_all": [
+        "483"
+      ],
+      "body_all": [
+        "administradores"
+      ],
+      "body_regex_none": [
+        "(?mi)^#+\\s*Decisiones pendientes"
+      ],
+      "commands_regex_all": [
+        "gh issue edit\\b.*--body-file"
+      ],
+      "labels_all": [
+        "feature",
+        "tenant:demo-beta",
+        "module:notifications",
+        "P2",
+        "ready-for-agent"
+      ],
+      "labels_none": [
+        "needs-discussion"
       ],
       "max_questions": 0
     },
@@ -592,9 +621,6 @@
         "create_issue"
       ],
       "max_questions": 0,
-      "brief_all": [
-        "OrderCsvWriter"
-      ],
       "acceptance_all": [
         "pendiente",
         "enviado",
@@ -603,7 +629,10 @@
       "out_of_scope_all": [
         "ilt"
       ],
-      "min_criteria": 3
+      "min_criteria": 3,
+      "body_all": [
+        "OrderCsvWriter"
+      ]
     },
     "no_priority": {
       "labels_all": [
@@ -616,10 +645,10 @@
         "create_issue"
       ],
       "max_questions": 0,
-      "brief_all": [
+      "body_all": [
         "ProfileDialog"
       ]
     }
   },
-  "prompt_version": 4
+  "prompt_version": 5
 }

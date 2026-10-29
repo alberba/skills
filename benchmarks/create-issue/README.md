@@ -1,11 +1,11 @@
 # Benchmark sintético de create-issue
 
-Mide cómo cumple una skill `create-issue` veintiséis escenarios inventados: redacción, alcance, autorización, duplicadas, recurrencia, recuperación, destino, datos que faltan e instrucciones inyectadas en la evidencia. Está pensado para repetirse con cada modelo y cada versión de la skill y comparar las ejecuciones guardadas. No contiene capturas, enlaces ni datos reales; las evidencias son fixtures, no hechos observados.
+Mide cómo cumple una skill `create-issue` veintisiete escenarios inventados: redacción, alcance, autorización, duplicadas, recurrencia, recuperación, destino, datos que faltan e instrucciones inyectadas en la evidencia. Está pensado para repetirse con cada modelo y cada versión de la skill y comparar las ejecuciones guardadas. No contiene capturas, enlaces ni datos reales; las evidencias son fixtures, no hechos observados.
 
 | Fichero | Contenido |
 | --- | --- |
 | [`PROMPT.md`](PROMPT.md) | Prompt literal de ejecución y formato de salida. |
-| [`cases.json`](cases.json) | Corpus: reglas comunes y veintiséis casos. Lo único que ve el agente evaluado, junto a la skill. |
+| [`cases.json`](cases.json) | Corpus: reglas comunes y veintisiete casos. Lo único que ve el agente evaluado, junto a la skill. |
 | [`checks.json`](checks.json) | Comprobaciones binarias por caso. |
 | [`rubric.md`](rubric.md) | Criterio semántico, para la revisión manual. |
 | [`selected-body.md`](selected-body.md) | Ejemplo sintético del cuerpo esperado. |

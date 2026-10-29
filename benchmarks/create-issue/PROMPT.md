@@ -1,4 +1,4 @@
-# Prompt de ejecución (v4)
+# Prompt de ejecución (v5)
 
 Se entrega tal cual a un agente nuevo, sustituyendo `{SKILL_DIR}`, `{CASES}` y `{OUT}`. No se le da nada más: ni `checks.json`, ni `rubric.md`, ni otras salidas. Sin red ni escrituras externas.
 
@@ -12,7 +12,7 @@ Escribe en `{OUT}` un array JSON con un objeto por caso y estos campos:
 
 - `id`: el del caso.
 - `action`: texto: una frase con la acción decidida.
-- `title`, `body`, `brief`: texto exacto que se publicaría o quedaría tras editarlo, o `null` si no corresponde. `body` es el cuerpo de la issue nueva o el texto de un comentario que no es un Agent Brief; `brief`, el del Agent Brief.
+- `title`, `body`, `brief`: texto exacto que se publicaría o quedaría tras editarlo, o `null` si no corresponde. `body` es el cuerpo de la issue nueva o editada, o el texto de un comentario que no lleva la especificación; `brief`, el de un comentario que lleva la especificación aparte (un Agent Brief o la estructura que exija el repo).
 - `labels`: lista de textos con los labels que el plan deja en la issue afectada, completos.
 - `questions`: lista de textos con las preguntas pendientes para el usuario.
 - `operations`: objetos `{"operation", "target"}` con `operation` entre `create_issue`, `comment`, `edit_body`, `edit_comment`, `add_label`, `remove_label`. `target` es el repositorio, `#N` o la URL afectada. Un caso sin escrituras lleva `[]`.

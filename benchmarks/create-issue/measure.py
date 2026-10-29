@@ -65,9 +65,14 @@ def heading(name):
     return re.compile(rf"^#{{1,6}}\s*{re.escape(name)}", re.M | re.I)
 
 
-def section(brief, name):
-    match = re.search(rf"\*\*{re.escape(name)}:?\*\*:?(.*?)(?=\n\s*\*\*[^*\n]+\*\*|\Z)", brief, re.S)
+def section(text, name):
+    match = re.search(rf"\*\*{re.escape(name)}:?\*\*:?(.*?)(?=\n\s*\*\*[^*\n]+\*\*|\n#{{1,6}}\s|\Z)", text, re.S)
     return match.group(1) if match else ""
+
+
+def spec_text(row, spec):
+    """La especificación va en el cuerpo, salvo que el repo exija un comentario aparte."""
+    return row["brief"] if spec.get("brief_format") == "custom" else row["body"]
 
 
 def numbers(text):
@@ -76,7 +81,7 @@ def numbers(text):
 
 
 def issue_checks(row, spec, glob, case):
-    """Plantilla, título, longitud y brief de una issue nueva; se exigen siempre que el caso espera crearla."""
+    """Plantilla, título, longitud y especificación de una issue nueva; se exigen siempre que el caso espera crearla."""
     labels = set(row["labels"])
     kind = "bug" if "bug" in labels else "feature" if "feature" in labels else None
     results = {}
@@ -89,15 +94,14 @@ def issue_checks(row, spec, glob, case):
     published = " ".join([row["title"], row["body"], brief] + [o[f] for o in row["others"] for f in TEXT_FIELDS])
     source = " ".join([case["request"], *case["evidence"]])
     results["sin_cifras_inventadas"] = numbers(published) <= numbers(source)
-    results["brief_sin_rutas"] = not re.search(glob["code_path_regex"], brief)
-    if spec.get("brief_optional") and not brief:
-        results["brief_enlazado"] = results["brief_secciones"] = True
-    else:
-        results["brief_enlazado"] = bool(re.search(r"(?i)brief", row["body"]))
-        results[f"criterios>={spec.get('min_criteria', 2)}"] = brief.count("- [ ]") >= spec.get("min_criteria", 2)
-        if spec.get("brief_format") != "custom":
-            results["brief_secciones"] = (bool(heading("Agent Brief").search(brief)) and "- [ ]" in brief and
-                all(re.search(rf"\*\*{re.escape(s)}:?\*\*:?", brief) for s in glob["brief_sections"]))
+    custom, text = spec.get("brief_format") == "custom", spec_text(row, spec)
+    results["especificación_sin_rutas"] = not re.search(glob["code_path_regex"], text)
+    results["sin_brief_separado"] = custom or not brief.strip()
+    optional = spec.get("spec_optional") and "- [ ]" not in text
+    criteria = text if custom else section(text, glob["spec_sections"][0])
+    results[f"criterios>={spec.get('min_criteria', 2)}"] = bool(optional) or criteria.count("- [ ]") >= spec.get("min_criteria", 2)
+    results["especificación_secciones"] = bool(optional) or (bool(brief.strip()) if custom else
+        bool(heading(glob["spec_heading"]).search(text)) and all(re.search(rf"\*\*{re.escape(s)}:?\*\*:?", text) for s in glob["spec_sections"]))
     return results
 
 
@@ -133,12 +137,13 @@ def run_checks(row, spec, glob, corpus, case):
         results[f"brief:{needle}"] = needle in row["brief"]
     for needle in spec.get("body_all", []):
         results[f"cuerpo:{needle}"] = needle in row["body"]
+    criteria = section(spec_text(row, spec), glob["spec_sections"][0])
     for needle in spec.get("acceptance_all", []):
-        results[f"criterios:{needle}"] = needle in section(row["brief"], "Criterios de aceptación")
+        results[f"criterios:{needle}"] = needle in criteria
     for needle in spec.get("acceptance_none", []):
-        results[f"sin_criterio:{needle}"] = needle.lower() not in section(row["brief"], "Criterios de aceptación").lower()
+        results[f"sin_criterio:{needle}"] = needle.lower() not in criteria.lower()
     for needle in spec.get("out_of_scope_all", []):
-        results[f"fuera_de_alcance:{needle}"] = needle in section(row["brief"], "Fuera de alcance")
+        results[f"fuera_de_alcance:{needle}"] = needle in section(spec_text(row, spec), "Fuera de alcance")
     if "labels_exact" in spec:
         results["labels_exactos"] = labels == set(spec["labels_exact"])
     if "max_questions" in spec:
@@ -151,6 +156,8 @@ def run_checks(row, spec, glob, corpus, case):
         results[f"sin_texto:{pattern}"] = not re.search(pattern, text)
     for pattern in spec.get("body_regex_all", []):
         results[f"cuerpo:{pattern}"] = bool(re.search(pattern, row["body"]))
+    for pattern in spec.get("body_regex_none", []):
+        results[f"sin_cuerpo:{pattern}"] = not re.search(pattern, row["body"])
     for pattern in spec.get("commands_regex_all", []):
         results[f"comando:{pattern}"] = bool(re.search(pattern, commands))
     for needle, count in spec.get("commands_count", {}).items():

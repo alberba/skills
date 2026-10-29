@@ -20,7 +20,7 @@ Issues con contexto, vídeos de producto y pruebas para seguir mejorándolos.
 
 | Skill | Para qué sirve | Ejemplo de petición |
 | --- | --- | --- |
-| [**create-issue**](skills/create-issue/SKILL.md) | Crear issues de GitHub con el impacto para el usuario en el cuerpo y el Agent Brief en un comentario separado. | «Crea una issue para este error, con contexto suficiente para implementarlo.» |
+| [**create-issue**](skills/create-issue/SKILL.md) | Crear issues de GitHub autocontenidas: el problema para personas arriba y, debajo, el objetivo, los criterios de terminado y la evidencia para el agente. | «Crea una issue para este error, con contexto suficiente para implementarlo.» |
 | [**product-video**](skills/product-video/SKILL.md) | Grabar demos, recorridos y novedades de una aplicación web, con voz, subtítulos y montaje en HyperFrames. | «Prepara un vídeo que explique este recorrido del producto.» |
 | [**review-pr**](skills/review-pr/SKILL.md) | Revisar una PR buscando defectos de producción y publicar una review breve, con el detalle en comentarios inline. | «Revisa la PR 123.» |
 | [**alberba-app**](skills/alberba-app/SKILL.md) | Empezar una app con las mismas reglas de siempre (pnpm o uv, Dependabot, Effect, Astro o TanStack según el proyecto, `DESIGN.md`, PWA y app Android con Flutter) o adoptarlas en un proyecto existente. | «Empieza una app nueva para llevar mis gastos.» |
@@ -69,7 +69,7 @@ Consulta los comandos en la [documentación de skills.sh](https://github.com/ver
 Las skills se acompañan de casos, criterios y ejecuciones guardadas. Cada resultado identifica la revisión o el digest evaluado: los cambios posteriores no heredan esa puntuación.
 
 <details>
-<summary><strong>create-issue · 26 casos sintéticos y ejecuciones por modelo</strong></summary>
+<summary><strong>create-issue · 27 casos sintéticos y ejecuciones por modelo</strong></summary>
 
 Evalúa redacción, alcance, autorización, duplicadas, recuperación e instrucciones inyectadas en la evidencia. Combina comprobaciones automáticas con una rúbrica para revisión semántica.
 

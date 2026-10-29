@@ -2,6 +2,10 @@
 
 Una ejecución por configuración, sin repetir. Puntuación = comprobaciones automáticas de `checks.json` (más `presente` y `formato` por caso); no incluye la revisión con `rubric.md`. Solo son comparables las ejecuciones de la misma versión de corpus y prompt.
 
+## Corpus v4, prompt v5 (27 casos)
+
+Sin ejecuciones todavía. El cuerpo pasa a ser la especificación completa: las comprobaciones buscan `## Para implementar`, **Terminado cuando** y **Fuera de alcance** en el cuerpo y un brief aparte solo en `brief_override` (convención del repo) y `stale_brief_update` (issue anterior al formato). Nuevo caso `decision_update`: un cambio de decisión edita el cuerpo. El límite del cuerpo sube de 140 a 450 palabras. Los resultados de v3 no son comparables.
+
 ## Corpus v3, prompt v4 (26 casos, 558 comprobaciones) — 2026-10-21
 
 | Modelo | Esfuerzo | Skill | Puntos | % | Casos con fallo |
