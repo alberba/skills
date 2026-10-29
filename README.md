@@ -20,6 +20,7 @@ Issues con contexto, vídeos de producto y pruebas para seguir mejorándolos.
 
 | Skill | Para qué sirve | Ejemplo de petición |
 | --- | --- | --- |
+| [**create-release**](skills/create-release/SKILL.md) | Preparar y publicar releases de GitHub con versión y notas revisadas. | «Prepara una release estable.» |
 | [**create-issue**](skills/create-issue/SKILL.md) | Crear issues de GitHub autocontenidas: el problema para personas arriba y, debajo, el objetivo, los criterios de terminado y la evidencia para el agente. | «Crea una issue para este error, con contexto suficiente para implementarlo.» |
 | [**product-video**](skills/product-video/SKILL.md) | Grabar demos, recorridos y novedades de una aplicación web, con voz, subtítulos y montaje en HyperFrames. | «Prepara un vídeo que explique este recorrido del producto.» |
 | [**review-pr**](skills/review-pr/SKILL.md) | Revisar una PR buscando defectos de producción y publicar una review breve, con el detalle en comentarios inline. | «Revisa la PR 123.» |
@@ -105,6 +106,7 @@ Una sola ejecución sirve para detectar fallos; comparar modelos o versiones req
 skills/
   alberba-app/        Reglas de arranque, plantillas y referencias para empezar o adoptar una app
   create-issue/       Instrucciones y referencias para crear issues
+  create-release/     Versionado y notas para releases de GitHub
   product-video/      Instrucciones, referencias y scripts de vídeo
   review-pr/          Instrucciones de revisión y publicación
   misc/
