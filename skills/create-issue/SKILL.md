@@ -17,6 +17,8 @@ Una issue por problema de alcance independiente; los bullets de pasos o criterio
 
 Leer las convenciones del tracker y los templates. Elegir el tipo por la intención global (`bug`, `feature`, `task`, `epic`; `task` si ninguna domina) y mapearlo al template y al tipo nativo de la organización (`--type` en `gh issue create` y `gh issue edit`), o al label local si no los define.
 
+Si el proyecto documenta un filtro de entrada para funcionalidades nuevas (en `AGENTS.md` o `docs/agents/`), en una `feature` o `epic` responder cada una de sus preguntas en el cuerpo con el código, el contexto y el tracker. Lo que no se pueda responder va a `## Decisiones pendientes`.
+
 Explorar el código en solo lectura hasta localizar el componente y las referencias del reporte; si no se localizan, preparar con lo disponible y decirlo. Separar hechos reportados, verificados, hipótesis y propuestas.
 
 Redactar una issue autocontenida según [Preparación para agentes](references/ready-for-agent.md): el cuerpo es la especificación completa, con la parte para personas arriba y la de implementación debajo. Con template, sus secciones van primero con el encabezado exacto (en un issue form, `### <etiqueta>` de cada campo) y reciben la parte equivalente; lo que el template no recoja va después, en `## Para implementar`. Los datos desconocidos quedan pendientes.
@@ -29,7 +31,7 @@ En cualquier issue cuyo cambio modifique la apariencia de la interfaz (layout, e
 
 Con imágenes o vídeo pegados o con rutas, seguir [Adjuntos](references/adjuntos.md). Solo ficheros existentes; grabar media nueva es otro flujo.
 
-Preparada = cada acción con destino, título y cuerpo o comentario, labels, adjuntos, estado recomendado, esfuerzo (si el repo lo define) y pendientes, tras la revisión de huecos de la referencia.
+Preparada = cada acción con destino, título y cuerpo o comentario, labels, adjuntos, estado recomendado, esfuerzo (si el repo lo define), filtro de entrada respondido (si el proyecto lo define) y pendientes, tras la revisión de huecos de la referencia.
 
 ## 3. Duplicadas y relacionadas
 
