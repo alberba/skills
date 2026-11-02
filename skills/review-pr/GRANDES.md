@@ -8,7 +8,7 @@ Una sola pasada sobre un diff grande deja ficheros sin abrir y llena el contexto
    ```
    Revisa la capa <capa> de la PR <N> (<owner/repo>), base origin/<base>, checkout en <ruta>.
    Ficheros: <lista>.
-   Aplica a esos ficheros la Cobertura, el listón y Dónde buscar de <ruta de SKILL.md>; puedes abrir cualquier otro fichero para seguir llamadas, componentes y puntos de entrada.
+   Aplica a esos ficheros la Cobertura, el listón y Dónde buscar de <ruta de SKILL.md>, y revísalos tú sin repartir de nuevo (su sección PR grande no aplica a una capa); puedes abrir cualquier otro fichero para seguir llamadas, componentes y puntos de entrada.
    No leas reviews publicadas ni publiques nada.
    Devuelve una línea por hallazgo (`fichero:línea · gravedad · obligatorio/opcional · qué pasa · evidencia`) y una sección Descartados con lo que miraste y por qué lo descartas.
    ```
