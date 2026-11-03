@@ -8,6 +8,8 @@ Revisa la PR $ARGUMENTS buscando defectos que cambien el comportamiento o el cos
 
 **PR grande.** Con más de unas 2.000 líneas de código propio en el diff (sin docs, CSS, ficheros generados ni lock files), lee [`GRANDES.md`](GRANDES.md) antes de empezar: reparte la revisión por capas.
 
+**Diff.** Si `gh pr diff` responde `406` (más de 300 ficheros o de 20.000 líneas), no abandones: es una PR grande; aplica [`GRANDES.md`](http://GRANDES.md), que lee el diff desde el checkout con `git diff origin/<base>...HEAD -- <ruta>`.
+
 **Cobertura.** La revisión termina cuando:
 
 - cada función, modelo o tarea con comportamiento cambiado está seguida un nivel hasta quien la llama y comparada con la base (`git show origin/<base>:<ruta>`);
