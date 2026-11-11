@@ -1,6 +1,6 @@
 """Graba tomas web con cursor y marcas sincronizadas con la locución.
 
-Uso: uv run --no-project --with playwright python <SKILL_DIR>/scripts/grabador.py
+Uso: uv run --isolated --no-project --with playwright python <SKILL_DIR>/scripts/grabador.py
      <proyecto> [--antes] [--sin-difuminar] [NN ...]
 
 Contrato de escenas.py y configuración: references/grabar.md.

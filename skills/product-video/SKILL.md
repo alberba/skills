@@ -29,9 +29,10 @@ Lee [entorno.md](references/entorno.md) para preparar la aplicación y aislar
 integraciones. Incluye solo pantallas y funciones verificadas en esa versión.
 
 Lee [grabar.md](references/grabar.md) para escribir el storyboard y el
-recorrido. En un vídeo nuevo, lleva primero un bloque representativo hasta
-el preview con voz y foco antes de desarrollar los demás. Con un guion
-aprobado, conserva su alcance y trabaja los bloques pendientes.
+recorrido. Presenta el storyboard completo y espera su aprobación explícita
+antes de generar voz o grabar tomas. Con el guion aprobado, en un vídeo nuevo
+lleva primero un bloque representativo hasta el preview con voz y foco antes
+de desarrollar los demás; conserva su alcance y trabaja los bloques pendientes.
 
 ## 3. Preparar la voz
 
@@ -40,13 +41,13 @@ locución por escena. Comprueba acento, pronunciación y ritmo con una muestra
 si la voz es nueva; conserva las elecciones y audios vigentes.
 
 ```sh
-uv run --no-project --with elevenlabs python <SKILL_DIR>/scripts/voz.py <proyecto> --voz <id> --modelo <modelo> --idioma es --escuchar
+uv run --isolated --no-project --with elevenlabs python <SKILL_DIR>/scripts/voz.py <proyecto> --voz <id> --modelo <modelo> --idioma es --escuchar
 ```
 
 ## 4. Grabar el recorrido
 
 ```sh
-uv run --no-project --with playwright python <SKILL_DIR>/scripts/grabador.py <proyecto> [NN ...]
+uv run --isolated --no-project --with playwright python <SKILL_DIR>/scripts/grabador.py <proyecto> [NN ...]
 ```
 
 Resuelve tomas fallidas y valida sincronía, continuidad y privacidad según

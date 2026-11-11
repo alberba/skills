@@ -75,7 +75,9 @@ lista para completar un envío real. El hook y `PREP` comparten el filtro.
 
 El CSS `DIFUMINAR` se inyecta desde el inicio de cada documento y se aplica
 también a elementos dinámicos. Identifica los selectores de esa aplicación:
-el kit no conoce nombres, NIF, emails ni direcciones de otros repos. Datos en
+el kit no conoce nombres, NIF, emails ni direcciones de otros repos. Acota
+los selectores genéricos (`table:not(.table--card) td`, no `table td`): uno
+amplio también tapa valores de ajustes o etiquetas que la escena enseña. Datos en
 canvas, iframes o popups requieren tratamiento propio. Verifica fotogramas a
 10 fps tras cada navegación: una captura al final no detecta una exposición
 transitoria. `--sin-difuminar` solo se usa si el brief autoriza datos visibles.
@@ -99,6 +101,11 @@ transitoria. `--sin-difuminar` solo se usa si el brief autoriza datos visibles.
 - Si la navegación no cabe antes de la primera palabra, aumenta `lead` en el
   storyboard. Ante una marca con más de 0,25 s de retraso, repite primero para
   descartar carga en frío; si persiste, cambia el tiempo o la frase.
+- Desplaza con `h.scroll` hasta un control fuera de pantalla antes de
+  señalarlo o pulsarlo. Si el clic cambia de página (guardar un formulario,
+  un enlace), envuélvelo en `with h.page.expect_navigation():`. Comprueba en
+  el resultado que la acción ocurrió: una toma sin errores puede no haber
+  cambiado nada.
 - `h.loaded()` espera `networkidle`; en apps con tráfico continuo espera un
   selector visible con `h.page` en su lugar.
 - Un móvil muestra navegación real por la app, con toques y scroll dentro de
