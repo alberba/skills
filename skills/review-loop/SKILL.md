@@ -1,6 +1,6 @@
 ---
 name: review-loop
-description: "Bucle de review con isitech-bot hasta su aprobación con CI en verde. Usar al abrir una PR, o al pedir review del bot o llevar una PR a aprobada."
+description: "Al abrir o actualizar una PR, lánzala siempre: pide la review de isitech-bot y corrige hasta APPROVED con CI en verde. También al pedir review del bot o llevar una PR a aprobada."
 ---
 
 Lleva la PR `N` hasta la aprobación de isitech-bot. `<SKILL_DIR>` es la ruta absoluta de esta carpeta.
