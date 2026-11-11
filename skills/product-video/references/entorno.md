@@ -3,11 +3,19 @@
 1. Usa el entorno local y las instrucciones del repo; para otra rama, su
    gestor de worktrees. Verifica login, búsqueda, imágenes y las pantallas
    del guion con esa variante. Prepara datos sintéticos; si se usan datos
-   reales, acuerda qué ocultar antes de capturar.
+   reales, acuerda qué ocultar antes de capturar. Si el contenido real no
+   luce, sustitúyelo por uno ficticio que parezca real: Lorem ipsum con la
+   longitud de los textos reales (títulos de varias líneas, entradillas de
+   dos o tres) y fotos libres (Wikimedia Commons, dominio público o CC0), no
+   degradados ni material de otro cliente.
 2. Comprueba los efectos externos del servidor: una base de datos local puede
    seguir enviando a un ERP, correo o pasarela reales. Usa sandboxes o desactiva
    esos conectores y sus workers según el repo. El filtro del navegador no
    aísla llamadas que el servidor hace desde un GET, una tarea o un websocket.
+   Apunta los conectores a un servidor local que falle al instante (por
+   ejemplo `python3 -m http.server` en un directorio vacío, que responde
+   501 a los POST), no a un puerto cerrado o inexistente: los reintentos y
+   timeouts ralentizan o bloquean las páginas.
 3. Configura `<proyecto>/escenas.py` según [grabar.md](grabar.md). Usa sesiones
    y credenciales de prueba autorizadas; el hook `setup` implementa el login.
    El grabador usa Chromium con service workers bloqueados y filtra las
@@ -19,7 +27,7 @@
 
 Dependencias: Python 3.10+, `uv`, FFmpeg/ffprobe, Playwright con Chromium y el
 CLI HyperFrames. Verifica los comandos instalados antes de capturar; si falta
-Chromium, `uv run --no-project --with playwright python -m playwright install
+Chromium, `uv run --isolated --no-project --with playwright python -m playwright install
 chromium`. Los scripts de voz necesitan además ElevenLabs. Usa la versión del
 CLI del proyecto cuando exista.
 
@@ -28,7 +36,8 @@ CLI del proyecto cuando exista.
 Para un antes/después usa dos checkouts y puertos, con datos y ajustes
 equivalentes. Comprueba las pantallas de ambos; no asumas que una restauración
 nueva funciona con código antiguo. Graba cada versión por separado y asigna
-su sesión con `setup`. `BASE_URL` del entorno prevalece sobre la del módulo.
+su sesión con `setup`. Localiza los textos que cambian entre versiones
+(tildes, mayúsculas) con una regex. `BASE_URL` del entorno prevalece sobre la del módulo.
 `--antes` pone `VERSION=antes` y escribe `NN-antes.mp4/json`.
 
 Documenta en el docstring de `escenas.py` cómo restablecer el estado: carritos,

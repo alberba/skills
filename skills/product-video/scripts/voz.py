@@ -1,6 +1,6 @@
 """Locución de cada escena con ElevenLabs, con el tiempo de cada palabra.
 
-  uv run --no-project --with elevenlabs \\
+  uv run --isolated --no-project --with elevenlabs \\
     python <SKILL_DIR>/scripts/voz.py videos/<proyecto> [--escuchar]
 
 Lee los `voiceover` del STORYBOARD.md y ELEVENLABS_API_KEY (ver
