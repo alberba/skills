@@ -24,6 +24,7 @@ Issues con contexto, vídeos de producto y pruebas para seguir mejorándolos.
 | [**create-issue**](skills/create-issue/SKILL.md) | Crear issues de GitHub autocontenidas: el problema para personas arriba y, debajo, el objetivo, los criterios de terminado y la evidencia para el agente. | «Crea una issue para este error, con contexto suficiente para implementarlo.» |
 | [**product-video**](skills/product-video/SKILL.md) | Grabar demos, recorridos y novedades de una aplicación web, con voz, subtítulos y montaje en HyperFrames. | «Prepara un vídeo que explique este recorrido del producto.» |
 | [**review-pr**](skills/review-pr/SKILL.md) | Revisar una PR buscando defectos de producción y publicar una review breve, con el detalle en comentarios inline. | «Revisa la PR 123.» |
+| [**review-loop**](skills/review-loop/SKILL.md) | Pedir review a isitech-bot y corregir en bucle hasta su aprobación con el CI en verde, con retro si pidió cambios. | «Abre la PR y llévala hasta la aprobación del bot.» |
 | [**alberba-app**](skills/alberba-app/SKILL.md) | Empezar una app con las mismas reglas de siempre (pnpm o uv, Dependabot, Effect, Astro o TanStack según el proyecto, `DESIGN.md`, PWA y app Android con Flutter) o adoptarlas en un proyecto existente. | «Empieza una app nueva para llevar mis gastos.» |
 | [**chromecast-launcher**](skills/misc/chromecast-launcher/SKILL.md) | Limpiar un Chromecast con Google TV por ADB inalámbrico, instalar un launcher propio y hacer que Home lo abra. | «Pon un launcher propio en mi Chromecast.» |
 
@@ -109,6 +110,7 @@ skills/
   create-release/     Versionado y notas para releases de GitHub
   product-video/      Instrucciones, referencias y scripts de vídeo
   review-pr/          Instrucciones de revisión y publicación
+  review-loop/        Bucle de review con el bot y script de espera
   misc/
     chromecast-launcher/  Limpieza, launcher y Home de un Chromecast con Google TV
 benchmarks/

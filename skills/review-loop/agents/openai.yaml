@@ -1,0 +1,5 @@
+interface:
+  display_name: "Review loop"
+  short_description: "Llevar una PR a la aprobación de isitech-bot con CI en verde"
+policy:
+  allow_implicit_invocation: true
